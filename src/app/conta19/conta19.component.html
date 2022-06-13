@@ -1,0 +1,38 @@
+<h2>Inventario de Activos</h2>
+
+<div class="card-body">
+  <div class="card-text"></div>
+  <h6>Encargado: {{encargado}}</h6>
+  <h6>Codigo: {{usuario}}</h6>
+  <h6>Numero de Activos: {{tactivos}}</h6>
+</div>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Activo</th>
+      <th scope="col">Ubicación</th>
+      <th scope="col">Seleccione</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let dt of activos">
+      <th scope="row">{{dt.numero}}</th>
+      <td>{{dt.detalle}}</td>
+      <td>
+        {{dt.dependencia}}
+      </td>
+      <td>
+        <input class="form-check-input" type="checkbox" [value]="dt.codact"  (change)="onChange($event,dt)" [checked]="dt.select" (ng-model)="dt.activo" style="cursor: pointer;">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="div1">
+  <button type="button"  class="btn btn-success">Guardar</button>
+  <br>
+  <button type="button" (click)="submit()" class="btn btn-warning" on>Sobrante</button>
+</div>
+
+<br>

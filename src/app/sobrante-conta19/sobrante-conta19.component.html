@@ -1,0 +1,77 @@
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center mb-3">Activos Sobrantes</h2>
+            <hr class="mb-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10 offset-md-1">
+                    <span class="anchor" id="formComplex"></span>
+                    <!-- form complex example -->
+                    <div class="card card-outline-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0">Ingrese la información requerida</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mt-12">
+                                <div class="col-sm-6 pb-3">
+                                    <label for="exampleAccount">Busqueda Activo</label>
+                                    <input class="form-control" id="exampleAccount"
+                                        placeholder="Codigo o Nombre del Activo" type="text"
+                                        (input)="getConta19($event)" required>
+
+                                    <div class="col-sm-12">
+                                        <div class="card card-body mb-1" *ngFor="let result of data"
+                                            (click)="getActivos(result)" style="cursor: pointer;">
+                                            <h6> Activo: {{result.detalle}} </h6>
+                                            <small class="text-primary">
+                                                Codigo: {{result.codact}}
+                                            </small>
+                                            <div class="col-sm-12">
+                                                <button type="button" class="btn btn-success">Agregar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 pb-3">
+                                    <label for="exampleAccount">Lista de Activos añadidos (sobrantes)</label>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Codigo</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Quitar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let acs of listaSobrantes">
+                                                <th scope="row">{{acs.codact}}</th>
+                                                <td>{{acs.detalle}}</td>
+                                                <td><button type="button" class="btn btn-danger" (click)="deleteActivos(acs)">Quitar</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row mt-4">
+                                <div class="float-right">
+                                    <div class="row mt-4">
+                                        <div class="col-sm-2 pb-3">
+                                            <input class="btn btn-secondary" type="reset" value="Cancelar">
+                                        </div>
+                                        <div class="col-sm-10 pb-3">
+                                            <input class="btn btn-success" type="button" value="Guardar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="scroll-to-top" href="#" class="btn btn-primary btn-lg" role="button" title="Return to top of page"
+    data-toggle="tooltip" data-placement="left"><i class="fa fa-arrow-up"></i></a>
