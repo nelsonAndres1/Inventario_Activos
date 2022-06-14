@@ -20,7 +20,7 @@ export class PrincipalComponent implements OnInit {
                 autocapitalize: 'off'
             },
             showCancelButton: true,
-            confirmButtonText: 'Look up',
+            confirmButtonText: 'Confirmar',
             showLoaderOnConfirm: true,
             preConfirm: (login) => {
                 this._gener02Service.findGener02(new Gener02('', '', login)).subscribe(response => {

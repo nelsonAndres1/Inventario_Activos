@@ -11,6 +11,7 @@ export class Conta19{
         public cedtra: string, 
         public codcen: string,  
         public usuario: string,
+        public est: string,
         public observacion: string 
         ){
     }

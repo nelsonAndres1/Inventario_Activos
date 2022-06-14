@@ -52,7 +52,7 @@ export class Conta19Component implements OnInit {
     }
     confirmaciones(ao1 : any = [], ap1 : any = []) { // Detalle
         Swal.fire({
-            title: '<strong>Estado <u>activo</u></strong>',
+            title: '<strong>Estado <u>Activo</u></strong>',
             icon: 'info',
             input: 'select',
             inputOptions: {
@@ -124,7 +124,7 @@ export class Conta19Component implements OnInit {
                 if (result.value) {
 
                     for (let index = 0; index < this.array.length; index++) {
-                        this.conta19 = new Conta19 (this.array[index].codact,this.array[index].subcod,this.array[index].codbar,this.ao[index],this.array[index].detalle,this.array[index].codare,this.array[index].coddep,this.array[index].codubi,this.array[index].cedtra,this.array[index].codcen,this.usuario,this.ap[index]);
+                        this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.ao[index], this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index] ,this.ap[index]);
                         this.lista_activos.push(this.conta19);
                     }
                     const navigationExtras: NavigationExtras = {
@@ -135,6 +135,8 @@ export class Conta19Component implements OnInit {
                     Swal.fire('Listo!', 'Activos(s) guardados', 'success');
                     this._router.navigate(['sobrante-conta19'], navigationExtras);
                 } else {
+
+
                     console.log('yes');
                     Swal.fire('Cancelado!', 'Activos(s) No guardados', 'error');
                 }
@@ -142,8 +144,18 @@ export class Conta19Component implements OnInit {
 
         } else {
 
-            Swal.fire('Error!', 'No ha seleccionado ningun activo: ', 'error');
-
+            let timerInterval
+            Swal.fire({
+                title: 'No ha seleccionado ningun activo!',
+                timer: 3000,
+                didOpen: () => {},
+                willClose: () => {
+                    clearInterval(timerInterval);
+                    this._router.navigate(['sobrante-conta19']);
+                }
+            }).then((result) => { /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {}
+            })
         }
     }
 
@@ -184,9 +196,7 @@ export class Conta19Component implements OnInit {
                 }
             }
         }
-        for (let index = 0; index < this.array.length; index++) {
-            
-        }
+        for (let index = 0; index < this.array.length; index++) {}
         console.log(this.ao); // estado
         console.log(this.ap); // detalle
         console.log(this.array); // activos

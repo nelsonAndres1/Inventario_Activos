@@ -20,6 +20,15 @@ export class Conta19Service{
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url+'user/getConta19',params, {headers: headers});
     }
+
+    saveConta124(user:any): Observable<any>{
+        let json = JSON.stringify(user);
+        let params = 'json='+json;
+        console.log(params);
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url+'user/saveConta124', params, {headers: headers});
+    }
+
     searchConta19(pclave : any){
         const response = new Promise(resolve =>{
             this._http.get(global.url+`conta19/buscar?search=${pclave}`).subscribe(
