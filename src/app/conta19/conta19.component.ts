@@ -107,68 +107,73 @@ export class Conta19Component implements OnInit {
             }
         })
     }
-    submit() {
-        if (this.array.length > 0) {
-            Swal.fire({
+    submit(detalleG) {
+        if (detalleG == '') {
+            Swal.fire('Error!', '¡Debe digitar el Detalle General!', 'error');
+        } else {
+            if (this.array.length > 0) {
+                Swal.fire({
 
-                title: "¿Estas Seguro?",
-                text: "Se modificaran los activos",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#4BB543',
-                cancelButtonColor: '#EA1737',
-                confirmButtonText: 'Iniciar'
+                    title: "¿Estas Seguro?",
+                    text: "Se modificaran los activos",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#4BB543',
+                    cancelButtonColor: '#EA1737',
+                    confirmButtonText: 'Iniciar'
 
-            }).then(result => {
+                }).then(result => {
 
-                if (result.value) {
+                    if (result.value) {
 
-                    for (let index = 0; index < this.array.length; index++) {
-                        this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.ao[index], this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index] ,this.ap[index]);
-                        this.lista_activos.push(this.conta19);
-                    }
+                        for (let index = 0; index < this.array.length; index++) {
+                            this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.ao[index], this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index], this.ap[index], detalleG);
+                            this.lista_activos.push(this.conta19);
+                        }
 
-                    for (let index = 0; index < this.lista_activos.length; index++) {
-                        for (let index2 = 0; index2 < this.activos.length; index2++) {
-                            if(this.lista_activos[index]['codact']==this.activos[index2]['codact']){
-                                this.activos.splice(index2, 1);
+                        for (let index = 0; index < this.lista_activos.length; index++) {
+                            for (let index2 = 0; index2 < this.activos.length; index2++) {
+                                if (this.lista_activos[index]['codact'] == this.activos[index2]['codact']) {
+                                    this.activos.splice(index2, 1);
+                                }
+                            }
+
+                        }
+                        console.log("Faltantes!")
+                        console.log(this.activos);
+                        const navigationExtras: NavigationExtras = {
+                            queryParams: {
+                                result: JSON.stringify(this.lista_activos),
+                                faltantes: JSON.stringify(this.activos)
                             }
                         }
-                        
+                        Swal.fire('Listo!', 'Activos(s) guardados', 'success');
+                        this._router.navigate(['sobrante-conta19'], navigationExtras);
+                    } else {
+
+
+                        console.log('yes');
+                        Swal.fire('Cancelado!', 'Activos(s) No guardados', 'error');
                     }
-                    console.log("Faltantes!")
-                    console.log(this.activos);
-                    const navigationExtras: NavigationExtras = {
-                        queryParams: {
-                            result: JSON.stringify(this.lista_activos),
-                            faltantes: JSON.stringify(this.activos)
-                        }
+                })
+
+            } else {
+
+                let timerInterval
+                Swal.fire({
+                    title: 'No ha seleccionado ningun activo!',
+                    timer: 3000,
+                    didOpen: () => {},
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                        this._router.navigate(['sobrante-conta19']);
                     }
-                    Swal.fire('Listo!', 'Activos(s) guardados', 'success');
-                    this._router.navigate(['sobrante-conta19'], navigationExtras);
-                } else {
-
-
-                    console.log('yes');
-                    Swal.fire('Cancelado!', 'Activos(s) No guardados', 'error');
-                }
-            })
-
-        } else {
-
-            let timerInterval
-            Swal.fire({
-                title: 'No ha seleccionado ningun activo!',
-                timer: 3000,
-                didOpen: () => {},
-                willClose: () => {
-                    clearInterval(timerInterval);
-                    this._router.navigate(['sobrante-conta19']);
-                }
-            }).then((result) => { /* Read more about handling dismissals below */
-                if (result.dismiss === Swal.DismissReason.timer) {}
-            })
+                }).then((result) => { /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {}
+                })
+            }
         }
+
     }
 
 

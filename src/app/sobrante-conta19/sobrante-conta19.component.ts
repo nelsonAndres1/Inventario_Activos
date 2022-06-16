@@ -7,6 +7,9 @@ import {delay} from 'rxjs';
 import {Conta124} from '../models/conta124';
 import {Conta123} from '../models/conta123';
 import {Gener02} from '../models/gener02';
+import {Conta65} from '../models/conta65';
+import {Conta65_copia} from '../models/conta65_copia';
+
 @Component({selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service]})
 export class SobranteConta19Component implements OnInit {
     data : any;
@@ -19,10 +22,17 @@ export class SobranteConta19Component implements OnInit {
     public statusInv : any;
     public usuario : any;
     public faltantes : any;
-    constructor(private _conta19Service : Conta19Service, private route : ActivatedRoute) {
+    public documento : any;
+    constructor(private _conta19Service : Conta19Service, private route : ActivatedRoute, private _router : Router) {
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.usuario = JSON.parse(localStorage.getItem('identity') + '');
         this._conta19Service.getCedTra(new Gener02('', '', this.cedtraConsultado.cedtra)).subscribe(response => {})
+
+        this._conta19Service.getDocumentoConta65({}).subscribe(response => {
+            this.documento = response;
+            console.log("respuesta documento");
+            console.log(response);
+        })
         console.log(this.cedtraConsultado.coddep)
         this.route.queryParams.subscribe(response => {
             if (response['result'] == undefined) {} else {
@@ -30,18 +40,55 @@ export class SobranteConta19Component implements OnInit {
                 const faltantes = JSON.parse(response['faltantes']);
                 this.faltantes = faltantes;
                 this.inventariados = paramsData;
+
             }
-            console.log("faltantes");
-            console.log(this.faltantes);
+            console.log("inventariados");
+            console.log(this.inventariados[0]['detalleGeneral']);
 
         })
     }
 
     ngOnInit(): void {}
+
     getConta19(pclave : any) {
         const keyword = pclave.target.value;
         const search = this._conta19Service.searchConta19(keyword).then(response => {
             this.data = response;
+        });
+    }
+
+    conta65(codact : any, cedtra : any, usuario : any, detalle : any, FoS : any) {
+
+        this._conta19Service.consultConta65(new Conta65(codact, cedtra)).subscribe(response => {
+            console.log(response);
+            if (response.aredes != "") {
+                if (FoS == 'F') {
+
+                    this._conta19Service.saveConta65(new Conta65_copia('01', this.documento, usuario, response.codact, response.subcod, this.inventariados[0]['detalleGeneral'], response.areori, response.depori, response.ubiori, response.cedori, response.aredes, response.depdes, response.ubiori, this.cedtraConsultado.cedtra, response.estado)).subscribe(response => {
+                        if (response.status == 'success') {
+                            console.log("sipiiii Faltantes");
+                        }
+                    })
+
+
+                } else if (FoS == 'I') {
+
+                    this._conta19Service.saveConta65(new Conta65_copia('01', this.documento, usuario, response.codact, response.subcod, this.inventariados[0]['detalleGeneral'], response.areori, response.depori, response.ubiori, response.cedori, response.aredes, response.depdes, response.ubiori, this.cedtraConsultado.cedtra, response.estado)).subscribe(response => {
+                        if (response.status == 'success') {
+                            console.log("sipiiii Inventariados");
+                        }
+                    })
+
+                } else {
+
+                    this._conta19Service.saveConta65(new Conta65_copia('01', this.documento, usuario, response.codact, response.subcod, this.inventariados[0]['detalleGeneral'], response.areori, response.depori, response.ubiori, response.cedori, response.aredes, response.depdes, FoS, this.cedtraConsultado.cedtra, response.estado)).subscribe(response => {
+                        if (response.status == 'success') {
+                            console.log("sipiiii sobrantes");
+                        }
+
+                    })
+                }
+            }
         });
     }
 
@@ -138,78 +185,100 @@ export class SobranteConta19Component implements OnInit {
         console.log(this.ap);
     }
     guardarFaltantes(listaF : any) {
+        var lista_success: any = [];
+        var bandera: any;
         if (listaF.length > 0) {
 
 
             for (let index = 0; index < listaF.length; index++) {
 
                 this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes')).subscribe(response => {
+
                     if (response.status == "success") {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Activos Faltantes guardados correctamente!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+
+                        bandera = true;
+                        this.conta65(listaF[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, 'F', 'F');
+
                     } else {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: 'Activos Faltantes NO guardados!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+
+                        bandera = false;
                     }
                 })
             }
-
-
+            
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Activos Faltantes guardados correctamente!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            
         } else {
             Swal.fire('Info!', '¡No existen Activos Faltantes!.', 'info');
+
         }
     }
 
-    guardarSobrantes(listaS : any = []) {
+    guardarSobrantes(listaS : any) {
+        let ubides: any;
         if (listaS.length > 0) {
-            for (let index = 0; index < listaS.length; index++) {
-                console.log("lista: " + index);
-                console.log(listaS[index]);
-                console.log(this.ao[index]);
-                console.log(this.ap[index]);
 
-                this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index])).subscribe(response => {
-                    if (response.status == "success") {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Activos Sobrantes guardados correctamente!',
-                            showConfirmButton: true,
-                            confirmButtonText: 'Ok'
+            Swal.fire({
+                title: 'Por favor ingrese la ubicación de destino de los Activos Sobrantes',
+                input: 'number',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: false,
+                confirmButtonText: 'Enviar',
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+                    ubides = login;
+                    for (let index = 0; index < listaS.length; index++) {
+                        console.log("lista: " + index);
+                        console.log(listaS[index]);
+                        console.log(this.ao[index]);
+                        console.log(this.ap[index]);
 
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                this.guardarFaltantes(this.faltantes);
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: 'Activos Sobrantes NO guardados!',
-                            showConfirmButton: true,
-                            confirmButtonText: 'Ok'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                this.guardarFaltantes(this.faltantes);
+                        this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index])).subscribe(response => {
+                            if (response.status == "success") {
+                                this.conta65(listaS[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, this.ap[index], ubides);
+
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Activos Sobrantes guardados correctamente!',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Ok'
+
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        this.guardarFaltantes(this.faltantes);
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: 'Activos Sobrantes NO guardados!',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Ok'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        this.guardarFaltantes(this.faltantes);
+                                    }
+                                })
                             }
                         })
                     }
-                })
-            }
+                }
+            });
+
 
         } else {
             Swal.fire('Info!', '¡No existen Activos Sobrantes!.', 'info');
+            this.guardarFaltantes(this.faltantes);
         }
     }
     onSubmit() {
@@ -220,15 +289,16 @@ export class SobranteConta19Component implements OnInit {
             confirmButtonText: 'Guardar',
             denyButtonText: `No Guardar`
         }).then((result) => {
-            if (result.isConfirmed) { 
+            if (result.isConfirmed) {
                 if (this.inventariados.length > 0) {
+
                     this._conta19Service.saveConta123(new Conta123(this.usuario.sub, this.cedtraConsultado.cedtra, 'A')).subscribe(response => {
                         if (response.status == 'success') {
                             for (let index = 0; index < this.inventariados.length; index++) {
 
                                 console.log(this.inventariados[index]['est']['est']);
 
-
+                                this.conta65(this.inventariados[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, this.inventariados[index]['observacion'], 'I');
                                 this._conta19Service.saveConta124(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'])).subscribe(response => {
                                     if (response.status == "success") {
 

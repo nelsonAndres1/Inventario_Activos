@@ -18,18 +18,38 @@ export class Conta19Service {
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'user/getConta19', params, {headers: headers});
     }
-    saveConta123(user : any): Observable <any>{
+    saveConta123(user : any): Observable < any > {
         let json = JSON.stringify(user);
-        let params = 'json='+json;
-        console.log(params);
+        let params = 'json=' + json;
+
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'conta19/saveConta123', params, {headers: headers});
+    }
+    consultConta65(user : any): Observable < any > {
+        let json = JSON.stringify(user);
+        let params = 'json=' + json;
+        console.log("params65");
+        console.log(params);
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url + 'conta19/ConsulConta19', params, {headers: headers});
+    }
+    getDocumentoConta65(user:any):Observable<any>{
+        let json = JSON.stringify(user);
+        let params = 'json='+json;
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url+'conta19/getDocumentoConta65', params, {headers: headers});
+    }
+    saveConta65(user : any): Observable < any > {
+        let json = JSON.stringify(user);
+        let params = 'json=' + json;
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url + 'conta19/SaveConta65', params, {headers: headers});
     }
 
     saveConta124(user : any): Observable < any > {
         let json = JSON.stringify(user);
         let params = 'json=' + json;
-        console.log(params);
+
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'user/saveConta124', params, {headers: headers});
     }
@@ -37,7 +57,7 @@ export class Conta19Service {
     getCedTra(user : any): Observable < any > {
         let json = JSON.stringify(user);
         let params = 'json=' + json;
-        console.log(params);
+
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'conta19/getCedTra', params, {headers: headers});
     }
