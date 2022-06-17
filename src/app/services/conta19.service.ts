@@ -21,7 +21,7 @@ export class Conta19Service {
     saveConta123(user : any): Observable < any > {
         let json = JSON.stringify(user);
         let params = 'json=' + json;
-
+        console.log(params);
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'conta19/saveConta123', params, {headers: headers});
     }
@@ -60,6 +60,14 @@ export class Conta19Service {
 
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'conta19/getCedTra', params, {headers: headers});
+    }
+    updateConta19(user : any): Observable < any > {
+        let json = JSON.stringify(user);
+        let params = 'json=' + json;
+        console.log("parametros a actualizar");
+        console.log(params);
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url + 'conta19/updateConta19', params, {headers: headers});
     }
 
     searchConta19(pclave : any) {

@@ -12,8 +12,7 @@ export class Conta19{
         public codcen: string,  
         public usuario: string,
         public est: string,
-        public observacion: string,
-        public detalleGeneral: string
+        public observacion: string
         ){
     }
 }
