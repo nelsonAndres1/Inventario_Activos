@@ -36,6 +36,23 @@
                                         <option value="1">Historico</option>
                                         <option value="2">Actual</option>
                                     </select>
+                                    <div *ngIf="banderaH">
+                                        <label for="exampleAccount">Seleccione Fecha</label>
+                                        <table class="table table-striped">
+                                            <thead>
+                                              <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Fecha</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr *ngFor="let dt of fechas">
+                                                <th scope="row">{{dt.numero}}</th>
+                                                <td ><a (click)="consultar(dt.numero)" style="cursor: pointer;">{{dt.fecha}}</a></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

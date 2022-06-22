@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import {Gener02Service} from '../services/gener02.service';
 import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import {Gener02} from '../models/gener02';
+import {Conta123} from '../models/conta123';
 
 @Component({selector: 'app-inicio-reporte', templateUrl: './inicio-reporte.component.html', styleUrls: ['./inicio-reporte.component.css'], providers: [ReporteService]})
 export class InicioReporteComponent implements OnInit {
@@ -14,6 +15,7 @@ export class InicioReporteComponent implements OnInit {
     opcionSeleccionado : string = '0';
     verSeleccion : string = '';
     banderaH : any;
+    public fechas : any;
 
     constructor(private _reporteService : ReporteService, private router : Router, private _gener02Service : Gener02Service) {}
 
@@ -33,21 +35,58 @@ export class InicioReporteComponent implements OnInit {
         this.verSeleccion = this.opcionSeleccionado;
         console.log(this.verSeleccion);
     }
-    enviarDatos(result : any, tr : any) {
+    consultar(numero : any) {
+        console.log(numero);
+        const navigationExtras: NavigationExtras = {
+            queryParams: {
+                result: JSON.stringify(numero)
+            }
+        }
+        localStorage.setItem('numero', JSON.stringify(numero));
+        this.router.navigate(['reportes']);
+        
+    }
+    enviarDatos(resultC : any, tr : any) {
 
         if (tr == '1') {
-            this.banderaH=true;
-            
+
+            this._gener02Service.findGener02(new Gener02('', '', resultC)).subscribe(response => {
+                if (response.status != 'error') {
+                    this.tokenConsultado = response;
+                    console.log(this.tokenConsultado);
+                    localStorage.setItem('tokenConsultado2', JSON.stringify(this.tokenConsultado));
+                         
+                    Swal.fire({
+                        title: 'La cedula consultada corresponde a ' + this.tokenConsultado.nombre,
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Continuar',
+                        denyButtonText: `No Continuar`
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.banderaH = true;
+                            this._reporteService.reportesH(new Conta123('', resultC, '')).subscribe(response => {
+                                this.fechas = response;
+                            });
+                        } else if (result.isDenied) {
+                            Swal.fire('Cancelado', '', 'error')
+                        }
+                    })
+                } else {
+                    Swal.fire('La Cedula no fue encontrada', 'Verifique y vuelva a ingresar sus datos', 'error');
+                }
+            });
+
 
         } else {
 
 
             const navigationExtras: NavigationExtras = {
                 queryParams: {
-                    result: JSON.stringify(result)
+                    result: JSON.stringify(resultC)
                 }
             }
-            this._gener02Service.findGener02(new Gener02('', '', result)).subscribe(response => {
+            this._gener02Service.findGener02(new Gener02('', '', resultC)).subscribe(response => {
                 if (response.status != 'error') {
                     this.tokenConsultado = response;
                     console.log(this.tokenConsultado);
@@ -60,6 +99,7 @@ export class InicioReporteComponent implements OnInit {
                         denyButtonText: `No Continuar`
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            localStorage.setItem('numero', JSON.stringify(0));
                             this.router.navigate(['reportes'], navigationExtras);
                         } else if (result.isDenied) {
                             Swal.fire('Cancelado', '', 'error')

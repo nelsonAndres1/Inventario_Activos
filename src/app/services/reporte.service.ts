@@ -16,6 +16,22 @@ export class ReporteService{
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url+'reporte/reporte',params,{headers: headers});
     }
+
+    reportesH(user:any):Observable<any>{
+        let json = JSON.stringify(user);
+        let params = 'json='+json;
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url+'reporte/reporte2',params,{headers: headers});
+    }
+
+    reportesH2(user:any):Observable<any>{
+        let json = JSON.stringify(user);
+        let params = 'json='+json;
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url+'reporte/reporteH2',params,{headers: headers});
+    }
+    
+
     searchGener02(pclave : any){
         const response = new Promise(resolve =>{
             this._http.get(global.url+`reporte/searchGener02?search=${pclave}`).subscribe(data => {
