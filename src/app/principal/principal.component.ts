@@ -48,4 +48,7 @@ export class PrincipalComponent implements OnInit {
             }
         })
     }
+    reportes(){
+        this._router.navigate(['inicio-reporte']);
+    }
 }

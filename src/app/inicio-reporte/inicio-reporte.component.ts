@@ -1,0 +1,95 @@
+import {Component, OnInit} from '@angular/core';
+import {ReporteService} from '../services/reporte.service';
+import Swal from 'sweetalert2';
+import {Gener02Service} from '../services/gener02.service';
+import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
+import {Gener02} from '../models/gener02';
+
+@Component({selector: 'app-inicio-reporte', templateUrl: './inicio-reporte.component.html', styleUrls: ['./inicio-reporte.component.css'], providers: [ReporteService]})
+export class InicioReporteComponent implements OnInit {
+    public datoSe : any = '';
+    public datoCe : any = '';
+    public data : any;
+    public tokenConsultado : any;
+    opcionSeleccionado : string = '0';
+    verSeleccion : string = '';
+    banderaH : any;
+
+    constructor(private _reporteService : ReporteService, private router : Router, private _gener02Service : Gener02Service) {}
+
+    ngOnInit(): void {}
+    getGener02(pclave : any) {
+        const keyword = pclave.target.value;
+        const search = this._reporteService.searchGener02(keyword).then(response => {
+            this.data = response;
+        })
+    }
+    getDatos02(result : any) {
+        console.log(result);
+        this.datoSe = result.nombre;
+        this.datoCe = result.cedtra;
+    }
+    capturar() {
+        this.verSeleccion = this.opcionSeleccionado;
+        console.log(this.verSeleccion);
+    }
+    enviarDatos(result : any, tr : any) {
+
+        if (tr == '1') {
+            this.banderaH=true;
+            
+
+        } else {
+
+
+            const navigationExtras: NavigationExtras = {
+                queryParams: {
+                    result: JSON.stringify(result)
+                }
+            }
+            this._gener02Service.findGener02(new Gener02('', '', result)).subscribe(response => {
+                if (response.status != 'error') {
+                    this.tokenConsultado = response;
+                    console.log(this.tokenConsultado);
+                    localStorage.setItem('tokenConsultado2', JSON.stringify(this.tokenConsultado));
+                    Swal.fire({
+                        title: 'La cedula consultada corresponde a ' + this.tokenConsultado.nombre,
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Continuar',
+                        denyButtonText: `No Continuar`
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.router.navigate(['reportes'], navigationExtras);
+                        } else if (result.isDenied) {
+                            Swal.fire('Cancelado', '', 'error')
+                        }
+                    })
+                } else {
+                    Swal.fire('La Cedula no fue encontrada', 'Verifique y vuelva a ingresar sus datos', 'error');
+                }
+            });
+        }
+    }
+
+    Consultar() {
+        let bandera = true;
+        if (this.datoCe == '') {
+            Swal.fire('¡Error!', 'No ha seleccionado un Usuario', 'error');
+            bandera = false;
+        }
+        if (this.verSeleccion == '') {
+            Swal.fire('¡Error!', 'No ha seleccionado un Tipo de Reporte', 'error');
+            bandera = false;
+        }
+
+        if (bandera) {
+            this.enviarDatos(this.datoCe, this.verSeleccion);
+        } else {
+            Swal.fire('¡Información!', 'Verifique los datos!', 'info');
+        }
+
+    }
+
+
+}

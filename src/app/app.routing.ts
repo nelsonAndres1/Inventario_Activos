@@ -5,6 +5,8 @@ import { ErrorComponent } from "./error/error.component";
 import { PrincipalComponent } from "./principal/principal.component";
 import { Conta19Component } from "./conta19/conta19.component";
 import { SobranteConta19Component } from "./sobrante-conta19/sobrante-conta19.component";
+import { ReportesComponent } from "./reportes/reportes.component";
+import { InicioReporteComponent } from "./inicio-reporte/inicio-reporte.component";
 const appRoutes: Routes = [
     {path: '', component: LoginComponent},
     {path: 'login', component: LoginComponent},
@@ -12,6 +14,8 @@ const appRoutes: Routes = [
     {path: 'principal', component: PrincipalComponent},
     {path: 'conta19', component: Conta19Component},
     {path: 'sobrante-conta19', component: SobranteConta19Component},
+    {path: 'reportes', component: ReportesComponent},
+    {path: 'inicio-reporte', component: InicioReporteComponent},
     {path: '**', component: ErrorComponent}
 ];
 

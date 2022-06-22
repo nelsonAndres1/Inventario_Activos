@@ -1,0 +1,131 @@
+<!-- <script src="https://cdn.boldreports.com/4.1.78/scripts/common/ej2-base.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/common/ej2-data.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/common/ej2-pdf-export.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/common/ej2-svg-base.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/data-visualization/ej2-lineargauge.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/data-visualization/ej2-circulargauge.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/data-visualization/ej2-maps.min.js"></script>
+
+
+<bold-reportviewer id="reportViewer_Control" style="width: 100%;height: 950px">
+</bold-reportviewer> -->
+
+<div id="div1">
+    <h2>Caja de Compensación Familiar de Nariño</h2>
+    <h4>Reporte de Activos por Responsable.</h4>
+    <h4>Inventario Individual de Activos.</h4>
+    <h5>Fecha de Corte: {{ano}} - {{mes}}.</h5>
+    <h5>Responsable: {{encargado}} - {{cedtra}}.</h5>
+</div>
+
+
+<div id="div1" class="row">
+    <div class="col-md-12">
+        <br>
+        <br>
+        <h5><b>Activos Inventariados</b></h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Detalle</th>
+                    <th scope="col">Dependencia</th>
+                    <th scope="col">Fecha/Comp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let dt of activosI">
+                    <td>{{dt.detalle}}</td>
+                    <td>{{dt.dependencia}}</td>
+                    <td>{{dt.fecha}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<div id="div1" class="row">
+    <div class="col-md-12">
+        <h5><b>Activos Sobrantes</b></h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Detalle</th>
+                    <th scope="col">Dependencia</th>
+                    <th scope="col">Fecha/Comp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let dt of activosS">
+                    <td>{{dt.detalle}}</td>
+                    <td>{{dt.dependencia}}</td>
+                    <td>{{dt.fecha}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+
+<div id="div1" class="row">
+    <div class="col-md-12">
+        <h5><b>Activos Faltantes</b></h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Detalle</th>
+                    <th scope="col">Dependencia</th>
+                    <th scope="col">Fecha/Comp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let dt of activosF">
+                    <td>{{dt.detalle}}</td>
+                    <td>{{dt.dependencia}}</td>
+                    <td>{{dt.fecha}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+        <p class="texto-justificado" align="left">
+            El suscrito trabajador de la corporación declara que recibe los activos fijos relacionados en esta acta y se
+            compromete a cumplir el manual de procedimientos establecidos para el manejo, traslado y novedades de los
+            activos fijos. Lo anterior son obligaciones del trabajador establecidas en el artículo 59 numeral 3 y
+            parágrafo
+            único numeral 3 reglamento interno de trabajo y su incumplimiento constituirá falta disciplinaria. En caso
+            de
+            pérdida autorizo a la Caja de Compensación Familiar de Nariño a descontar mi salario y/o mis prestaciones
+            sociales el valor de los activos fijos perdidos y recibidos mediante la presente acta.
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </p>
+        <table class="tg" class="texto-justificado">
+            <thead>
+                <tr>
+                    <td class="tg-0pky">
+                        __________________________________________<br>
+                        Nombre del Responsable<br>
+                        {{encargado}}.<br>
+                        C.C. {{cedtra}}.
+                    </td>
+                    <td class="tg-0pky">
+                        __________________________________________<br>
+                        Reviso<br>
+                        C.C: <br>
+                        <br>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+
+
+
+    </div>
+    <br>
+    <br>
+    <br>
+
+</div>

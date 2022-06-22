@@ -10,6 +10,18 @@ import { ErrorComponent } from './error/error.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { Conta19Component } from './conta19/conta19.component';
 import { SobranteConta19Component } from './sobrante-conta19/sobrante-conta19.component';
+import { ReportesComponent } from './reportes/reportes.component';
+import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
+
+// Report viewer
+import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
+
+// data-visualization
+import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.bulletgraph.min';
+import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.chart.min';
+import { InicioReporteComponent } from './inicio-reporte/inicio-reporte.component';
+
+
 
 @NgModule({
   declarations: [
@@ -18,13 +30,16 @@ import { SobranteConta19Component } from './sobrante-conta19/sobrante-conta19.co
     ErrorComponent,
     PrincipalComponent,
     Conta19Component,
-    SobranteConta19Component
+    SobranteConta19Component,
+    ReportesComponent,
+    InicioReporteComponent
   ],
   imports: [
     BrowserModule,
     routing,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BoldReportViewerModule
   ],
   providers: [
     appRoutingProviders
