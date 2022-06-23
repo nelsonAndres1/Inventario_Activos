@@ -12,7 +12,7 @@ import { Conta19Component } from './conta19/conta19.component';
 import { SobranteConta19Component } from './sobrante-conta19/sobrante-conta19.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // Report viewer
 import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
 
@@ -42,7 +42,7 @@ import { InicioReporteComponent } from './inicio-reporte/inicio-reporte.componen
     BoldReportViewerModule
   ],
   providers: [
-    appRoutingProviders
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
