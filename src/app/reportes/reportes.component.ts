@@ -129,7 +129,7 @@ export class ReportesComponent implements OnInit {
                         pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
                     }
 
-                    pdf.save("HTML-Document.pdf");
+                    pdf.save("reporte_inventario.pdf");
                 });
             })
         })
@@ -139,8 +139,8 @@ export class ReportesComponent implements OnInit {
         let timerInterval
         Swal.fire({
             title: 'Generando PDF...',
-            html: 'El proceso terminara en <b></b> milisegundos.',
-            timer: 3000,
+            html: 'Espere!',
+            timer: 2000,
             timerProgressBar: true,
             didOpen: () => {},
             willClose: () => { // this.setPdf();

@@ -57,6 +57,7 @@ DoCheck {
           localStorage.removeItem('permisos');
           localStorage.removeItem('tokenConsultado');
           localStorage.removeItem('tokenConsultado2');
+          localStorage.removeItem('numero');
 
           this.identity = null;
           this.token = null;
