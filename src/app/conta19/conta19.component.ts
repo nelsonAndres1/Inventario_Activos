@@ -29,6 +29,8 @@ export class Conta19Component implements OnInit {
 
         this.token = JSON.parse(localStorage.getItem("tokenConsultado") + '');
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
+        console.log("dependencia!!!");
+        console.log(this.cedtraConsultado);
         this.encargado = this.token['nombre'];
         this.usuario = this.token['usuario'];
         this.cedtra = this.token['cedtra'];
