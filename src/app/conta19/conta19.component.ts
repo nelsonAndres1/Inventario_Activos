@@ -243,7 +243,7 @@ export class Conta19Component implements OnInit {
 
 
             for (let index = 0; index < listaF.length; index++) {
-
+                
                 this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes')).subscribe(response => {
 
                     if (response.status == "success") {
