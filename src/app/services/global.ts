@@ -1,3 +1,5 @@
 export var global = {
-    url: 'http://localhost/angular/activos/Inventario_Activos_Back/public/api/'
+
+     url: 'http://192.168.6.34:8082/api/'   
+
 }
