@@ -48,7 +48,10 @@ export class PrincipalComponent implements OnInit {
             }
         })
     }
-    reportes(){
+    reportes() {
         this._router.navigate(['inicio-reporte']);
+    }
+    info() {
+        Swal.fire('Desarrollo', 'Desarrollado por la Oficina de Sistemas e Informatica.','info');
     }
 }
