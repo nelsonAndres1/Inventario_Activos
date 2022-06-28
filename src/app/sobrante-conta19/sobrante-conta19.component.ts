@@ -43,8 +43,8 @@ export class SobranteConta19Component implements OnInit {
                 this.inventariados = paramsData;
 
             }
-            console.log("inventariados");
-            console.log(this.inventariados[0]['detalleGeneral']);
+/*             console.log("inventariados");
+            console.log(this.inventariados[0]['detalleGeneral']); */
 
         })
     }

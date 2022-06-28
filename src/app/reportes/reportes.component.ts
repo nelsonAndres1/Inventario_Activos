@@ -33,12 +33,13 @@ export class ReportesComponent implements OnInit {
         let date: Date = new Date();
         this.ano = date.getFullYear();
 
-        this.mes = date.getMonth();
+        this.mes = date.getMonth()+1;
         this.serviceUrl = '';
         this.reportPath = '~/Resources/docs/sales-order-detail.rdl';
 
         this.token = JSON.parse(localStorage.getItem("numero") + '');
         if (this.token == 0) {
+            console.log(this.activos);
             console.log("sii!");
             this._reporteService.reportes(new Conta123('', this.cedtra, '')).subscribe(response => {
                 this.activos = response;
@@ -55,6 +56,7 @@ export class ReportesComponent implements OnInit {
 
             });
         } else {
+            console.log(this.activos);
             console.log("Noo!");
             this._reporteService.reportesH2(new Model0(this.token)).subscribe(response => {
                 this.activos = response;
