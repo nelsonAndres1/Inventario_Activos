@@ -26,6 +26,7 @@ export class PrincipalComponent implements OnInit {
                 this._gener02Service.findGener02(new Gener02('', '', login)).subscribe(response => {
                     if (response.status != 'error') {
                         this.tokenConsultado = response;
+                        console.log("Token consultado");
                         console.log(this.tokenConsultado);
                         localStorage.setItem('tokenConsultado', JSON.stringify(this.tokenConsultado));
                         Swal.fire({
