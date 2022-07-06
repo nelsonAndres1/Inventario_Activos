@@ -7,6 +7,7 @@ import { Conta19Component } from "./conta19/conta19.component";
 import { SobranteConta19Component } from "./sobrante-conta19/sobrante-conta19.component";
 import { ReportesComponent } from "./reportes/reportes.component";
 import { InicioReporteComponent } from "./inicio-reporte/inicio-reporte.component";
+import { Opcion2Component } from "./opcion2/opcion2.component";
 const appRoutes: Routes = [
     {path: '', component: LoginComponent},
     {path: 'login', component: LoginComponent},
@@ -16,6 +17,7 @@ const appRoutes: Routes = [
     {path: 'sobrante-conta19', component: SobranteConta19Component},
     {path: 'reportes', component: ReportesComponent},
     {path: 'inicio-reporte', component: InicioReporteComponent},
+    {path: 'opcion2', component: Opcion2Component},
     {path: '**', component: ErrorComponent}
 ];
 

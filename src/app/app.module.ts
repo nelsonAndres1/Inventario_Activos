@@ -20,6 +20,7 @@ import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.mi
 import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.bulletgraph.min';
 import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.chart.min';
 import { InicioReporteComponent } from './inicio-reporte/inicio-reporte.component';
+import { Opcion2Component } from './opcion2/opcion2.component';
 
 
 
@@ -32,7 +33,8 @@ import { InicioReporteComponent } from './inicio-reporte/inicio-reporte.componen
     Conta19Component,
     SobranteConta19Component,
     ReportesComponent,
-    InicioReporteComponent
+    InicioReporteComponent,
+    Opcion2Component
   ],
   imports: [
     BrowserModule,

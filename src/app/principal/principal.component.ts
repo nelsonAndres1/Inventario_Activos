@@ -12,6 +12,10 @@ export class PrincipalComponent implements OnInit {
     public tokenConsultado : any;
     public identityConsultado : any;
     ngOnInit(): void {}
+    opcion2(){
+        this._router.navigate(['opcion2']);
+    }
+
     alerta() {
         Swal.fire({
             title: 'Ingrese cedula a consultar',
