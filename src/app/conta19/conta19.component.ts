@@ -41,6 +41,8 @@ export class Conta19Component implements OnInit {
     ngOnInit(): void {}
     getConta19(cedtra : any) {
         this._conta19Service.getConta19(new Conta19_Copia(cedtra)).subscribe(response => {
+            console.log("respuesta");
+            console.log(response);
             if (response.status != 'error') {
                 this.activos = response;
                 console.log("aaaaaa :)")

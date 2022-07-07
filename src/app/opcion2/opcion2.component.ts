@@ -25,6 +25,7 @@ export class Opcion2Component implements OnInit {
       console.log(result);
       this.datoSe = result.nombre;
       this.datoCe = result.cedtra;
+      this.Consultar();
   }
   Consultar(){
     this._gener02Service.findGener02(new Gener02('', '', this.datoCe)).subscribe(response => {
