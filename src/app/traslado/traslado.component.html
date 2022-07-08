@@ -8,19 +8,52 @@
             <h6>Encargado: {{encargado}}</h6>
             <h6>Codigo: {{usuario}}</h6>
             <h6>Numero de Activos: {{tactivos}}</h6>
-            <br>
-            <p style="color:#FF0000"><strong>Seleccione los activos a trasladar</strong></p>
+
         </div>
     </div>
-
+    <br>
     <div class="col-sm-6 pb-3">
         <div class="card-body">
             <h4>Usuario a Trasladar</h4>
-                
+            <div class="card-body">
+                <div class="row mt-12">
+                    <div class="col-sm-6 pb-3">
+                        <label for="exampleAccount"><b>Busqueda de Usuario</b></label>
+                        <input class="form-control" id="exampleAccount" placeholder="Cedula o Nombre del Usuario"
+                            type="text" (input)="getGener02($event)" value={{datoSe}} required>
+                        <div class="col-sm-12">
+                            <div class="card card-body mb-1" *ngFor="let result of data" (click)="getDatos02(result)"
+                                style="cursor: pointer;">
+                                <h6> Nombre: {{result.nombre}} </h6>
+                                <small class="text-primary">
+                                    Cedula: {{result.cedtra}}
+                                </small>
+                                <small class="text-primary">
+                                    Usuario: {{result.usuario}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-6 pb-3">
+                        <label for="exampleAccount"><b>Ubicación de Destino</b></label>
+                        <input type="number" class="form-control" placeholder="Ubicación de destino"
+                            aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group col-sm-12 pb-3">
+                        <span class="input-group-text">Detalle</span>
+                        <textarea class="form-control" aria-label="With textarea"></textarea>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
-
+<div class="row mt-12">
+    <p style="color:#FF0000"><strong>Seleccione los activos a trasladar</strong></p>
+</div>
 
 <table class="table">
     <thead class="thead-dark">
@@ -47,3 +80,7 @@
         </tr>
     </tbody>
 </table>
+
+<div id="div1">
+    <button type="button" class="btn btn-success">Traslado</button>
+</div>

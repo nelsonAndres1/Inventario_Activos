@@ -8,8 +8,10 @@ import {Conta19} from '../models/conta19';
 import {delay, identity} from 'rxjs';
 import {Conta124} from '../models/conta124';
 import {Conta123} from '../models/conta123';
+import {ReporteService} from '../services/reporte.service';
+import { Gener02Service } from '../services/gener02.service';
 
-@Component({selector: 'app-traslado', templateUrl: './traslado.component.html', styleUrls: ['./traslado.component.css'], providers: [Conta19Service]})
+@Component({selector: 'app-traslado', templateUrl: './traslado.component.html', styleUrls: ['./traslado.component.css'], providers: [Conta19Service, ReporteService, Gener02Service]})
 export class TrasladoComponent implements OnInit {
     public token : any;
     public encargado : any;
@@ -21,10 +23,14 @@ export class TrasladoComponent implements OnInit {
     public conta19 : any;
     public lista_activos : any = [];
     public cedtraConsultado : any;
+    public datoSe : any = '';
+    public data : any;
+    public datoCe : any = '';
+    public tokenConsultado : any;
     ao = [];
     ap = [];
     public datosActivos : any;
-    constructor(private _conta19Service : Conta19Service, private _router : Router) {
+    constructor(private _conta19Service : Conta19Service, private _router : Router, private _reporteService : ReporteService, private _gener02Service : Gener02Service) {
         this.token = JSON.parse(localStorage.getItem("tokenConsultado3") + '');
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado3') + '');
         console.log("dependencia!!!");
@@ -34,6 +40,43 @@ export class TrasladoComponent implements OnInit {
         this.cedtra = this.token['cedtra'];
 
         this.getConta19(this.cedtra);
+    }
+    getGener02(pclave : any) {
+        const keyword = pclave.target.value;
+        const search = this._reporteService.searchGener02(keyword).then(response => {
+            this.data = response;
+        })
+    }
+    getDatos02(result : any) {
+        console.log(result);
+        this.datoSe = result.nombre;
+        this.datoCe = result.cedtra;
+    }
+
+    Consultar() {
+        this._gener02Service.findGener02(new Gener02('', '', this.datoCe)).subscribe(response => {
+            if (response.status != 'error') {
+                this.tokenConsultado = response;
+                console.log("Token consultado");
+                console.log(this.tokenConsultado);
+                localStorage.setItem('tokenConsultado3', JSON.stringify(this.tokenConsultado));
+                Swal.fire({
+                    title: 'La cedula consultada corresponde a ' + this.tokenConsultado.nombre,
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Continuar',
+                    denyButtonText: `No Continuar`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        
+                    } else if (result.isDenied) {
+                        Swal.fire('Cancelado', '', 'error')
+                    }
+                })
+            } else {
+                Swal.fire('La Cedula no fue encontrada', 'Verifique y vuelva a ingresar sus datos', 'error');
+            }
+        });
     }
 
     ngOnInit(): void {}
