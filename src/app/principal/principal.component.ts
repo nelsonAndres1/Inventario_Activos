@@ -56,7 +56,7 @@ export class PrincipalComponent implements OnInit {
     reportes() {
         this._router.navigate(['inicio-reporte']);
     }
-    info() {
-        Swal.fire('Desarrollo', 'Desarrollado por la Oficina de Sistemas e Informatica.','info');
+    inicio_traslado() {
+        this._router.navigate(['inicio-traslado']);
     }
 }

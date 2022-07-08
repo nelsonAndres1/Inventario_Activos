@@ -21,6 +21,8 @@ import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej
 import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.chart.min';
 import { InicioReporteComponent } from './inicio-reporte/inicio-reporte.component';
 import { Opcion2Component } from './opcion2/opcion2.component';
+import { InicioTrasladoComponent } from './inicio-traslado/inicio-traslado.component';
+import { TrasladoComponent } from './traslado/traslado.component';
 
 
 
@@ -34,7 +36,9 @@ import { Opcion2Component } from './opcion2/opcion2.component';
     SobranteConta19Component,
     ReportesComponent,
     InicioReporteComponent,
-    Opcion2Component
+    Opcion2Component,
+    InicioTrasladoComponent,
+    TrasladoComponent
   ],
   imports: [
     BrowserModule,
