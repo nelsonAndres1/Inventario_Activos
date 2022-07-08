@@ -1,33 +1,35 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder} from '@angular/forms';
-import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
-import {Conta19Service} from '../services/conta19.service';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Conta19Service } from '../services/conta19.service';
 import Swal from 'sweetalert2';
-import {delay} from 'rxjs';
-import {Conta124} from '../models/conta124';
-import {Conta123} from '../models/conta123';
-import {Gener02} from '../models/gener02';
-import {Conta65} from '../models/conta65';
-import {Conta65_copia} from '../models/conta65_copia';
-import {Conta19} from '../models/conta19';
+import { delay } from 'rxjs';
+import { Conta124 } from '../models/conta124';
+import { Conta123 } from '../models/conta123';
+import { Gener02 } from '../models/gener02';
+import { Conta65 } from '../models/conta65';
+import { Conta65_copia } from '../models/conta65_copia';
+import { Conta19 } from '../models/conta19';
 
-@Component({selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service]})
+@Component({ selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service] })
 export class SobranteConta19Component implements OnInit {
-    data : any;
-    listaSobrantes : any = [];
+    data: any;
+    listaSobrantes: any = [];
     ao = [];
     ap = [];
     bandera = false;
-    public cedtraConsultado : any;
-    public inventariados : any = [];
-    public statusInv : any;
-    public usuario : any;
-    public faltantes : any;
-    public documento : any;
-    constructor(private _conta19Service : Conta19Service, private route : ActivatedRoute, private _router : Router) {
+    public cedtraConsultado: any;
+    public inventariados: any = [];
+    public statusInv: any;
+    public usuario: any;
+    public faltantes: any;
+    public documento: any;
+    public consultado: any;
+    constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router) {
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
+        this.consultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.usuario = JSON.parse(localStorage.getItem('identity') + '');
-        this._conta19Service.getCedTra(new Gener02('', '', this.cedtraConsultado.cedtra)).subscribe(response => {})
+        this._conta19Service.getCedTra(new Gener02('', '', this.cedtraConsultado.cedtra)).subscribe(response => { })
 
         this._conta19Service.getDocumentoConta65({}).subscribe(response => {
             this.documento = response;
@@ -36,53 +38,66 @@ export class SobranteConta19Component implements OnInit {
         })
         console.log(this.cedtraConsultado.coddep)
         this.route.queryParams.subscribe(response => {
-            if (response['result'] == undefined) {} else {
+            if (response['result'] == undefined) { } else {
                 const paramsData = JSON.parse(response['result']);
                 const faltantes = JSON.parse(response['faltantes']);
                 this.faltantes = faltantes;
                 this.inventariados = paramsData;
 
             }
-/*             console.log("inventariados");
-            console.log(this.inventariados[0]['detalleGeneral']); */
+            /*             console.log("inventariados");
+                        console.log(this.inventariados[0]['detalleGeneral']); */
 
         })
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 
-    getConta19(pclave : any) {
+    getConta19(pclave: any) {
         const keyword = pclave.target.value;
         const search = this._conta19Service.searchConta19(keyword).then(response => {
             this.data = response;
         });
     }
 
-    conta65(codact : any, cedtra : any, usuario : any, detalle : any, FoS : any) {
-
+    conta65(codact: any, cedtra: any, usuario: any, detalle: any, FoS: any) {
+        var coddep: any;
+        var coddeoV:any;
+        var aredes = '';
         this._conta19Service.consultConta65(new Conta65(codact, cedtra)).subscribe(response => {
             console.log(response);
-            if (response.aredes != "") {
-                if (FoS == 'F') {} else if (FoS == 'I') {} else {
+            /*             if (response.aredes != "") { */
+            coddep = this.consultado.coddep;
+            coddeoV = this.consultado.coddep;
+            console.log("codep");
+            console.log(coddep);
+            console.log("coddep*2");
+            coddep = coddep.split('');
+            console.log(coddep);
+            console.log("aredes");
 
-                    this._conta19Service.saveConta65(new Conta65_copia('01', this.documento, usuario, response.codact, response.subcod, detalle, response.areori, response.depori, response.ubiori, response.cedori, response.aredes, response.depdes, FoS, this.cedtraConsultado.cedtra, response.estado)).subscribe(response2 => {
-                        if (response2.status == 'success') {
-                            console.log("sipiiii sobrantes");
-                            response2.aredes,
+            aredes = coddep[0].concat(coddep[1]);
+            console.log(aredes);
+            if (FoS == 'F') { } else if (FoS == 'I') { } else {
+
+                this._conta19Service.saveConta65(new Conta65_copia('01', this.documento, usuario, response.codact, response.subcod, detalle, response.areori, response.depori, response.ubiori, response.cedori, aredes, coddeoV, FoS, this.cedtraConsultado.cedtra, response.estado)).subscribe(response2 => {
+                    if (response2.status == 'success') {
+                        console.log("sipiiii sobrantes");
+                        response2.aredes,
                             response2.depdes,
-                            this._conta19Service.updateConta19(new Conta19(response.codact, '', '', '', '', response.aredes, response.depdes, FoS, this.cedtraConsultado.cedtra, '', usuario, '','')).subscribe(response => {
+                            this._conta19Service.updateConta19(new Conta19(response.codact, '', '', '', '', aredes, coddeoV, FoS, this.cedtraConsultado.cedtra, '', usuario, '', '')).subscribe(response => {
                                 console.log("respuesta!")
                                 console.log(response);
                             })
-                        }
+                    }
 
-                    })
-                }
+                })
             }
+            /* } */
         });
     }
 
-    confirmaciones(ao1 : any = [], ap1 : any = []) { // Detalle
+    confirmaciones(ao1: any = [], ap1: any = []) { // Detalle
         Swal.fire({
             title: '<strong>Estado <u>activo</u></strong>',
             icon: 'info',
@@ -117,7 +132,7 @@ export class SobranteConta19Component implements OnInit {
 
         });
     }
-    confirmacionDetalle(ap1 : any = []) {
+    confirmacionDetalle(ap1: any = []) {
         Swal.fire({
             title: ' <strong>Ingrese la Observación del <u>Activo</u></strong>',
             input: 'text',
@@ -140,7 +155,7 @@ export class SobranteConta19Component implements OnInit {
     }
 
 
-    getActivos(result : any) {
+    getActivos(result: any) {
         var bandera = false;
         if (this.listaSobrantes.length > 0) {
             for (let index = 0; index < this.listaSobrantes.length; index++) {
@@ -163,7 +178,7 @@ export class SobranteConta19Component implements OnInit {
             console.log(this.ap);
         }
     }
-    deleteActivos(result : any) {
+    deleteActivos(result: any) {
         this.listaSobrantes.splice(result, 1);
         this.ao.splice(result, 1);
         this.ap.splice(result, 1);
@@ -174,7 +189,7 @@ export class SobranteConta19Component implements OnInit {
         console.log("permisos2");
         console.log(this.ap);
     }
-    guardarFaltantes(listaF : any) {
+    guardarFaltantes(listaF: any) {
         var lista_success: any = [];
         var bandera: any;
         if (listaF.length > 0) {
@@ -211,7 +226,7 @@ export class SobranteConta19Component implements OnInit {
         }
     }
 
-    guardarSobrantes(listaS : any) {
+    guardarSobrantes(listaS: any) {
         let ubides: any;
         if (listaS.length > 0) {
             Swal.fire({
