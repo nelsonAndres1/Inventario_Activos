@@ -219,6 +219,7 @@ export class Conta19Component implements OnInit {
                             
                                 if(this.array[index1].codact==this.lista_observacion[index2][1]){
                                     this.array[index1].observacion=this.lista_observacion[index2][0];
+                                    
                                     bandera=true;
                                 }else{
                                     bandera=false;     
@@ -315,19 +316,23 @@ export class Conta19Component implements OnInit {
 
 
     onChange($event, result: any) {
+        result.checked=true;
         var select = document.getElementById("estado")
 
         console.log("selected");
         console.log(select);
         var bandera = false;
+        
         const navigationExtras: NavigationExtras = {
             queryParams: {
+                
                 result: JSON.stringify(result)
             }
         }
         const isChecked = $event.target.checked;
 
         if (isChecked == true) {
+            
             if (this.array.length > 0) {
                 for (let index = 0; index <= this.array.length; index++) {
                     if (this.array[index] == result) {
@@ -337,7 +342,7 @@ export class Conta19Component implements OnInit {
                     }
                 }
                 if (bandera != true) {
-                    
+
                     this.array.push(result);
                     console.log("seleeee");
                     console.log(this.array);
@@ -346,6 +351,7 @@ export class Conta19Component implements OnInit {
                     //aquiiii!!!!!!!!!!!!!!!!!!!!!!
                 }
             } else {
+                result.checked=false;
                 this.array.push(result);
                 console.log("seleeee");
 
