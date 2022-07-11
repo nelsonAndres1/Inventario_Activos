@@ -11,6 +11,7 @@ export class Conta19Service {
     constructor(public _http : HttpClient) {
         this.url = global.url;
     }
+    
 
     getConta19(user : any): Observable < any > {
         let json = JSON.stringify(user);
