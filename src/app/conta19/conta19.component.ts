@@ -10,10 +10,11 @@ import { Conta124 } from '../models/conta124';
 import { Conta123 } from '../models/conta123';
 
 
+
 @Component({ selector: 'app-conta19', templateUrl: './conta19.component.html', styleUrls: ['./conta19.component.css'], providers: [Conta19Service] })
 
 export class Conta19Component implements OnInit {
-    filterPost='';
+    filterPost = '';
     public token: any;
     public encargado: any;
     public usuario: any;
@@ -44,18 +45,16 @@ export class Conta19Component implements OnInit {
         this.cedtra = this.token['cedtra'];
 
         this.getConta19(this.cedtra);
-        if(this.filterPost.length==7){
-            setTimeout(this.funcionConRetraso, 3000);
-        }
+        this.searchValue=null;
 
     }
-    funcionConRetraso(){
-        this.searchValue=''
 
-    }
     ngOnInit(): void { }
+    clearSearch() {
+        this.searchValue= '';
+    }
     onCambio(event, dato: any): void {
-        let bandera=false;
+        let bandera = false;
         console.log("valueeeeeeeeee");
         const newVal = event.target.value;
         console.log(newVal + ' ' + dato);
@@ -64,13 +63,13 @@ export class Conta19Component implements OnInit {
                 if (this.lista_estado[index][1] == dato) {
                     this.lista_estado.splice(index, 1);
                     console.log(this.lista_estado);
-                    bandera=true;
+                    bandera = true;
                 }
             }
-            if(bandera){
+            if (bandera) {
                 this.lista_estado.push([newVal, dato]);
                 console.log(this.lista_estado);
-            }else{
+            } else {
                 this.lista_estado.push([newVal, dato]);
                 console.log(this.lista_estado);
             }
@@ -82,7 +81,7 @@ export class Conta19Component implements OnInit {
 
     }
     onText(event, dato: any): void {
-        let bandera=false;
+        let bandera = false;
         console.log("valueeeeeeeeee texto");
         const newVal = event.target.value;
         console.log(newVal + ' ' + dato);
@@ -92,13 +91,13 @@ export class Conta19Component implements OnInit {
                 if (this.lista_observacion[index][1] == dato) {
                     this.lista_observacion.splice(index, 1);
                     console.log(this.lista_observacion);
-                    bandera=true;
+                    bandera = true;
                 }
             }
-            if(bandera){
+            if (bandera) {
                 this.lista_observacion.push([newVal, dato]);
                 console.log(this.lista_observacion);
-            }else{
+            } else {
                 this.lista_observacion.push([newVal, dato]);
                 console.log(this.lista_observacion);
             }
@@ -217,56 +216,56 @@ export class Conta19Component implements OnInit {
                 confirmButtonText: 'Iniciar'
 
             }).then(result => {
-                let bandera:any;
-                let bandera2:any;
+                let bandera: any;
+                let bandera2: any;
                 if (result.value) {
 
                     for (let index1 = 0; index1 < this.array.length; index1++) {
-                        if(this.lista_observacion.length>0){
+                        if (this.lista_observacion.length > 0) {
                             for (let index2 = 0; index2 < this.lista_observacion.length; index2++) {
-                            
-                                if(this.array[index1].codact==this.lista_observacion[index2][1]){
-                                    this.array[index1].observacion=this.lista_observacion[index2][0];
-                                    
-                                    bandera=true;
-                                }else{
-                                    bandera=false;     
+
+                                if (this.array[index1].codact == this.lista_observacion[index2][1]) {
+                                    this.array[index1].observacion = this.lista_observacion[index2][0];
+
+                                    bandera = true;
+                                } else {
+                                    bandera = false;
                                 }
-                               
-    
+
+
                             }
-                            if(bandera==false){
-                                this.array[index1].observacion='sin observacion';
+                            if (bandera == false) {
+                                this.array[index1].observacion = 'sin observacion';
                             }
-                        }else{
-                            this.array[index1].observacion='sin observacion';
+                        } else {
+                            this.array[index1].observacion = 'sin observacion';
                         }
 
 
-                    }            
-                     
+                    }
+
                     for (let index1 = 0; index1 < this.array.length; index1++) {
-                        if(this.lista_estado.length>0){
+                        if (this.lista_estado.length > 0) {
                             for (let index2 = 0; index2 < this.lista_estado.length; index2++) {
-                                if(this.array[index1].codact==this.lista_estado[index2][1]){
-                                    this.array[index1].estado=this.lista_estado[index2][0];
-                                    bandera2=true;
-                                }else{
-                                    bandera2=false;
+                                if (this.array[index1].codact == this.lista_estado[index2][1]) {
+                                    this.array[index1].estado = this.lista_estado[index2][0];
+                                    bandera2 = true;
+                                } else {
+                                    bandera2 = false;
                                 }
-                                
+
                             }
-                            if(bandera2==false){
-                                this.array[index1].estado='B';
+                            if (bandera2 == false) {
+                                this.array[index1].estado = 'B';
                             }
-                        }else{
-                            this.array[index1].estado='B';
+                        } else {
+                            this.array[index1].estado = 'B';
                         }
 
-                        
+
                     }
                     for (let index = 0; index < this.array.length; index++) {
-                        this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.array[index].estado, this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index],this.array[index].observacion);
+                        this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.array[index].estado, this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index], this.array[index].observacion);
                         this.lista_activos.push(this.conta19);
                     }
 
@@ -324,23 +323,26 @@ export class Conta19Component implements OnInit {
 
 
     onChange($event, result: any) {
-        result.checked=true;
+        this.clearSearch()
+        this.searchValue = '';
+        result.checked = true;
         var select = document.getElementById("estado")
 
         console.log("selected");
         console.log(select);
         var bandera = false;
-        
+
         const navigationExtras: NavigationExtras = {
             queryParams: {
-                
+
                 result: JSON.stringify(result)
             }
         }
+        this.searchValue = '';
         const isChecked = $event.target.checked;
 
         if (isChecked == true) {
-            
+            this.searchValue = '';
             if (this.array.length > 0) {
                 for (let index = 0; index <= this.array.length; index++) {
                     if (this.array[index] == result) {
@@ -354,14 +356,16 @@ export class Conta19Component implements OnInit {
                     this.array.push(result);
                     console.log("seleeee");
                     console.log(this.array);
+                    this.searchValue = '';
 
                     //this.confirmaciones(this.ao, this.ap);
                     //aquiiii!!!!!!!!!!!!!!!!!!!!!!
                 }
             } else {
-                result.checked=false;
+                result.checked = false;
                 this.array.push(result);
                 console.log("seleeee");
+                this.searchValue = '';
 
                 //this.confirmaciones(this.ao, this.ap);
             }
@@ -371,6 +375,7 @@ export class Conta19Component implements OnInit {
                     this.array.splice(index, 1);
                     this.ao.splice(index, 1);
                     this.ap.splice(index, 1);
+                    this.searchValue = '';
                 }
             }
         }
@@ -379,7 +384,7 @@ export class Conta19Component implements OnInit {
         console.log(this.ap); // detalle
         console.log(this.array); // activos
         delay(3000);
-        this.searchValue=''
+        this.searchValue = '';
     }
 
     guardarFaltantes(listaF: any) {
@@ -422,8 +427,8 @@ export class Conta19Component implements OnInit {
     }
 
     onSubmit() {
-        let bandera:any;
-        let bandera2:any;
+        let bandera: any;
+        let bandera2: any;
         Swal.fire({
             title: '¿Estas seguro de guardar los cambios?',
             showDenyButton: true,
@@ -432,49 +437,49 @@ export class Conta19Component implements OnInit {
             denyButtonText: `No Guardar`
         }).then((result) => {
             if (result.isConfirmed) {
-                
+
                 for (let index1 = 0; index1 < this.array.length; index1++) {
-                    if(this.lista_observacion.length>0){
+                    if (this.lista_observacion.length > 0) {
                         for (let index2 = 0; index2 < this.lista_observacion.length; index2++) {
-                        
-                            if(this.array[index1].codact==this.lista_observacion[index2][1]){
-                                this.array[index1].observacion=this.lista_observacion[index2][0];
-                                bandera=true;
-                            }else{
-                                bandera=false;     
+
+                            if (this.array[index1].codact == this.lista_observacion[index2][1]) {
+                                this.array[index1].observacion = this.lista_observacion[index2][0];
+                                bandera = true;
+                            } else {
+                                bandera = false;
                             }
-                           
+
 
                         }
-                        if(bandera==false){
-                            this.array[index1].observacion='sin observacion';
+                        if (bandera == false) {
+                            this.array[index1].observacion = 'sin observacion';
                         }
-                    }else{
-                        this.array[index1].observacion='sin observacion';
+                    } else {
+                        this.array[index1].observacion = 'sin observacion';
                     }
 
 
-                }            
-                 
+                }
+
                 for (let index1 = 0; index1 < this.array.length; index1++) {
-                    if(this.lista_estado.length>0){
+                    if (this.lista_estado.length > 0) {
                         for (let index2 = 0; index2 < this.lista_estado.length; index2++) {
-                            if(this.array[index1].codact==this.lista_estado[index2][1]){
-                                this.array[index1].estado=this.lista_estado[index2][0];
-                                bandera2=true;
-                            }else{
-                                bandera2=false;
+                            if (this.array[index1].codact == this.lista_estado[index2][1]) {
+                                this.array[index1].estado = this.lista_estado[index2][0];
+                                bandera2 = true;
+                            } else {
+                                bandera2 = false;
                             }
-                            
+
                         }
-                        if(bandera2==false){
-                            this.array[index1].estado='B';
+                        if (bandera2 == false) {
+                            this.array[index1].estado = 'B';
                         }
-                    }else{
-                        this.array[index1].estado='B';
+                    } else {
+                        this.array[index1].estado = 'B';
                     }
 
-                    
+
                 }
                 for (let index = 0; index < this.array.length; index++) {
                     this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.array[index].estado, this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index], this.array[index].observacion);

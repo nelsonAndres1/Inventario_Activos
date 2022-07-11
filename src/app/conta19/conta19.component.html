@@ -7,10 +7,12 @@
   <h6>Codigo: {{usuario}}</h6>
   <h6>Numero de Activos: {{tactivos}}</h6>
 </div>
-<div class="form-group">
-  <input type="text" class="form-control" name="filterPost" placeholder="Buscar..." [value]="searchValue" [(ngModel)]="filterPost">
-</div>
-
+<form>
+  <div class="form-group">
+    <input type="text" class="form-control"  #filterName name="filterName" name="filterPost" placeholder="Buscar..." [value]="searchValue"
+      [(ngModel)]="filterPost">
+  </div>
+</form>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -32,7 +34,8 @@
         {{dt.dependencia}}
       </td>
       <td>
-        <select id="test" (change)="onCambio($event,dt.codact)" class="form-select" on aria-label="Default select example">
+        <select id="test" (change)="onCambio($event,dt.codact)" class="form-select" on
+          aria-label="Default select example">
           <option value="B">Bueno</option>
           <option value="R">Regular</option>
           <option value="D">Dañado</option>
@@ -44,7 +47,7 @@
       </td>
       <td>
         <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
-          [checked]="dt.select" (ng-model)="dt.activo" [checked]="dt.checked" style="cursor: pointer;">
+          [checked]="dt.select" (click)="filterName.value=''" (ng-model)="dt.activo" [checked]="dt.checked" style="cursor: pointer;">
       </td>
     </tr>
   </tbody>
