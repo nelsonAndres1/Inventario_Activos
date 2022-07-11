@@ -1,31 +1,36 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import {Conta19Service} from '../services/conta19.service';
-import {Gener02} from '../models/gener02';
-import {Conta19_Copia} from '../models/conta19_copia';
-import {Router, ActivatedRoute, Params, NavigationExtras} from '@angular/router';
-import {Conta19} from '../models/conta19';
-import {delay, identity} from 'rxjs';
-import {Conta124} from '../models/conta124';
-import {Conta123} from '../models/conta123';
+import { Conta19Service } from '../services/conta19.service';
+import { Gener02 } from '../models/gener02';
+import { Conta19_Copia } from '../models/conta19_copia';
+import { Router, ActivatedRoute, Params, NavigationExtras } from '@angular/router';
+import { Conta19 } from '../models/conta19';
+import { delay, identity } from 'rxjs';
+import { Conta124 } from '../models/conta124';
+import { Conta123 } from '../models/conta123';
 
 
-@Component({selector: 'app-conta19', templateUrl: './conta19.component.html', styleUrls: ['./conta19.component.css'], providers: [Conta19Service]})
+@Component({ selector: 'app-conta19', templateUrl: './conta19.component.html', styleUrls: ['./conta19.component.css'], providers: [Conta19Service] })
 export class Conta19Component implements OnInit {
-    public token : any;
-    public encargado : any;
-    public usuario : any;
-    public cedtra : any;
-    public activos : any;
-    public tactivos : any;
-    public array : any = [];
-    public conta19 : any;
-    public lista_activos : any = [];
-    public cedtraConsultado : any;
+    public token: any;
+    public encargado: any;
+    public usuario: any;
+    public cedtra: any;
+    public activos: any;
+    public tactivos: any;
+    public array: any = [];
+    public conta19: any;
+    public lista_activos: any = [];
+    public cedtraConsultado: any;
+    opcionSeleccionado: string = '0';
+    verSeleccion: string = '';
+    public options: any;
     ao = [];
     ap = [];
-    public datosActivos : any;
-    constructor(private _conta19Service : Conta19Service, private _router : Router) {
+    public datosActivos: any;
+    public lista_estado: any = [];
+    public lista_observacion: any = [];
+    constructor(private _conta19Service: Conta19Service, private _router: Router) {
 
         this.token = JSON.parse(localStorage.getItem("tokenConsultado") + '');
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
@@ -38,8 +43,67 @@ export class Conta19Component implements OnInit {
         this.getConta19(this.cedtra);
 
     }
-    ngOnInit(): void {}
-    getConta19(cedtra : any) {
+    ngOnInit(): void { }
+    onCambio(event, dato: any): void {
+        let bandera=false;
+        console.log("valueeeeeeeeee");
+        const newVal = event.target.value;
+        console.log(newVal + ' ' + dato);
+        if (this.lista_estado.length > 0) {
+            for (let index = 0; index < this.lista_estado.length; index++) {
+                if (this.lista_estado[index][1] == dato) {
+                    this.lista_estado.splice(index, 1);
+                    console.log(this.lista_estado);
+                    bandera=true;
+                }
+            }
+            if(bandera){
+                this.lista_estado.push([newVal, dato]);
+                console.log(this.lista_estado);
+            }else{
+                this.lista_estado.push([newVal, dato]);
+                console.log(this.lista_estado);
+            }
+        } else {
+            this.lista_estado.push([newVal, dato]);
+            console.log(this.lista_estado);
+        }
+
+
+    }
+    onText(event, dato: any): void {
+        let bandera=false;
+        console.log("valueeeeeeeeee texto");
+        const newVal = event.target.value;
+        console.log(newVal + ' ' + dato);
+        console.log(newVal + ' ' + dato);
+        if (this.lista_observacion.length > 0) {
+            for (let index = 0; index < this.lista_observacion.length; index++) {
+                if (this.lista_observacion[index][1] == dato) {
+                    this.lista_observacion.splice(index, 1);
+                    console.log(this.lista_observacion);
+                    bandera=true;
+                }
+            }
+            if(bandera){
+                this.lista_observacion.push([newVal, dato]);
+                console.log(this.lista_observacion);
+            }else{
+                this.lista_observacion.push([newVal, dato]);
+                console.log(this.lista_observacion);
+            }
+        } else {
+            this.lista_observacion.push([newVal, dato]);
+            console.log(this.lista_observacion);
+        }
+    }
+
+
+
+
+
+
+    getConta19(cedtra: any) {
         this._conta19Service.getConta19(new Conta19_Copia(cedtra)).subscribe(response => {
             console.log("respuesta");
             console.log(response);
@@ -58,7 +122,7 @@ export class Conta19Component implements OnInit {
 
         });
     }
-    confirmaciones(ao1 : any = [], ap1 : any = []) { // Detalle
+    confirmaciones(ao1: any = [], ap1: any = []) { // Detalle
         Swal.fire({
             title: '<strong>Estado <u>Activo</u></strong>',
             icon: 'info',
@@ -93,7 +157,7 @@ export class Conta19Component implements OnInit {
 
         });
     }
-    confirmacionDetalle(ap1 : any = []) {
+    confirmacionDetalle(ap1: any = []) {
         Swal.fire({
             title: ' <strong>Ingrese la Observación del <u>Activo</u></strong>',
             input: 'text',
@@ -143,11 +207,55 @@ export class Conta19Component implements OnInit {
                 confirmButtonText: 'Iniciar'
 
             }).then(result => {
-
+                let bandera:any;
+                let bandera2:any;
                 if (result.value) {
 
+                    for (let index1 = 0; index1 < this.array.length; index1++) {
+                        if(this.lista_observacion.length>0){
+                            for (let index2 = 0; index2 < this.lista_observacion.length; index2++) {
+                            
+                                if(this.array[index1].codact==this.lista_observacion[index2][1]){
+                                    this.array[index1].observacion=this.lista_observacion[index2][0];
+                                    bandera=true;
+                                }else{
+                                    bandera=false;     
+                                }
+                               
+    
+                            }
+                            if(bandera==false){
+                                this.array[index1].observacion='sin observacion';
+                            }
+                        }else{
+                            this.array[index1].observacion='sin observacion';
+                        }
+
+
+                    }            
+                     
+                    for (let index1 = 0; index1 < this.array.length; index1++) {
+                        if(this.lista_estado.length>0){
+                            for (let index2 = 0; index2 < this.lista_estado.length; index2++) {
+                                if(this.array[index1].codact==this.lista_estado[index2][1]){
+                                    this.array[index1].estado=this.lista_estado[index2][0];
+                                    bandera2=true;
+                                }else{
+                                    bandera2=false;
+                                }
+                                
+                            }
+                            if(bandera2==false){
+                                this.array[index1].estado='B';
+                            }
+                        }else{
+                            this.array[index1].estado='B';
+                        }
+
+                        
+                    }
                     for (let index = 0; index < this.array.length; index++) {
-                        this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.ao[index], this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index], this.ap[index]);
+                        this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.array[index].estado, this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index],this.array[index].observacion);
                         this.lista_activos.push(this.conta19);
                     }
 
@@ -159,6 +267,8 @@ export class Conta19Component implements OnInit {
                         }
 
                     }
+                    console.log("Inventariados");
+                    console.log(this.lista_activos);
                     console.log("Faltantes!")
                     console.log(this.activos);
                     const navigationExtras: NavigationExtras = {
@@ -183,20 +293,30 @@ export class Conta19Component implements OnInit {
             Swal.fire({
                 title: 'No ha seleccionado ningun activo!',
                 timer: 3000,
-                didOpen: () => {},
+                didOpen: () => { },
                 willClose: () => {
                     clearInterval(timerInterval);
                     this._router.navigate(['sobrante-conta19']);
                 }
             }).then((result) => { /* Read more about handling dismissals below */
-                if (result.dismiss === Swal.DismissReason.timer) {}
+                if (result.dismiss === Swal.DismissReason.timer) { }
             })
         }
 
     }
+    capturar(dt: any) {
+        // Pasamos el valor seleccionado a la variable verSeleccion
+        this.verSeleccion = this.opcionSeleccionado;
+        console.log(this.verSeleccion)
+    }
 
 
-    onChange($event, result : any) {
+
+    onChange($event, result: any) {
+        var select = document.getElementById("estado")
+
+        console.log("selected");
+        console.log(select);
         var bandera = false;
         const navigationExtras: NavigationExtras = {
             queryParams: {
@@ -217,11 +337,16 @@ export class Conta19Component implements OnInit {
                 if (bandera != true) {
 
                     this.array.push(result);
-                    this.confirmaciones(this.ao, this.ap);
+                    console.log("seleeee");
+
+                    //this.confirmaciones(this.ao, this.ap);
+                    //aquiiii!!!!!!!!!!!!!!!!!!!!!!
                 }
             } else {
                 this.array.push(result);
-                this.confirmaciones(this.ao, this.ap);
+                console.log("seleeee");
+
+                //this.confirmaciones(this.ao, this.ap);
             }
         } else {
             for (let index = 0; index <= this.array.length; index++) {
@@ -232,20 +357,20 @@ export class Conta19Component implements OnInit {
                 }
             }
         }
-        for (let index = 0; index < this.array.length; index++) {}
+        for (let index = 0; index < this.array.length; index++) { }
         console.log(this.ao); // estado
         console.log(this.ap); // detalle
         console.log(this.array); // activos
     }
 
-    guardarFaltantes(listaF : any) {
+    guardarFaltantes(listaF: any) {
         var lista_success: any = [];
         var bandera: any;
         if (listaF.length > 0) {
 
 
             for (let index = 0; index < listaF.length; index++) {
-                
+
                 this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes')).subscribe(response => {
 
                     if (response.status == "success") {
@@ -264,20 +389,22 @@ export class Conta19Component implements OnInit {
                 showConfirmButton: false,
                 timer: 1500,
                 confirmButtonText: 'Look up'
-            }).then((result)=>{
+            }).then((result) => {
                 this._router.navigate(['principal']);
             });
-            
+
 
         } else {
-            Swal.fire('Info!', '¡No existen Activos Faltantes!.', 'info').then((result)=>{
+            Swal.fire('Info!', '¡No existen Activos Faltantes!.', 'info').then((result) => {
                 this._router.navigate(['principal']);
             });
-            
+
         }
     }
 
     onSubmit() {
+        let bandera:any;
+        let bandera2:any;
         Swal.fire({
             title: '¿Estas seguro de guardar los cambios?',
             showDenyButton: true,
@@ -286,8 +413,52 @@ export class Conta19Component implements OnInit {
             denyButtonText: `No Guardar`
         }).then((result) => {
             if (result.isConfirmed) {
+                
+                for (let index1 = 0; index1 < this.array.length; index1++) {
+                    if(this.lista_observacion.length>0){
+                        for (let index2 = 0; index2 < this.lista_observacion.length; index2++) {
+                        
+                            if(this.array[index1].codact==this.lista_observacion[index2][1]){
+                                this.array[index1].observacion=this.lista_observacion[index2][0];
+                                bandera=true;
+                            }else{
+                                bandera=false;     
+                            }
+                           
+
+                        }
+                        if(bandera==false){
+                            this.array[index1].observacion='sin observacion';
+                        }
+                    }else{
+                        this.array[index1].observacion='sin observacion';
+                    }
+
+
+                }            
+                 
+                for (let index1 = 0; index1 < this.array.length; index1++) {
+                    if(this.lista_estado.length>0){
+                        for (let index2 = 0; index2 < this.lista_estado.length; index2++) {
+                            if(this.array[index1].codact==this.lista_estado[index2][1]){
+                                this.array[index1].estado=this.lista_estado[index2][0];
+                                bandera2=true;
+                            }else{
+                                bandera2=false;
+                            }
+                            
+                        }
+                        if(bandera2==false){
+                            this.array[index1].estado='B';
+                        }
+                    }else{
+                        this.array[index1].estado='B';
+                    }
+
+                    
+                }
                 for (let index = 0; index < this.array.length; index++) {
-                    this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.ao[index], this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index], this.ap[index]);
+                    this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.array[index].estado, this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index], this.array[index].observacion);
                     this.lista_activos.push(this.conta19);
                 }
 
