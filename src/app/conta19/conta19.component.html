@@ -7,6 +7,9 @@
   <h6>Codigo: {{usuario}}</h6>
   <h6>Numero de Activos: {{tactivos}}</h6>
 </div>
+<div class="form-group">
+  <input type="text" class="form-control" name="filterPost" placeholder="Buscar..." [(ngModel)]="filterPost">
+</div>
 
 <table class="table">
   <thead class="thead-dark">
@@ -21,7 +24,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let dt of activos">
+    <tr *ngFor="let dt of activos | filter:filterPost">
       <th scope="row">{{dt.numero}}</th>
       <td>{{dt.codact}}</td>
       <td>{{dt.detalle}}</td>

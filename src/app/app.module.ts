@@ -23,6 +23,7 @@ import { InicioReporteComponent } from './inicio-reporte/inicio-reporte.componen
 import { Opcion2Component } from './opcion2/opcion2.component';
 import { InicioTrasladoComponent } from './inicio-traslado/inicio-traslado.component';
 import { TrasladoComponent } from './traslado/traslado.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 
 
@@ -38,7 +39,8 @@ import { TrasladoComponent } from './traslado/traslado.component';
     InicioReporteComponent,
     Opcion2Component,
     InicioTrasladoComponent,
-    TrasladoComponent
+    TrasladoComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
