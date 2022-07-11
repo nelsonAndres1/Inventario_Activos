@@ -32,6 +32,7 @@ export class Conta19Component implements OnInit {
     public datosActivos: any;
     public lista_estado: any = [];
     public lista_observacion: any = [];
+    public searchValue: any;
     constructor(private _conta19Service: Conta19Service, private _router: Router) {
 
         this.token = JSON.parse(localStorage.getItem("tokenConsultado") + '');
@@ -43,6 +44,13 @@ export class Conta19Component implements OnInit {
         this.cedtra = this.token['cedtra'];
 
         this.getConta19(this.cedtra);
+        if(this.filterPost.length==7){
+            setTimeout(this.funcionConRetraso, 3000);
+        }
+
+    }
+    funcionConRetraso(){
+        this.searchValue=''
 
     }
     ngOnInit(): void { }
@@ -370,6 +378,8 @@ export class Conta19Component implements OnInit {
         console.log(this.ao); // estado
         console.log(this.ap); // detalle
         console.log(this.array); // activos
+        delay(3000);
+        this.searchValue=''
     }
 
     guardarFaltantes(listaF: any) {

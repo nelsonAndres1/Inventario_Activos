@@ -8,7 +8,7 @@
   <h6>Numero de Activos: {{tactivos}}</h6>
 </div>
 <div class="form-group">
-  <input type="text" class="form-control" name="filterPost" placeholder="Buscar..." [(ngModel)]="filterPost">
+  <input type="text" class="form-control" name="filterPost" placeholder="Buscar..." [value]="searchValue" [(ngModel)]="filterPost">
 </div>
 
 <table class="table">
