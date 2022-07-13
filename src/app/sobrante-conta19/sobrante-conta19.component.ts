@@ -10,8 +10,9 @@ import { Gener02 } from '../models/gener02';
 import { Conta65 } from '../models/conta65';
 import { Conta65_copia } from '../models/conta65_copia';
 import { Conta19 } from '../models/conta19';
+import { TrasladoService } from '../services/traslado.service';
 
-@Component({ selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service] })
+@Component({ selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service, TrasladoService] })
 export class SobranteConta19Component implements OnInit {
     data: any;
     listaSobrantes: any = [];
@@ -25,12 +26,13 @@ export class SobranteConta19Component implements OnInit {
     public faltantes: any;
     public documento: any;
     public consultado: any;
-    constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router) {
+    public ubicaciones: any;
+    constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router, private _trasladoService: TrasladoService) {
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.consultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.usuario = JSON.parse(localStorage.getItem('identity') + '');
         this._conta19Service.getCedTra(new Gener02('', '', this.cedtraConsultado.cedtra)).subscribe(response => { })
-
+        this.getConta116(this.cedtraConsultado.coddep);
         this._conta19Service.getDocumentoConta65({}).subscribe(response => {
             this.documento = response;
             console.log("respuesta documento");
@@ -62,7 +64,7 @@ export class SobranteConta19Component implements OnInit {
 
     conta65(codact: any, cedtra: any, usuario: any, detalle: any, FoS: any) {
         var coddep: any;
-        var coddeoV:any;
+        var coddeoV: any;
         var aredes = '';
         this._conta19Service.consultConta65(new Conta65(codact, cedtra)).subscribe(response => {
             console.log(response);
@@ -225,13 +227,36 @@ export class SobranteConta19Component implements OnInit {
 
         }
     }
+    getConta116(depdes: any) {
+
+        this._trasladoService.getConta116(new Conta19('', '', '', '', '', '', depdes, '', '', '', '', '', '')).subscribe(
+            response => {
+                console.log("respuesta de ubides");
+                this.ubicaciones = response;
+                console.log(this.ubicaciones);
+            }
+        )
+    }
 
     guardarSobrantes(listaS: any) {
+        
+        let ubi2: any = []
+        for (let index = 0; index < this.ubicaciones.length; index++) {
+            console.log("respuesta11111111111111111111111111!");
+            console.log(this.ubicaciones[index].codubi);
+            ubi2.push(this.ubicaciones[index].codubi);
+
+        }
+
+        console.log("ubidos");
+        console.log(ubi2);
+
         let ubides: any;
         if (listaS.length > 0) {
             Swal.fire({
                 title: 'Por favor ingrese la ubicación de destino de los Activos Sobrantes',
-                input: 'number',
+                input: 'select',
+                inputOptions: ubi2,
                 inputAttributes: {
                     autocapitalize: 'off'
                 },

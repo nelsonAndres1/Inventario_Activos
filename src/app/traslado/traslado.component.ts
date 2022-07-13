@@ -30,6 +30,8 @@ export class TrasladoComponent implements OnInit {
     public data: any;
     public datoCe: any = '';
     public tokenConsultado: any;
+    public ubicaciones: any;
+    public banderaSe: any;
     ao = [];
     ap = [];
     public datosActivos: any;
@@ -84,13 +86,16 @@ export class TrasladoComponent implements OnInit {
 
 
     }
+    delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
 
     onSubmit() {
         let bandera: any;
         let bandera2: any;
         var coddep: any;
-        var coddeoV:any;
+        var coddeoV: any;
         var aredes = '';
         coddep = this.token.coddep;
         coddeoV = this.token.coddep;
@@ -172,35 +177,48 @@ export class TrasladoComponent implements OnInit {
                 if (this.lista_activos.length > 0) {
 
                     if (this.datoCe.length > 0) {
-                        if (this.observacion_traslado.length > 0) {
+                        console.log(this.datoCe, ' - ', this.cedtraConsultado.cedtra);
+                        if (this.datoCe != this.cedtraConsultado.cedtra) {
 
-                            if (this.ubi_traslado > 0 && this.ubi_traslado < 99) {
-                                for (let index = 0; index < this.array.length; index++) {
-                                    this._trasladoService.updateConta19(new Conta19(this.array[index].codact, '', '', '', '', '', this.depdesdes, this.ubi_traslado, this.datoCe, '', this.identity.sub, '', this.observacion_traslado)).subscribe(
-                                        response => {
-                                            if (response.status != 'error') {
-                                                this._conta19Service.consultConta65(new Conta65(this.array[index].codact, this.cedtra)).subscribe(
-                                                    response => {
-                                                        this._trasladoService.saveConta65(new Conta65_copia('01', this.documento, this.identity.sub, this.array[index].codact, response.subcod, this.observacion_traslado, response.areori, response.depori, response.ubiori, response.cedori, aredes,coddeoV,this.ubi_traslado,this.datoCe,response.estado)).subscribe(
-                                                            response=>{
-                                                                console.log("siii! guardado");
-                                                            }
-                                                        )
-                                                    }
-                                                )
+                            if (this.observacion_traslado.length > 0) {
 
+                                if (this.ubi_traslado > 0 && this.ubi_traslado < 99) {
+                                    for (let index = 0; index < this.array.length; index++) {
+                                        this._trasladoService.updateConta19(new Conta19(this.array[index].codact, '', '', '', '', '', this.depdesdes, this.ubi_traslado, this.datoCe, '', this.identity.sub, '', this.observacion_traslado)).subscribe(
+                                            response => {
+                                                if (response.status != 'error') {
+                                                    this._conta19Service.consultConta65(new Conta65(this.array[index].codact, this.cedtra)).subscribe(
+                                                        response => {
+                                                            this._trasladoService.saveConta65(new Conta65_copia('01', this.documento, this.identity.sub, this.array[index].codact, response.subcod, this.observacion_traslado, response.areori, response.depori, response.ubiori, response.cedori, aredes, coddeoV, this.ubi_traslado, this.datoCe, response.estado)).subscribe(
+                                                                response => {
+                                                                    if (response.status = "success") {
+                                                                        Swal.fire('Traslado Realizado!', '', 'success');
+                                                                        delay(1000);
+                                                                        this._router.navigate(['inicio-traslado']);
+                                                                    } else {
+                                                                        Swal.fire('Traslado No Realizado!', '', 'error');
+                                                                    }
+
+                                                                }
+                                                            )
+                                                        }
+                                                    )
+
+                                                }
                                             }
-                                        }
-                                    )
+                                        )
 
+                                    }
+
+                                } else {
+                                    Swal.fire('Ubicación Incorrecta!', '', 'error');
                                 }
 
                             } else {
-                                Swal.fire('Ubicación Incorrecta!', '', 'error');
+                                Swal.fire('Traslado sin Observación!', '', 'error');
                             }
-
                         } else {
-                            Swal.fire('Traslado sin Observación!', '', 'error');
+                            Swal.fire('Error!', 'No se puede realizar traslado al mismo usuario!', 'error');
                         }
                     } else {
                         Swal.fire('No ha seleccionado Usuario a trasladar!', '', 'error');
@@ -284,7 +302,21 @@ export class TrasladoComponent implements OnInit {
             this.data = response;
         })
     }
+    getConta116(depdes: any){
+        this._trasladoService.getConta116(new Conta19('','','','','','',depdes,'','','','','','')).subscribe(
+            response =>{
+                console.log("respuesta de ubides");
+                console.log(response);
+                this.ubicaciones=response;
+            }
+        )
+
+    }
+
+    
+
     getDatos02(result: any) {
+        
         console.log("datos");
         console.log(result);
         this.datoSe = result.nombre;
@@ -292,7 +324,10 @@ export class TrasladoComponent implements OnInit {
         this._gener02Service.findGener02(new Gener02('', '', this.datoCe)).subscribe(response => {
             console.log("Reespuesta")
             this.depdesdes = response.coddep;
+            this.getConta116(this.depdesdes);
+            
             console.log(response);
+            this.banderaSe=true;
         })
     }
 

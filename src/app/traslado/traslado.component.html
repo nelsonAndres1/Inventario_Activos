@@ -36,14 +36,22 @@
                     </div>
                     <br>
 
-                    <div class="col-sm-6 pb-3">
+                    <div class="col-sm-6 pb-3" *ngIf="banderaSe">
                         <label for="exampleAccount"><b>Ubicación de Destino</b></label>
-                        <input min="0" max="99" type="number" class="form-control" (input)="onDestino($event)" placeholder="Ubicación de destino"
-                            aria-label="Username" aria-describedby="basic-addon1" required />
+                        <select class="form-select" aria-label="Default select example" (change)="onDestino($event)"
+                            placeholder="Ubicación de destino" aria-label="Username" aria-describedby="basic-addon1"
+                            required>
+                            <option selected>Seleccione</option>
+                            <option *ngFor="let a of ubicaciones">{{a.codubi}}</option>
+                        </select>
+                        <!-- 
+                         <input min="0" max="99" type="number" class="form-control" (input)="onDestino($event)" placeholder="Ubicación de destino"
+                            aria-label="Username" aria-describedby="basic-addon1" required />  -->
                     </div>
                     <div class="input-group col-sm-12 pb-3">
                         <span class="input-group-text">Observación del traslado</span>
-                        <textarea class="form-control" aria-label="With textarea" maxlength="65" (input)="onObservacion($event)" required></textarea>
+                        <textarea class="form-control" aria-label="With textarea" maxlength="65"
+                            (input)="onObservacion($event)" required></textarea>
                     </div>
 
                 </div>
