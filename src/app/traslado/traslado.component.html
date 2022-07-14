@@ -1,9 +1,9 @@
 <meta charset="utf-8">
-
+<h2 id="div1">Activos</h2>
 <div class="row mt-12">
     <div class="col-sm-6 pb-3">
         <div class="card-body">
-            <h2>Activos</h2>
+            <br>
             <div class="card-text"></div>
             <h6>Encargado: {{encargado}}</h6>
             <h6>Codigo: {{usuario}}</h6>
@@ -44,9 +44,7 @@
                             <option selected>Seleccione</option>
                             <option *ngFor="let a of ubicaciones">{{a.codubi}}</option>
                         </select>
-                        <!-- 
-                         <input min="0" max="99" type="number" class="form-control" (input)="onDestino($event)" placeholder="Ubicación de destino"
-                            aria-label="Username" aria-describedby="basic-addon1" required />  -->
+
                     </div>
                     <div class="input-group col-sm-12 pb-3">
                         <span class="input-group-text">Observación del traslado</span>
@@ -59,51 +57,51 @@
             </div>
         </div>
     </div>
-    <div class="row mt-12">
-        <p style="color:#FF0000"><strong>Seleccione los activos a trasladar</strong></p>
-    </div>
+</div>
+<div>
+    <p style="color:#FF0000"><strong>Seleccione los activos a trasladar</strong></p>
+</div>
 
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Codigo</th>
-                <th scope="col">Activo</th>
-                <th scope="col">Ubicación</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Detalle</th>
-                <th scope="col">Seleccione</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let dt of activos">
-                <th scope="row">{{dt.numero}}</th>
-                <td>{{dt.codact}}</td>
-                <td>{{dt.detalle}}</td>
-                <td>
-                    {{dt.dependencia}}
-                </td>
-                <td>
-                    <select id="test" (change)="onCambio($event,dt.codact)" class="form-select" on
-                        aria-label="Default select example">
-                        <option value="B">Bueno</option>
-                        <option value="R">Regular</option>
-                        <option value="D">Dañado</option>
-                        <option value="O">Obsoleto</option>
-                    </select>
-                </td>
-                <td>
-                    <textarea class="form-control" (input)="onText($event,dt.codact)"
-                        aria-label="With textarea"></textarea>
-                </td>
-                <td>
-                    <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
-                        [checked]="dt.select" (ng-model)="dt.activo" style="cursor: pointer;">
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Ubicación</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Detalle</th>
+            <th scope="col">Seleccione</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dt of activos">
+            <th scope="row">{{dt.numero}}</th>
+            <td>{{dt.codact}}</td>
+            <td>{{dt.detalle}}</td>
+            <td>
+                {{dt.dependencia}}
+            </td>
+            <td>
+                <select id="test" (change)="onCambio($event,dt.codact)" class="form-select" on
+                    aria-label="Default select example">
+                    <option value="B">Bueno</option>
+                    <option value="R">Regular</option>
+                    <option value="D">Dañado</option>
+                    <option value="O">Obsoleto</option>
+                </select>
+            </td>
+            <td>
+                <textarea class="form-control" (input)="onText($event,dt.codact)" aria-label="With textarea"></textarea>
+            </td>
+            <td>
+                <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
+                    [checked]="dt.select" (ng-model)="dt.activo" style="cursor: pointer;">
+            </td>
+        </tr>
+    </tbody>
+</table>
 
-    <div id="div1">
-        <button (click)="onSubmit()" type="button" class="btn btn-success">Traslado</button>
-    </div>
+<div id="div1">
+    <button (click)="onSubmit()" type="button" class="btn btn-success">Traslado</button>
+</div>

@@ -47,14 +47,12 @@
       </td>
       <td>
         <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
-          [checked]="dt.select" (click)="filterName.value=''" (ng-model)="dt.activo" [checked]="dt.checked" style="cursor: pointer;">
+          [checked]="dt.select" (click)="filterName.value" (ng-model)="dt.activo" [checked]="dt.checked" style="cursor: pointer;">
       </td>
     </tr>
   </tbody>
 </table>
-<script>
 
-</script>
 
 <div class="div1">
   <button type="button" (click)="onSubmit()" class="btn btn-success">Guardar</button>
