@@ -16,6 +16,7 @@ import { Conta123 } from '../models/conta123';
 export class Conta19Component implements OnInit {
     filterPost = '';
     public token: any;
+    public longi: any;
     public encargado: any;
     public usuario: any;
     public cedtra: any;
@@ -119,7 +120,10 @@ export class Conta19Component implements OnInit {
             if (response.status != 'error') {
                 this.activos = response;
                 console.log("aaaaaa :)")
-                console.log(this.activos);
+                ////////////////////////////////////////////////////////////////
+                this.longi=this.activos.length;
+                console.log(this.longi);
+                
                 for (let index = 0; index < this.activos.length; index++) {
                     this.tactivos = index + 1;
                 }
