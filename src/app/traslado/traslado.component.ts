@@ -16,6 +16,7 @@ import { Conta65 } from '../models/conta65';
 
 @Component({ selector: 'app-traslado', templateUrl: './traslado.component.html', styleUrls: ['./traslado.component.css'], providers: [Conta19Service, ReporteService, Gener02Service, TrasladoService] })
 export class TrasladoComponent implements OnInit {
+    filterPost='';
     public token: any;
     public encargado: any;
     public usuario: any;
@@ -42,6 +43,7 @@ export class TrasladoComponent implements OnInit {
     public depdesdes: any;
     public identity: any;
     public documento: any;
+    public searchValue: any;
     constructor(private _conta19Service: Conta19Service, private _router: Router, private _reporteService: ReporteService, private _gener02Service: Gener02Service, private _trasladoService: TrasladoService) {
         this.token = JSON.parse(localStorage.getItem("tokenConsultado3") + '');
         this.identity = JSON.parse(localStorage.getItem("identity") + '');
@@ -51,7 +53,7 @@ export class TrasladoComponent implements OnInit {
         this.encargado = this.token['nombre'];
         this.usuario = this.token['usuario'];
         this.cedtra = this.token['cedtra'];
-
+        this.searchValue=null;
         this.getConta19(this.cedtra);
         this._conta19Service.getDocumentoConta65({}).subscribe(response => {
             this.documento = response;

@@ -60,7 +60,13 @@
 <div>
     <p style="color:#FF0000"><strong>Seleccione los activos a trasladar</strong></p>
 </div>
-
+<form>
+    <div class="form-group">
+      <input type="text" class="form-control" #filterName name="filterName" name="filterPost" placeholder="Buscar..."
+        [value]="searchValue" [(ngModel)]="filterPost">
+    </div>
+  </form>
+<cdk-virtual-scroll-viewport style="height: 600px" itemSize=100>
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -74,7 +80,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let dt of activos">
+        <tr *cdkVirtualFor="let dt of activos | filter:filterPost">
             <th scope="row">{{dt.numero}}</th>
             <td>{{dt.codact}}</td>
             <td>{{dt.detalle}}</td>
@@ -100,6 +106,7 @@
         </tr>
     </tbody>
 </table>
+</cdk-virtual-scroll-viewport>
 
 <div id="div1">
     <button (click)="onSubmit()" type="button" class="btn btn-success">Traslado</button>
