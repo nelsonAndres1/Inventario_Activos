@@ -16,6 +16,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // Report viewer
 import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
 
+
 // data-visualization
 import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.bulletgraph.min';
 import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.chart.min';
@@ -24,7 +25,8 @@ import { Opcion2Component } from './opcion2/opcion2.component';
 import { InicioTrasladoComponent } from './inicio-traslado/inicio-traslado.component';
 import { TrasladoComponent } from './traslado/traslado.component';
 import { FilterPipe } from './pipes/filter.pipe';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { FilterPipe } from './pipes/filter.pipe';
     routing,
     FormsModule,
     HttpClientModule,
-    BoldReportViewerModule
+    BoldReportViewerModule,
+    BrowserAnimationsModule,
+    ScrollingModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

@@ -21,12 +21,12 @@
                                     <div class="col-sm-12">
                                         <div class="card card-body mb-1" *ngFor="let result of data"
                                             (click)="getDatos02(result)" style="cursor: pointer;">
-                                            <h6> Nombre: {{result.nombre}} </h6>
+                                            <h4> Nombre: {{result.nombre}} </h4>
                                             <small class="text-primary">
-                                                Cedula: {{result.cedtra}}
+                                                <h4> Cedula: {{result.cedtra}}</h4>
                                             </small>
                                             <small class="text-primary">
-                                                Usuario: {{result.usuario}}
+                                                <h4> Usuario: {{result.usuario}}</h4>
                                             </small>
                                         </div>
                                     </div>
@@ -38,7 +38,8 @@
                                 <div class="float-right">
                                     <div class="row mt-4">
                                         <div class="col-sm-10 pb-3">
-                                            <input class="btn btn-success" type="button" (click)="Consultar()" value="Continuar">
+                                            <input class="btn btn-success" type="button" (click)="Consultar()"
+                                                value="Continuar">
                                         </div>
                                     </div>
                                 </div>

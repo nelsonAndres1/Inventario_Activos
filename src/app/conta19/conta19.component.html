@@ -3,56 +3,62 @@
 
 <div class="card-body">
   <div class="card-text"></div>
-  <h6>Encargado: {{encargado}}</h6>
-  <h6>Codigo: {{usuario}}</h6>
-  <h6>Numero de Activos: {{tactivos}}</h6>
+  <h4>Encargado: {{encargado}}</h4>
+  <h4>Codigo: {{usuario}}</h4>
+  <h4>Numero de Activos: {{tactivos}}</h4>
 </div>
 <form>
   <div class="form-group">
-    <input type="text" class="form-control"  #filterName name="filterName" name="filterPost" placeholder="Buscar..." [value]="searchValue"
-      [(ngModel)]="filterPost">
+    <input type="text" class="form-control" #filterName name="filterName" name="filterPost" placeholder="Buscar..."
+      [value]="searchValue" [(ngModel)]="filterPost">
   </div>
 </form>
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Codigo</th>
-      <th scope="col">Activo</th>
-      <th scope="col">Ubicación</th>
-      <th scope="col">Estado</th>
-      <th scope="col">Detalle</th>
-      <th scope="col">Seleccione</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let dt of activos | filter:filterPost">
-      <th scope="row">{{dt.numero}}</th>
-      <td>{{dt.codact}}</td>
-      <td>{{dt.detalle}}</td>
-      <td>
-        {{dt.dependencia}}
-      </td>
-      <td>
-        <select id="test" (change)="onCambio($event,dt.codact)" class="form-select" on
-          aria-label="Default select example">
-          <option value="B">Bueno</option>
-          <option value="R">Regular</option>
-          <option value="D">Dañado</option>
-          <option value="O">Obsoleto</option>
-        </select>
-      </td>
-      <td>
-        <textarea class="form-control" (input)="onText($event,dt.codact)" aria-label="With textarea"></textarea>
-      </td>
-      <td>
-        <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
-          [checked]="dt.select" (click)="filterName.value" (ng-model)="dt.activo" [checked]="dt.checked" style="cursor: pointer;">
-      </td>
-    </tr>
-  </tbody>
-</table>
+<cdk-virtual-scroll-viewport style="height: 600px" itemSize="90">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Codigo</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Ubicación</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Detalle</th>
+        <th scope="col">Seleccione</th>
+      </tr>
+    </thead>
 
+    <tbody>
+
+      <tr *cdkVirtualFor="let dt of activos | filter:filterPost">
+        <th scope="row">{{dt.numero}}</th>
+        <td>{{dt.codact}}</td>
+        <td>{{dt.detalle}}</td>
+        <td>
+          {{dt.dependencia}}
+        </td>
+        <td>
+          <select id="test" (change)="onCambio($event,dt.codact)" class="form-select" on
+            aria-label="Default select example">
+            <option value="B">Bueno</option>
+            <option value="R">Regular</option>
+            <option value="D">Dañado</option>
+            <option value="O">Obsoleto</option>
+          </select>
+        </td>
+        <td>
+          <textarea class="form-control" (input)="onText($event,dt.codact)" aria-label="With textarea"></textarea>
+        </td>
+        <td>
+          <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
+            [checked]="dt.select" (click)="filterName.value" (ng-model)="dt.activo" [checked]="dt.checked"
+            style="cursor: pointer;">
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+</cdk-virtual-scroll-viewport>
 
 <div class="div1">
   <button type="button" (click)="onSubmit()" class="btn btn-success">Guardar</button>
