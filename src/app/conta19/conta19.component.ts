@@ -121,9 +121,14 @@ export class Conta19Component implements OnInit {
                 this.activos = response;
                 console.log("aaaaaa :)")
                 ////////////////////////////////////////////////////////////////
-                this.longi=this.activos.length;
-                console.log(this.longi);
+                //this.longi=this.activos.length;
                 
+                if(this.activos.length>1000){
+                    this.longi=1000
+                }else{
+                    this.longi=this.activos.length;
+                }
+                console.log(this.longi);
                 for (let index = 0; index < this.activos.length; index++) {
                     this.tactivos = index + 1;
                 }
