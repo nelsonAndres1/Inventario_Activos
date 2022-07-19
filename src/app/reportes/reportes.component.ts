@@ -100,6 +100,7 @@ export class ReportesComponent implements OnInit {
 
             const data = this.myData.nativeElement;
             const doc = new jsPDF('p', 'pt', 'a4');
+           
             html2canvas(data).then(canvas => {
                 const data = this.myData.nativeElement;
 
