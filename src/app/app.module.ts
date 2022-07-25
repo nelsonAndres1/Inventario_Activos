@@ -13,6 +13,7 @@ import { SobranteConta19Component } from './sobrante-conta19/sobrante-conta19.co
 import { ReportesComponent } from './reportes/reportes.component';
 import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 // Report viewer
 import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
 
@@ -51,7 +52,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     HttpClientModule,
     BoldReportViewerModule,
     BrowserAnimationsModule,
-    ScrollingModule
+    ScrollingModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }
