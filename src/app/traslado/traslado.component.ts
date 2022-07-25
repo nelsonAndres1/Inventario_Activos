@@ -310,6 +310,15 @@ export class TrasladoComponent implements OnInit {
                 console.log("respuesta de ubides");
                 console.log(response);
                 this.ubicaciones=response;
+                console.log(this.ubicaciones);
+                if(this.ubicaciones.length>0){
+
+                }else{
+                   this.ubicaciones=[{codubi: '1'}]; 
+                }
+            },
+            error=>{
+                this.ubicaciones=[{codubi: '1'}];
             }
         )
 
