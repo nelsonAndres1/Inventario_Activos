@@ -28,6 +28,7 @@ import { TrasladoComponent } from './traslado/traslado.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import { FormularioComponent } from './formulario/formulario.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     Opcion2Component,
     InicioTrasladoComponent,
     TrasladoComponent,
-    FilterPipe
+    FilterPipe,
+    FormularioComponent
   ],
   imports: [
     BrowserModule,
