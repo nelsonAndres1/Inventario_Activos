@@ -1,53 +1,77 @@
 <meta charset="utf-8">
 <div class="container py-3">
     <div class="row">
-        <div class="col-md-12">
-            <h2 class="text-center mb-3">Formulario Actualización de información</h2>
-            <hr class="mb-4">
-            <div class="row justify-content-center">
-                <div class="col-md-10 offset-md-1">
-                    <span class="anchor" id="formComplex"></span>
-                    <div class="card card-outline-secondary">
-                        <div class="card-header">
-                            <h3 class="mb-0">Ingrese la información requerida</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mt-12">
-                                <!-- primer nombre -->
-                                <div class="col-sm-6 pb-3">
-                                    <label for="exampleAccount"><b>Primer Nombre *</b></label>
-                                    <input class="form-control" id="exampleAccount"
-                                        placeholder="Primer Nombre" type="text" required>
+        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+            <h2 class="text-center mb-3">Formulario Actualización de Información</h2>
+            <div class="col-sm-6 pb-3">
+                <label for="exampleAccount"><b>Busqueda de Usuario</b></label>
+                <input class="form-control" id="exampleAccount" placeholder="Nombre o Cedula" type="text" required>
+            </div>
+            <div class="col-md-12">
+
+                <hr class="mb-4">
+
+                <div class="row justify-content-center">
+                    <div class="col-md-10 offset-md-1">
+                        <span class="anchor" id="formComplex"></span>
+                        <div class="card card-outline-secondary">
+                            <div class="card-header">
+                                <h3 class="mb-0">Ingrese la información requerida</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mt-12">
+                                    <!-- primer nombre -->
+                                    <div class="col-sm-6 pb-3 form-group">
+                                        <label for="exampleAccount" for="prinom"><b>Primer Nombre *</b></label>
+                                        <input class="form-control" id="exampleAccount" name="prinom"
+                                            placeholder="Primer Nombre" type="text" #prinom="ngModel"
+                                            [(ngModel)]="formulario.prinom" required pattern="[a-zA-Z]+">
+                                        <small *ngIf="!prinom.valid && prinom.touched" class="invalid-feedback d-block">
+                                            El campo no es valido!
+                                        </small>
+                                    </div>
+                                    <!-- Segundo Nombre -->
+                                    <div class="col-sm-6 pb-3 form-group">
+                                        <label for="exampleAccount" for="segnom"><b>Segundo Nombre </b></label>
+                                        <input class="form-control" id="exampleAccount" name="segnom"
+                                            placeholder="Segundo Nombre" type="text" #segnom="ngModel"
+                                            [(ngModel)]="formulario.segnom" required pattern="[a-zA-Z]+">
+                                        <small *ngIf="!segnom.valid && segnom.touched" class="invalid-feedback d-block">
+                                            El campo no es valido!
+                                        </small>
+                                    </div>
                                 </div>
-                                <!-- Segundo Nombre -->
-                                <div class="col-sm-6 pb-3">
-                                    <label for="exampleAccount"><b>Segundo Nombre </b></label>
-                                    <input class="form-control" id="exampleAccount"
-                                        placeholder="Segundo Nombre" type="text">
+                                <!-- Apellidos -->
+                                <div class="row mt-12">
+                                    <!-- primer apellido -->
+                                    <div class="col-sm-6 pb-3 form-group">
+                                        <label for="exampleAccount" for="priape"><b>Primer Apellido *</b></label>
+                                        <input class="form-control" id="exampleAccount" name="priape"
+                                            placeholder="Primer Nombre" type="text" #priape="ngModel"
+                                            [(ngModel)]="formulario.priape" required pattern="[a-zA-Z]+">
+                                        <small *ngIf="!priape.valid && priape.touched" class="invalid-feedback d-block">
+                                            El campo no es valido!
+                                        </small>
+                                    </div>
+                                    <!-- Segundo apellido -->
+                                    <div class="col-sm-6 pb-3 form-group">
+                                        <label for="exampleAccount" for="segape"><b>Segundo Apellido </b></label>
+                                        <input class="form-control" id="exampleAccount" name="segape"
+                                            placeholder="Segundo Nombre" type="text" #segape="ngModel"
+                                            [(ngModel)]="formulario.segape" required pattern="[a-zA-Z]+">
+                                        <small *ngIf="!segape.valid && segape.touched" class="invalid-feedback d-block">
+                                            El campos no es valido!
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- Apellidos -->
-                            <div class="row mt-12">
-                                <!-- primer apellido -->
-                                <div class="col-sm-6 pb-3">
-                                    <label for="exampleAccount"><b>Primer Apellido *</b></label>
-                                    <input class="form-control" id="exampleAccount"
-                                        placeholder="Primer Nombre" type="text" required>
-                                </div>
-                                <!-- Segundo apellido -->
-                                <div class="col-sm-6 pb-3">
-                                    <label for="exampleAccount"><b>Segundo Apellido </b></label>
-                                    <input class="form-control" id="exampleAccount"
-                                        placeholder="Segundo Nombre" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row mt-4">
-                                <div class="float-right">
-                                    <div class="row mt-4">
-                                        <div class="col-sm-10 pb-3">
-                                            <input class="btn btn-success" type="button" value="Continuar">
+                            <div class="card-footer">
+                                <div class="row mt-4">
+                                    <div class="float-right">
+                                        <div class="row mt-4">
+                                            <div class="col-sm-10 pb-3">
+                                                <input class="btn btn-success" type="submit" value="Enviar Información" [disabled]="registerForm.invalid">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -56,6 +80,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
