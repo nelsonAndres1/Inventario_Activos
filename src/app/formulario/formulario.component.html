@@ -2,17 +2,19 @@
 <div class="container py-3">
     <div class="row">
         <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+            <ul class="social-icons">
+                <img src="./assets/logo.png">
+            </ul>
             <h1 class="text-center mb-3">Formulario Actualización de Información</h1>
-
             <div class="col-md-12">
 
                 <hr class="mb-4">
-               
 
                 <div class="row justify-content-center">
                     <div class="col-sm-6 pb-3">
                         <label for="exampleAccount"><b>Busqueda de Usuario</b></label>
-                        <input class="form-control" id="exampleAccount" placeholder="Nombre o Cedula" type="text" required>
+                        <input class="form-control" id="exampleAccount" placeholder="Nombre o Cedula" type="text"
+                            required>
                     </div>
                     <div class="col-md-10 offset-md-1">
                         <span class="anchor" id="formComplex"></span>
