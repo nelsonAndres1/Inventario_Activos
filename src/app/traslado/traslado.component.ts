@@ -536,15 +536,35 @@ export class TrasladoComponent implements OnInit {
 
 
     onChange($event, result: any) {
+        
+        /* this.clearSearch() */
+        console.log(result);
+        this.searchValue = '';
+        
+        if(result.checked==true){
+            result.checked = false;
+        }
+        result.checked = true;
+        console.log(result);
+        var select = document.getElementById("estado")
+
+        console.log("selected");
+        console.log(select);
+        console.log("activos");
+        console.log(this.activos);
         var bandera = false;
+
         const navigationExtras: NavigationExtras = {
             queryParams: {
+
                 result: JSON.stringify(result)
             }
         }
+        this.searchValue = '';
         const isChecked = $event.target.checked;
 
         if (isChecked == true) {
+            this.searchValue = '';
             if (this.array.length > 0) {
                 for (let index = 0; index <= this.array.length; index++) {
                     if (this.array[index] == result) {
@@ -556,18 +576,29 @@ export class TrasladoComponent implements OnInit {
                 if (bandera != true) {
 
                     this.array.push(result);
+                    console.log("seleeee");
+                    console.log(this.array);
+                    this.searchValue = '';
 
+                    //this.confirmaciones(this.ao, this.ap);
+                    //aquiiii!!!!!!!!!!!!!!!!!!!!!!
                 }
             } else {
+                result.checked = false;
                 this.array.push(result);
+                console.log("seleeee");
+                this.searchValue = '';
 
+                //this.confirmaciones(this.ao, this.ap);
             }
         } else {
             for (let index = 0; index <= this.array.length; index++) {
                 if (this.array[index] == result) {
+                    result.checked = false;
                     this.array.splice(index, 1);
                     this.ao.splice(index, 1);
                     this.ap.splice(index, 1);
+                    this.searchValue = '';
                 }
             }
         }
@@ -575,6 +606,8 @@ export class TrasladoComponent implements OnInit {
         console.log(this.ao); // estado
         console.log(this.ap); // detalle
         console.log(this.array); // activos
+        delay(3000);
+        this.searchValue = '';
     }
 
     guardarFaltantes(listaF: any) {

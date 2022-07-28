@@ -25,10 +25,10 @@
                                 style="cursor: pointer;">
                                 <h4>Nombre: {{result.nombre}} </h4>
                                 <small class="text-primary">
-                                  <h4>Cedula: {{result.cedtra}}</h4>
+                                    <h4>Cedula: {{result.cedtra}}</h4>
                                 </small>
                                 <small class="text-primary">
-                                  <h4>Usuario: {{result.usuario}}</h4>
+                                    <h4>Usuario: {{result.usuario}}</h4>
                                 </small>
                             </div>
                         </div>
@@ -62,50 +62,58 @@
 </div>
 <form>
     <div class="form-group">
-      <input type="text" class="form-control" #filterName name="filterName" name="filterPost" placeholder="Buscar..."
-        [value]="searchValue" [(ngModel)]="filterPost">
+        <input type="text" class="form-control" #filterName name="filterName" name="filterPost" placeholder="Buscar..."
+            [value]="searchValue" [(ngModel)]="filterPost">
     </div>
-  </form>
+</form>
 <cdk-virtual-scroll-viewport style="height: 600px" itemSize=100>
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Codigo</th>
-            <th scope="col">Activo</th>
-            <th scope="col">Ubicación</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Detalle</th>
-            <th scope="col">Seleccione</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *cdkVirtualFor="let dt of activos | filter:filterPost">
-            <th scope="row">{{dt.numero}}</th>
-            <td>{{dt.codact}}</td>
-            <td>{{dt.detalle}}</td>
-            <td>
-                {{dt.dependencia}}
-            </td>
-            <td>
-                <select id="test" (change)="onCambio($event,dt.codact)" class="form-select" on
-                    aria-label="Default select example">
-                    <option value="B">Bueno</option>
-                    <option value="R">Regular</option>
-                    <option value="D">Dañado</option>
-                    <option value="O">Obsoleto</option>
-                </select>
-            </td>
-            <td>
-                <textarea class="form-control" (input)="onText($event,dt.codact)" aria-label="With textarea"></textarea>
-            </td>
-            <td>
-                <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
-                    [checked]="dt.select" (ng-model)="dt.activo" style="cursor: pointer;">
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Codigo</th>
+                <th scope="col">Activo</th>
+                <th scope="col">Ubicación</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Detalle</th>
+                <th scope="col">Seleccione</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *cdkVirtualFor="let dt of activos | filter:filterPost">
+                <th scope="row">{{dt.numero}}</th>
+                <td>{{dt.codact}}</td>
+                <td>{{dt.detalle}}</td>
+                <td>
+                    {{dt.dependencia}}
+                </td>
+                <td>
+                    <select id="test" (change)="onCambio($event,dt.codact)" class="form-select" on
+                        aria-label="Default select example">
+                        <option value="B">Bueno</option>
+                        <option value="R">Regular</option>
+                        <option value="D">Dañado</option>
+                        <option value="O">Obsoleto</option>
+                    </select>
+                </td>
+                <td>
+                    <textarea class="form-control" (input)="onText($event,dt.codact)"
+                        aria-label="With textarea"></textarea>
+                </td>
+                <td>
+                    <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
+                        [checked]="dt.select" (click)="filterName.value=' '" (ng-model)="dt.activo"
+                        [checked]="dt.checked" style="cursor: pointer;">
+                    <!-- <mat-checkbox class="example-margin" [value]="dt.codact" (change)="onChange($event,dt)"
+                        [checked]="dt.select" (click)="filterName.value=' '" (ng-model)="dt.activo"
+                        [checked]="dt.checked" style="cursor: pointer;">Check me!</mat-checkbox> -->
+                    <!-- <input class="form-check-input" type="checkbox" [value]="dt.codact" (change)="onChange($event,dt)"
+                    [checked]="dt.select" (click)="filterName.value=' '" (ng-model)="dt.activo" [checked]="dt.checked"
+                     style="cursor: pointer;"> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </cdk-virtual-scroll-viewport>
 
 <div id="div1">

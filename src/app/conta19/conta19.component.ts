@@ -335,6 +335,9 @@ export class Conta19Component implements OnInit {
     onChange($event, result: any) {
         this.clearSearch()
         this.searchValue = '';
+        if(result.checked==true){
+            result.checked = false;
+        }
         result.checked = true;
         var select = document.getElementById("estado")
 
@@ -382,6 +385,7 @@ export class Conta19Component implements OnInit {
         } else {
             for (let index = 0; index <= this.array.length; index++) {
                 if (this.array[index] == result) {
+                    result.checked = false;
                     this.array.splice(index, 1);
                     this.ao.splice(index, 1);
                     this.ap.splice(index, 1);
