@@ -14,6 +14,7 @@ import { ReportesComponent } from './reportes/reportes.component';
 import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 // Report viewer
 import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
 

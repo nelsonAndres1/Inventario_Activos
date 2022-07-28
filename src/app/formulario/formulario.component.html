@@ -3,7 +3,8 @@
     <div class="row">
         <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
             <div>
-                <h1 class="text-center mb-3"> <img src="./assets/logo.png"> Formulario Actualización de Información</h1><br>
+                <h1 class="text-center mb-3"> <img src="./assets/logo.png"> Formulario Actualización de Información</h1>
+                <br>
             </div>
             <div class="col-md-12">
 
@@ -38,7 +39,7 @@
                                         <label for="exampleAccount" for="segnom"><b>Segundo Nombre </b></label>
                                         <input class="form-control" id="exampleAccount" name="segnom"
                                             placeholder="Segundo Nombre" type="text" #segnom="ngModel"
-                                            [(ngModel)]="formulario.segnom" required pattern="[a-zA-Z]+">
+                                            [(ngModel)]="formulario.segnom" pattern="[a-zA-Z]+">
                                         <small *ngIf="!segnom.valid && segnom.touched" class="invalid-feedback d-block">
                                             El campo no es valido!
                                         </small>
@@ -61,11 +62,43 @@
                                         <label for="exampleAccount" for="segape"><b>Segundo Apellido </b></label>
                                         <input class="form-control" id="exampleAccount" name="segape"
                                             placeholder="Segundo Nombre" type="text" #segape="ngModel"
-                                            [(ngModel)]="formulario.segape" required pattern="[a-zA-Z]+">
+                                            [(ngModel)]="formulario.segape" pattern="[a-zA-Z]+">
                                         <small *ngIf="!segape.valid && segape.touched" class="invalid-feedback d-block">
                                             El campos no es valido!
                                         </small>
                                     </div>
+                                </div>
+                                <div class="row mt-12">
+                                    <div class="col-sm-4 pb-3 form-group">
+                                        <label for="exampleAccount" for="corele"><b>Correo Electronico *</b></label>
+                                        <input class="form-control" id="exampleAccount" name="corele"
+                                            placeholder="Correo Electronico" type="email" #corele="ngModel"
+                                            [(ngModel)]="formulario.corele" required
+                                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                                        <small *ngIf="!corele.valid && corele.touched" class="invalid-feedback d-block">
+                                            Correo Invalido!
+                                        </small>
+                                    </div>
+                                    <div class="col-sm-4 pb-3 form-group">
+                                        <label for="exampleAccount" for="fecnac"><b>Fecha de Nacimiento *</b></label>
+                                        <input type="date" class="form-control" id="exampleAccount" name="fecnac"
+                                            value=today min="1940-01-01" max="2020-12-31"
+                                            placeholder="Fecha de Nacimiento" #fecnac="ngModel"
+                                            [(ngModel)]="formulario.fecnac" required>
+                                            <small *ngIf="!fecnac.valid && fecnac.touched" class="invalid-feedback d-block">
+                                               Dato Incorrecto!
+                                            </small>
+                                    </div>
+                                    <div class="col-sm-4 pb-3 form-group">
+                                        <label for="exampleAccount" for="celtra"><b>Celular</b></label>
+                                        <input class="form-control" id="exampleAccount" name="celtra"
+                                            placeholder="Celular o Telefono" type="tel" #celtra="ngModel"
+                                            [(ngModel)]="formulario.celtra" required pattern="[0-9]{10}">
+                                            <small *ngIf="!celtra.valid && celtra.touched" class="invalid-feedback d-block">
+                                                Celular o Telefono Invalido!
+                                            </small>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="card-footer">

@@ -8,7 +8,7 @@ import { Formulario } from '../models/formulario';
 export class FormularioComponent implements OnInit {
   public formulario: Formulario;
   constructor() {
-    this.formulario = new Formulario('','','','');
+    this.formulario = new Formulario('','','','','','','');
    }
 
   ngOnInit(): void {
@@ -18,6 +18,8 @@ export class FormularioComponent implements OnInit {
     console.log("aqui!");
     console.log(this.formulario);
     form.reset();
+    
+
   }
 
 }
