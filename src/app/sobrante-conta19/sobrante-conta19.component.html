@@ -24,9 +24,9 @@
                                     <div class="col-sm-12">
                                         <div class="card card-body mb-1" *ngFor="let result of data"
                                             (click)="getActivos(result)" style="cursor: pointer;">
-                                            <h6> Activo: {{result.detalle}} </h6>
+                                            <h4> Activo: {{result.detalle}} </h4>
                                             <small class="text-primary">
-                                                Codigo: {{result.codact}}
+                                               <h4>Codigo: {{result.codact}}</h4>
                                             </small>
                                             <div class="col-sm-12">
                                                 <button type="button" class="btn btn-success">Agregar</button>
@@ -41,6 +41,7 @@
                                             <tr>
                                                 <th scope="col">Codigo</th>
                                                 <th scope="col">Nombre</th>
+                                                <th scope="col">Ubicación</th>
                                                 <th scope="col">Quitar</th>
                                             </tr>
                                         </thead>
@@ -48,6 +49,7 @@
                                             <tr *ngFor="let acs of listaSobrantes">
                                                 <th scope="row">{{acs.codact}}</th>
                                                 <td>{{acs.detalle}}</td>
+                                                <td><a (click)="dependencia()">{{acs.coddep}}</a> </td>
                                                 <td><button type="button" class="btn btn-danger"
                                                         (click)="deleteActivos(acs)">Quitar</button></td>
                                             </tr>
