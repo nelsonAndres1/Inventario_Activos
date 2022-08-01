@@ -130,9 +130,15 @@ export class Conta19Component implements OnInit {
                     this.longi=this.activos.length;
                 }
                 console.log(this.longi);
-                for (let index = 0; index < this.activos.length; index++) {
-                    this.tactivos = index + 1;
+                if(this.activos.length>0){
+                    for (let index = 0; index < this.activos.length; index++) {
+                        this.tactivos = index + 1;
+                    }
+                }else{
+                    this.tactivos=0;
+                    Swal.fire('Error', 'No existen activos registrados!', 'info');
                 }
+
             } else {
                 this.activos = '';
                 Swal.fire('Error', 'No se han encontrado activos', 'info');
