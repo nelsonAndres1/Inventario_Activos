@@ -8,6 +8,7 @@ export class Formulario{
         public corele: string,
         public fecnac: string,
         public celtra: string,
+        public dirtra: string
         ){
     }
 }

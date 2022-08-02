@@ -106,8 +106,12 @@
 
                                     <div class="col-sm-6 pb-3 form-group">
                                         <div class="row">
-                                            <input type="text" class="form-control" id="exampleAccount"
-                                                value={{direccion}} disabled required>
+                                            <input class="form-control" id="exampleAccount" name="dirtra" 
+                                            placeholder="Dirección" type="text" #dirtra="ngModel" [(ngModel)]="formulario.dirtra"
+                                            class="form-control" id="exampleAccount" value={{formulario.dirtra}} disabled required>
+                                            <small *ngIf="!dirtra.valid && dirtra.touched" class="invalid-feedback d-block">
+                                                Campo Incorrecto!
+                                            </small>
                                             <br>
                                         </div>
                                     </div>
@@ -138,154 +142,163 @@
     </div>
 </div>
 
-<div class="container" *ngIf="banDire">
+<div class="container py-3" *ngIf="banDire">
     <div class="row">
-        <div class="modal-content">
-            <div class="row">
+        <div class="col-md-12">
 
-                <div class="card-header">
-                    <h4>Estandar de Dirección</h4>
-                </div>
+            <hr class="mb-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10 offset-md-1">
+                    <span class="anchor" id="formComplex"></span>
+                    <div class="card card-outline-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0">Dirección</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mt-12">
+                                <div class="col-sm-12 pb-3 form-group">
+                                    <span class="anchor" id="formComplex"></span>
 
-                <!-- <div class="col s3 right right-align">
-                        <button (click)="asignarDireccion();" class="tooltipped btn-floating waves-effect waves-light green" data-position="top" data-delay="50" data-tooltip="Asignar direccion"><i class="material-icons">check</i></button>
-                        <button class="tooltipped btn-floating modal-close waves-effect waves-light red" data-position="top" data-delay="50" data-tooltip="Cerrar Modal"><i class="material-icons">close</i></button>
-                    </div> -->
-            </div>
-            <br>
-            <div class="row">
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart1" class="browser-default" [(ngModel)]="dirpart1" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart1 of menum_dirpart1" [value]="mpart1.value">{{mpart1.label}}</option>
-                    </select>
-                </div>
-                <div class="input-field col s1">
-                    <input [(ngModel)]="dirpart2" id="dirpart2" type="text" class="upperCase" maxlength="25"
-                        data-length="25" (blur)="addDireccion()">
-                    <!-- <label for="dirpart2">.</label> -->
-                </div>
-                <div class="col s1">
-                    <!-- <label>.</label> -->
-                    <select id="dirpart3" class="browser-default" [(ngModel)]="dirpart3" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart3 of menum_dirpart3" [value]="mpart3.value">{{mpart3.label}}</option>
-                    </select>
-                </div>
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart4" class="browser-default" [(ngModel)]="dirpart4" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart4 of menum_dirpart4" [value]="mpart4.value">{{mpart4.label}}</option>
-                    </select>
-                </div>
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart5" class="browser-default" [(ngModel)]="dirpart5" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart5 of menum_dirpart5" [value]="mpart5.value">{{mpart5.label}}</option>
-                    </select>
-                </div>
-                <div class="input-field col s1">
-                    <input [(ngModel)]="dirpart6" id="dirpart6" placeholder="No." type="text" OnlyNumber="true"
-                        maxlength="3" data-length="3" (blur)="addDireccion()">
-                </div>
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart7" class="browser-default" [(ngModel)]="dirpart7" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart3 of menum_dirpart3" [value]="mpart3.value">{{mpart3.label}}</option>
-                    </select>
-                </div>
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart8" class="browser-default" [(ngModel)]="dirpart8" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart4 of menum_dirpart4" [value]="mpart4.value">{{mpart4.label}}</option>
-                    </select>
-                </div>
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart9" class="browser-default" [(ngModel)]="dirpart9" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart5 of menum_dirpart5" [value]="mpart5.value">{{mpart5.label}}</option>
-                    </select>
-                </div>
-                <div class="input-field col s1">
-                    <input [(ngModel)]="dirpart10" id="dirpart10" type="text" class="upperCase" maxlength="15"
-                        data-length="15" (blur)="addDireccion()">
-                    <!-- <label for="dirpart10"></label> -->
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart11" class="browser-default" [(ngModel)]="dirpart11" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart11 of menum_dirpart11" [value]="mpart11.value">{{mpart11.label}}
-                        </option>
-                    </select>
-                </div>
-                <div class="input-field col s2">
-                    <input [(ngModel)]="dirpart12" id="dirpart12" type="text" class="upperCase" maxlength="3"
-                        data-length="3" (blur)="addDireccion()">
-                    <label for="dirpart12">.</label>
-                </div>
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart13" class="browser-default" [(ngModel)]="dirpart13" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart13 of menum_dirpart13" [value]="mpart13.value">{{mpart13.label}}
-                        </option>
-                    </select>
-                </div>
-                <div class="input-field col s2">
-                    <input [(ngModel)]="dirpart14" id="dirpart14" type="text" class="upperCase" maxlength="3"
-                        data-length="3" (blur)="addDireccion()">
-                    <label for="dirpart14">.</label>
-                </div>
-                <div class="col s1">
-                    <!--             <label>.</label> -->
-                    <select id="dirpart15" class="browser-default" [(ngModel)]="dirpart15" (blur)="addDireccion()">
-                        <option value='' selected></option>
-                        <option *ngFor="let mpart15 of menum_dirpart15" [value]="mpart15.value">{{mpart15.label}}
-                        </option>
-                    </select>
-                </div>
-                <div class="input-field col s3">
-                    <input [(ngModel)]="dirpart16" id="dirpart16" type="text" class="upperCase" maxlength="60"
-                        data-length="60" (blur)="addDireccion()">
-                    <!-- <label for="dirpart16">.</label> -->
-                </div>
-                <div class="col s2"></div>
-            </div>
-            <br>
-            <hr><br>
-            <div class="row">
-                <div class="col s1">
-                    <b><span style="text-align: left; font-size: 18px;">Direccion:</span></b>
-                </div>
-                <div class="col s11" style="background-color:lightgray; font-size: 18px; color: red;"
-                    id="div_direccion">
-                </div>
-                <br>
-            </div>
-        </div>
-    </div>
-    <div class="card-footer">
-        <div class="row mt-6">
-            <div class="float-right">
-                <div class="row mt-4">
-                    <div class="col-sm-10 pb-3">
-                        <input class="btn btn-success" type="submit" value="Confirmar Dirección"
-                            (click)="funcionDireccion2()">
+                                    <div class="card-body">
+                                        <div class="row mt-12">
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart1" [(ngModel)]="dirpart1" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart1 of menum_dirpart1"
+                                                        [value]="mpart1.value">{{mpart1.label}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <input [(ngModel)]="dirpart2" id="dirpart2" type="text" maxlength="25"
+                                                    data-length="25" (blur)="addDireccion()">
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart3" [(ngModel)]="dirpart3" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart3 of menum_dirpart3"
+                                                        [value]="mpart3.value">{{mpart3.label}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart4" [(ngModel)]="dirpart4" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart4 of menum_dirpart4"
+                                                        [value]="mpart4.value">{{mpart4.label}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-12">
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart5" [(ngModel)]="dirpart5" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart5 of menum_dirpart5"
+                                                        [value]="mpart5.value">{{mpart5.label}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <input [(ngModel)]="dirpart6" id="dirpart6" placeholder="No."
+                                                    type="text" OnlyNumber="true" maxlength="3" data-length="3"
+                                                    (blur)="addDireccion()">
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart7" [(ngModel)]="dirpart7" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart3 of menum_dirpart3"
+                                                        [value]="mpart3.value">{{mpart3.label}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart8" [(ngModel)]="dirpart8" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart4 of menum_dirpart4"
+                                                        [value]="mpart4.value">{{mpart4.label}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-12">
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart9" [(ngModel)]="dirpart9" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart5 of menum_dirpart5"
+                                                        [value]="mpart5.value">{{mpart5.label}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <input [(ngModel)]="dirpart10" id="dirpart10" type="text" maxlength="15"
+                                                    data-length="15" (blur)="addDireccion()">
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart11" [(ngModel)]="dirpart11" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart11 of menum_dirpart11"
+                                                        [value]="mpart11.value">{{mpart11.label}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <input [(ngModel)]="dirpart12" id="dirpart12" type="text" maxlength="3"
+                                                    data-length="3" (blur)="addDireccion()">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-12">
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart13" [(ngModel)]="dirpart13" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart13 of menum_dirpart13"
+                                                        [value]="mpart13.value">{{mpart13.label}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <input [(ngModel)]="dirpart14" id="dirpart14" type="text" maxlength="3"
+                                                    data-length="3" (blur)="addDireccion()">
+
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <select id="dirpart15" [(ngModel)]="dirpart15" (blur)="addDireccion()">
+                                                    <option value='' selected></option>
+                                                    <option *ngFor="let mpart15 of menum_dirpart15"
+                                                        [value]="mpart15.value">{{mpart15.label}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 pb-3 form-group">
+                                                <input [(ngModel)]="dirpart16" id="dirpart16" type="text" maxlength="60"
+                                                    data-length="60" (blur)="addDireccion()">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <br>
+                                <div class="col s1">
+                                    <b><span style="text-align: left; font-size: 18px;">Direccion:</span></b>
+                                </div>
+                                <div class="col s11" style="background-color:lightgray; font-size: 18px; color: red;"
+                                    id="div_direccion">
+                                </div>
+                                <div class="row mt-6">
+                                    <div class="float-right">
+                                        <div class="row mt-4">
+                                            <div class="col-sm-10 pb-3">
+                                                <input class="btn btn-success" type="submit" value="Confirmar Dirección"
+                                                    (click)="funcionDireccion2()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
+
         </div>
+
+
     </div>
 </div>
-
-<br>
-<br>

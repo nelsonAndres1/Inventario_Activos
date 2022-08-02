@@ -154,7 +154,7 @@ export class FormularioComponent implements OnInit {
 		{ value: "ZN", label: "ZONA" },
 	];
   constructor(private renderer: Renderer2) {
-    this.formulario = new Formulario('','','','','','','');
+    this.formulario = new Formulario('','','','','','','','');
    }
 
   ngOnInit(): void {
@@ -167,7 +167,7 @@ export class FormularioComponent implements OnInit {
 
   funcionDireccion2(){
     this.banDire=false;
-    
+
   }
 
   onSubmit(form){
@@ -195,6 +195,7 @@ export class FormularioComponent implements OnInit {
 		}
 		let html = this.dirpart1 + " " + this.dirpart2 + this.dirpart3 + " " + this.dirpart4 + " " + this.dirpart5 + part1 + this.dirpart6 + this.dirpart7 + " " + this.dirpart8 + " " + this.dirpart9 + part2 + this.dirpart10 + " " + this.dirpart11 + " " + this.dirpart12 + " " + this.dirpart13 + " " + this.dirpart14 + " " + this.dirpart15 + " " + this.dirpart16;
 		$('#div_direccion').html(html);
+    this.formulario.dirtra=html;
     this.direccion=html;
     
 
