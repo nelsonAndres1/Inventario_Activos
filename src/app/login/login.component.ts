@@ -101,28 +101,44 @@ export class LoginComponent implements OnInit {
 
   }
   logout() {
-    this._route.params.subscribe(
-      params => {
-        let logout = +params['sure'];
-        if (logout == 1) {
-          localStorage.removeItem('identity');
-          localStorage.removeItem('token');
-          localStorage.removeItem('tpago');
-          localStorage.removeItem('token1');
-          localStorage.removeItem('tpa');
-          localStorage.removeItem('identity2');
-          localStorage.removeItem('identity1');
-          localStorage.removeItem('permisos');
-          localStorage.removeItem('tokenConsultado3');
 
-          this.identity = '';
-          this.token = null;
-          if (this.identity == '') {
-            this._router.navigate(['login']);
+    Swal.fire({
+      title: 'Salida',
+      text: '¿Estas seguro de salir?',
+      imageUrl: './assets/logo2.jpg',
+      imageAlt: 'Custom image',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this._route.params.subscribe(
+          params => {
+            let logout = +params['sure'];
+            if (logout == 1) {
+              localStorage.removeItem('identity');
+              localStorage.removeItem('token');
+              localStorage.removeItem('tpago');
+              localStorage.removeItem('token1');
+              localStorage.removeItem('tpa');
+              localStorage.removeItem('identity2');
+              localStorage.removeItem('identity1');
+              localStorage.removeItem('permisos');
+              localStorage.removeItem('tokenConsultado3');
+
+              this.identity = '';
+              this.token = null;
+              if (this.identity == '') {
+                this._router.navigate(['login']);
+              }
+            }
           }
-        }
+        );
       }
-    );
+    });
+
 
   }
 
