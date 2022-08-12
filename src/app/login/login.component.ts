@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
 
 
               Swal.fire({
-                title: 'Bienvenido!',
+                title: 'Bienvenido '+response.name+' !',
                 text: 'Inventario de Activos Comfamiliar de Nariño',
                 imageUrl: './assets/logo2.jpg',
                 imageAlt: 'Custom image',
