@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Gener02 } from '../models/gener02';
 import { Gener02Service } from '../services/gener02.service';
-import { Router, ActivatedRoute, Params, NavigationExtras} from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationExtras } from '@angular/router';
 import Swal from 'sweetalert2';
 
 
@@ -17,21 +17,21 @@ export class LoginComponent implements OnInit {
   public token: any;
   public identity: any;
   public v: any = true;
-  public arrayN:any = [];
+  public arrayN: any = [];
 
 
   constructor(
     private _gener02Service: Gener02Service,
     private _router: Router,
     private _route: ActivatedRoute
-    ) {
-      this.gener02 = new Gener02('', '','');
-     }
+  ) {
+    this.gener02 = new Gener02('', '', '');
+  }
 
   ngOnInit(): void {
   }
-  olvidoC(){
-    Swal.fire('¿Olvido la Contraseña?', 'Por favor comunicarse con la oficina de Sistemas e Informatica.','question');
+  olvidoC() {
+    Swal.fire('¿Olvido la Contraseña?', 'Por favor comunicarse con la oficina de Sistemas e Informatica.', 'question');
   }
   onSubmit(form: any) {
     var permisos;
@@ -44,17 +44,38 @@ export class LoginComponent implements OnInit {
           //objeto usuario identificado
           this._gener02Service.signup(this.gener02, this.v).subscribe(
             response => {
-              this.identity = response;
 
-              this.token
-              this.identity;
-
-              localStorage.setItem('token',this.token);
-              localStorage.setItem('identity', JSON.stringify(this.identity));
               //this.permisos();
-              
+
               //Redirección a principal
-              this._router.navigate(['principal']);
+
+
+              Swal.fire({
+                title: 'Bienvenido!',
+                text: 'Inventario de Activos Comfamiliar de Nariño',
+                imageUrl: './assets/logo2.jpg',
+                imageAlt: 'Custom image',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+
+                  this.identity = response;
+
+                  this.token
+                  this.identity;
+
+                  localStorage.setItem('token', this.token);
+                  localStorage.setItem('identity', JSON.stringify(this.identity));
+
+                  this._router.navigate(['principal']);
+                }
+              });
+
+
+
 
             },
             error => {
@@ -79,11 +100,11 @@ export class LoginComponent implements OnInit {
     );
 
   }
-  logout(){
+  logout() {
     this._route.params.subscribe(
-      params=>{
+      params => {
         let logout = +params['sure'];
-        if(logout==1){
+        if (logout == 1) {
           localStorage.removeItem('identity');
           localStorage.removeItem('token');
           localStorage.removeItem('tpago');
@@ -92,10 +113,11 @@ export class LoginComponent implements OnInit {
           localStorage.removeItem('identity2');
           localStorage.removeItem('identity1');
           localStorage.removeItem('permisos');
+          localStorage.removeItem('tokenConsultado3');
 
           this.identity = '';
           this.token = null;
-          if(this.identity==''){
+          if (this.identity == '') {
             this._router.navigate(['login']);
           }
         }
