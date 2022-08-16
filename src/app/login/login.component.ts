@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Gener02 } from '../models/gener02';
 import { Gener02Service } from '../services/gener02.service';
+import { Nomin02 } from '../models/nomin02';
 import { Router, ActivatedRoute, Params, NavigationExtras } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   public identity: any;
   public v: any = true;
   public arrayN: any = [];
+  public bandera: any;
 
 
   constructor(
@@ -33,8 +35,14 @@ export class LoginComponent implements OnInit {
   olvidoC() {
     Swal.fire('¿Olvido la Contraseña?', 'Por favor comunicarse con la oficina de Sistemas e Informatica.', 'question');
   }
+
+  permisos($docemp) {
+   
+
+  }
+
   onSubmit(form: any) {
-    var permisos;
+    let permisos;
     this._gener02Service.signup(this.gener02).subscribe(
       response => {
         //devuelve el token 
@@ -45,38 +53,46 @@ export class LoginComponent implements OnInit {
           this._gener02Service.signup(this.gener02, this.v).subscribe(
             response => {
 
-              //this.permisos();
 
-              //Redirección a principal
-
-
-              Swal.fire({
-                title: 'Bienvenido '+response.name+' !',
-                text: 'Inventario de Activos Comfamiliar de Nariño',
-                imageUrl: './assets/logo2.jpg',
-                imageAlt: 'Custom image',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ok!'
-              }).then((result) => {
-                if (result.isConfirmed) {
-
-                  this.identity = response;
-
-                  this.token
-                  this.identity;
-
-                  localStorage.setItem('token', this.token);
-                  localStorage.setItem('identity', JSON.stringify(this.identity));
-
-                  this._router.navigate(['principal']);
+              this._gener02Service.permisos(new Nomin02(response.cedtra)).subscribe(
+                response2 => {
+                  console.log("respuesta permisos");
+                  console.log(response2[0].coddep, ' - ', '050336');
+                  if (response2[0].coddep == '050306' || response2[0].coddep == '050336') {
+                    
+                    Swal.fire({
+                      title: 'Bienvenido ' + response.name + ' !',
+                      text: 'Inventario de Activos Comfamiliar de Nariño',
+                      imageUrl: './assets/logo2.jpg',
+                      imageAlt: 'Custom image',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Ok!'
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+    
+                        this.identity = response;
+    
+                        this.token
+                        this.identity;
+    
+                        localStorage.setItem('token', this.token);
+                        localStorage.setItem('identity', JSON.stringify(this.identity));
+    
+                        this._router.navigate(['principal']);
+                      }
+                    });
+                  } else {
+                    Swal.fire(
+                      '¡El usuario NO tiene permisos!',
+                      '',
+                      'error'
+                    )
+                  }
                 }
-              });
-
-
-
-
+          
+              );
             },
             error => {
               this.status = 'error';
