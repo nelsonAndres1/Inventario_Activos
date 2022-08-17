@@ -159,14 +159,17 @@ export class FormularioComponent implements OnInit {
 		{ value: "UR", label: "URBANIZACIÓN" },
 		{ value: "ZN", label: "ZONA" },
 	];
+	datoDireccion: any;
 	constructor(private renderer: Renderer2, private _formulario: FormularioService, private route: Router) {
 		this.formulario = new Formulario('', '', '', '', '', '', '', '');
-		this.datos= localStorage.getItem('usuarioConsultado');
-		this.datos.replace(/ /g, "");
-		this.datos=JSON.parse(this.datos+'');
+		this.datos = localStorage.getItem('usuarioConsultado');
+		this.datos = this.datos.replace(/ /g, "");
+		this.datos = JSON.parse(this.datos + '');
 		console.log("datos!");
 		console.log(this.datos);
-		this.formulario=this.datos;
+		this.formulario = this.datos;
+		this.datoDireccion=JSON.parse(localStorage.getItem('usuarioConsultado')+'');
+		this.formulario.diremp=this.datoDireccion.diremp;
 	}
 
 	ngOnInit(): void {
@@ -217,21 +220,21 @@ export class FormularioComponent implements OnInit {
 	getGener02(pclave: any) {
 
 		const keyword = pclave.target.value;
-		if(keyword.length>0){
+		if (keyword.length > 0) {
 			const search = this._formulario.searchGener02(keyword).then(response => {
 				this.data = response;
 				console.log(this.data);
 			})
-		}else{
-			this.bandera=false;
+		} else {
+			this.bandera = false;
 			console.log("aquiiiiiiiiiiiiiiiiiiiiiiii")
 		}
 
 
 	}
-	getDatos(result: any){
+	getDatos(result: any) {
 		console.log(result);
-		this.bandera=true;
+		this.bandera = true;
 	}
 
 }
