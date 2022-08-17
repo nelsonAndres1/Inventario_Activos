@@ -161,7 +161,9 @@ export class FormularioComponent implements OnInit {
 	];
 	constructor(private renderer: Renderer2, private _formulario: FormularioService, private route: Router) {
 		this.formulario = new Formulario('', '', '', '', '', '', '', '');
-		this.datos= JSON.parse(localStorage.getItem('usuarioConsultado')+'');
+		this.datos= localStorage.getItem('usuarioConsultado');
+		this.datos.replace(/ /g, "");
+		this.datos=JSON.parse(this.datos+'');
 		console.log("datos!");
 		console.log(this.datos);
 		this.formulario=this.datos;
@@ -185,6 +187,7 @@ export class FormularioComponent implements OnInit {
 		console.log(this.formulario);
 		localStorage.removeItem('usuarioConsultado');
 		this.route.navigate(['inicio-formulario'])
+
 	}
 
 
