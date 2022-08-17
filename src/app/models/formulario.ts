@@ -1,14 +1,14 @@
 export class Formulario{
    
     constructor(
-        public prinom: string,
+        public nomemp: string,
         public segnom: string,
         public priape: string, 
         public segape: string,
-        public corele: string,
+        public email: string,
         public fecnac: string,
-        public celtra: string,
-        public dirtra: string
+        public telemp: string,
+        public diremp: string
         ){
     }
 }

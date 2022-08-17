@@ -11,6 +11,7 @@ import { Opcion2Component } from "./opcion2/opcion2.component";
 import { InicioTrasladoComponent } from "./inicio-traslado/inicio-traslado.component";
 import { TrasladoComponent } from "./traslado/traslado.component";
 import { FormularioComponent } from "./formulario/formulario.component";
+import { InicioFormularioComponent } from "./inicio-formulario/inicio-formulario.component";
 const appRoutes: Routes = [
     {path: '', component: LoginComponent},
     {path: 'login', component: LoginComponent},
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
     {path: 'opcion2', component: Opcion2Component},
     {path: 'inicio-traslado', component: InicioTrasladoComponent},
     {path: 'traslado', component: TrasladoComponent},
+    {path: 'inicio-formulario', component:InicioFormularioComponent},
     {path: 'formulario', component: FormularioComponent},
     {path: '**', component: ErrorComponent}
 ];

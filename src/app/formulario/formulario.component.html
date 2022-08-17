@@ -6,22 +6,11 @@
                 <h1 class="text-center mb-3"> <img src="./assets/logo.png"> Formulario Actualización de Información</h1>
                 <br>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" >
 
                 <hr class="mb-4">
 
                 <div class="row justify-content-center">
-                    <div class="col-sm-6 pb-3">
-                        <label for="exampleAccount"><b>Busqueda de Usuario</b></label>
-                        <input class="form-control" id="exampleAccount" placeholder="Nombre o Cedula" type="text"
-                            (input)="getGener02($event)" required>
-                        <div class="col-sm-12">
-                            <div class="card card-body mb-1" *ngFor="let result of data" (click)="getDatos(result)">
-                                
-                            </div>
-
-                        </div>
-                    </div>
                     <div class="col-md-10 offset-md-1">
                         <span class="anchor" id="formComplex"></span>
                         <div class="card card-outline-secondary">
@@ -32,11 +21,11 @@
                                 <div class="row mt-12">
                                     <!-- primer nombre -->
                                     <div class="col-sm-6 pb-3 form-group">
-                                        <label for="exampleAccount" for="prinom"><b>Primer Nombre *</b></label>
-                                        <input class="form-control" id="exampleAccount" name="prinom"
-                                            placeholder="Primer Nombre" type="text" #prinom="ngModel"
-                                            [(ngModel)]="formulario.prinom" required pattern="[a-zA-Z]+">
-                                        <small *ngIf="!prinom.valid && prinom.touched" class="invalid-feedback d-block">
+                                        <label for="exampleAccount" for="nomemp"><b>Primer Nombre *</b></label>
+                                        <input class="form-control" id="exampleAccount" name="nomemp"
+                                            placeholder="Primer Nombre" type="text" #nomemp="ngModel"
+                                            [(ngModel)]="formulario.nomemp" required pattern="[a-zA-Z]+">
+                                        <small *ngIf="!nomemp.valid && nomemp.touched" class="invalid-feedback d-block">
                                             El campo no es valido!
                                         </small>
                                     </div>
@@ -76,12 +65,12 @@
                                 </div>
                                 <div class="row mt-12">
                                     <div class="col-sm-4 pb-3 form-group">
-                                        <label for="exampleAccount" for="corele"><b>Correo Electronico *</b></label>
-                                        <input class="form-control" id="exampleAccount" name="corele"
-                                            placeholder="Correo Electronico" type="email" #corele="ngModel"
-                                            [(ngModel)]="formulario.corele" required
+                                        <label for="exampleAccount" for="email"><b>Correo Electronico *</b></label>
+                                        <input class="form-control" id="exampleAccount" name="email"
+                                            placeholder="Correo Electronico" type="email" #email="ngModel"
+                                            [(ngModel)]="formulario.email" required
                                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-                                        <small *ngIf="!corele.valid && corele.touched" class="invalid-feedback d-block">
+                                        <small *ngIf="!email.valid && email.touched" class="invalid-feedback d-block">
                                             Correo Invalido!
                                         </small>
                                     </div>
@@ -96,27 +85,27 @@
                                         </small>
                                     </div>
                                     <div class="col-sm-4 pb-3 form-group">
-                                        <label for="exampleAccount" for="celtra"><b>Celular</b></label>
-                                        <input class="form-control" id="exampleAccount" name="celtra"
-                                            placeholder="Celular o Telefono" type="tel" #celtra="ngModel"
-                                            [(ngModel)]="formulario.celtra" required pattern="[0-9]{10}">
-                                        <small *ngIf="!celtra.valid && celtra.touched" class="invalid-feedback d-block">
+                                        <label for="exampleAccount" for="telemp"><b>Celular</b></label>
+                                        <input class="form-control" id="exampleAccount" name="telemp"
+                                            placeholder="Celular o Telefono" type="tel" #telemp="ngModel"
+                                            [(ngModel)]="formulario.telemp" required pattern="[0-9]{10}">
+                                        <small *ngIf="!telemp.valid && telemp.touched" class="invalid-feedback d-block">
                                             Celular o Telefono Invalido!
                                         </small>
                                     </div>
                                 </div>
                                 <div class="row mt-12">
                                     <div class="col-sm-3 pb-3 form-group">
-                                        <label for="exampleAccount" for="celtra"><b>Dirección*</b></label>
+                                        <label for="exampleAccount" for="diremp"><b>Dirección*</b></label>
                                     </div>
 
                                     <div class="col-sm-6 pb-3 form-group">
                                         <div class="row">
-                                            <input class="form-control" id="exampleAccount" name="dirtra"
-                                                placeholder="Dirección" type="text" #dirtra="ngModel"
-                                                [(ngModel)]="formulario.dirtra" class="form-control" id="exampleAccount"
-                                                value={{formulario.dirtra}} disabled required>
-                                            <small *ngIf="!dirtra.valid && dirtra.touched"
+                                            <input class="form-control" id="exampleAccount" name="diremp"
+                                                placeholder="Dirección" type="text" #diremp="ngModel"
+                                                [(ngModel)]="formulario.diremp" class="form-control" id="exampleAccount"
+                                                value={{formulario.diremp}} disabled required>
+                                            <small *ngIf="!diremp.valid && diremp.touched"
                                                 class="invalid-feedback d-block">
                                                 Campo Incorrecto!
                                             </small>

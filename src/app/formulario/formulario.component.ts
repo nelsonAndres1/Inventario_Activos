@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Formulario } from '../models/formulario';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { FormularioService } from '../services/formulario.service';
+import { Router } from '@angular/router';
 @Component({
 	selector: 'app-formulario',
 	templateUrl: './formulario.component.html',
@@ -13,7 +14,9 @@ export class FormularioComponent implements OnInit {
 	public forma!: FormGroup;
 	public banDire: any = false;
 	public direccion: any;
+	datos: any;
 	data: any;
+	bandera: any = false;
 	dirpart1: string = "";
 	dirpart2: string = "";
 	dirpart3: string = "";
@@ -156,8 +159,12 @@ export class FormularioComponent implements OnInit {
 		{ value: "UR", label: "URBANIZACIÓN" },
 		{ value: "ZN", label: "ZONA" },
 	];
-	constructor(private renderer: Renderer2, private _formulario: FormularioService) {
+	constructor(private renderer: Renderer2, private _formulario: FormularioService, private route: Router) {
 		this.formulario = new Formulario('', '', '', '', '', '', '', '');
+		this.datos= JSON.parse(localStorage.getItem('usuarioConsultado')+'');
+		console.log("datos!");
+		console.log(this.datos);
+		this.formulario=this.datos;
 	}
 
 	ngOnInit(): void {
@@ -176,9 +183,8 @@ export class FormularioComponent implements OnInit {
 	onSubmit(form) {
 		console.log("aqui!");
 		console.log(this.formulario);
-		form.reset();
-
-
+		localStorage.removeItem('usuarioConsultado');
+		this.route.navigate(['inicio-formulario'])
 	}
 
 
@@ -200,21 +206,29 @@ export class FormularioComponent implements OnInit {
 		}
 		let html = this.dirpart1 + " " + this.dirpart2 + this.dirpart3 + " " + this.dirpart4 + " " + this.dirpart5 + part1 + this.dirpart6 + this.dirpart7 + " " + this.dirpart8 + " " + this.dirpart9 + part2 + this.dirpart10 + " " + this.dirpart11 + " " + this.dirpart12 + " " + this.dirpart13 + " " + this.dirpart14 + " " + this.dirpart15 + " " + this.dirpart16;
 		$('#div_direccion').html(html);
-		this.formulario.dirtra = html;
+		this.formulario.diremp = html;
 		this.direccion = html;
 
 
 	}
 	getGener02(pclave: any) {
+
 		const keyword = pclave.target.value;
-		const search = this._formulario.searchGener02(keyword).then(response => {
-			this.data = response;
-			console.log(this.data);
-		})
+		if(keyword.length>0){
+			const search = this._formulario.searchGener02(keyword).then(response => {
+				this.data = response;
+				console.log(this.data);
+			})
+		}else{
+			this.bandera=false;
+			console.log("aquiiiiiiiiiiiiiiiiiiiiiiii")
+		}
+
 
 	}
 	getDatos(result: any){
 		console.log(result);
+		this.bandera=true;
 	}
 
 }
