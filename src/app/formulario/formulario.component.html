@@ -14,7 +14,13 @@
                     <div class="col-sm-6 pb-3">
                         <label for="exampleAccount"><b>Busqueda de Usuario</b></label>
                         <input class="form-control" id="exampleAccount" placeholder="Nombre o Cedula" type="text"
-                            required>
+                            (input)="getGener02($event)" required>
+                        <div class="col-sm-12">
+                            <div class="card card-body mb-1" *ngFor="let result of data" (click)="getDatos(result)">
+                                
+                            </div>
+
+                        </div>
                     </div>
                     <div class="col-md-10 offset-md-1">
                         <span class="anchor" id="formComplex"></span>
@@ -106,10 +112,12 @@
 
                                     <div class="col-sm-6 pb-3 form-group">
                                         <div class="row">
-                                            <input class="form-control" id="exampleAccount" name="dirtra" 
-                                            placeholder="Dirección" type="text" #dirtra="ngModel" [(ngModel)]="formulario.dirtra"
-                                            class="form-control" id="exampleAccount" value={{formulario.dirtra}} disabled required>
-                                            <small *ngIf="!dirtra.valid && dirtra.touched" class="invalid-feedback d-block">
+                                            <input class="form-control" id="exampleAccount" name="dirtra"
+                                                placeholder="Dirección" type="text" #dirtra="ngModel"
+                                                [(ngModel)]="formulario.dirtra" class="form-control" id="exampleAccount"
+                                                value={{formulario.dirtra}} disabled required>
+                                            <small *ngIf="!dirtra.valid && dirtra.touched"
+                                                class="invalid-feedback d-block">
                                                 Campo Incorrecto!
                                             </small>
                                             <br>

@@ -1,17 +1,20 @@
-import { Component, OnInit, Renderer2  } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Formulario } from '../models/formulario';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormularioService } from '../services/formulario.service';
 @Component({
-  selector: 'app-formulario',
-  templateUrl: './formulario.component.html',
-  styleUrls: ['./formulario.component.css']
+	selector: 'app-formulario',
+	templateUrl: './formulario.component.html',
+	styleUrls: ['./formulario.component.css'],
+	providers: [FormularioService]
 })
 export class FormularioComponent implements OnInit {
-  public formulario: Formulario;
-  public forma!: FormGroup;
-  public banDire :any = false;
-  public direccion : any;
-  dirpart1: string = "";
+	public formulario: Formulario;
+	public forma!: FormGroup;
+	public banDire: any = false;
+	public direccion: any;
+	data: any;
+	dirpart1: string = "";
 	dirpart2: string = "";
 	dirpart3: string = "";
 	dirpart4: string = "";
@@ -27,7 +30,7 @@ export class FormularioComponent implements OnInit {
 	dirpart14: string = "";
 	dirpart15: string = "";
 	dirpart16: string = "";
-  
+
 
 	menum_dirpart1 = [
 		{ value: "AU", label: "AUTOPISTA" },
@@ -153,32 +156,34 @@ export class FormularioComponent implements OnInit {
 		{ value: "UR", label: "URBANIZACIÓN" },
 		{ value: "ZN", label: "ZONA" },
 	];
-  constructor(private renderer: Renderer2) {
-    this.formulario = new Formulario('','','','','','','','');
-   }
+	constructor(private renderer: Renderer2, private _formulario: FormularioService) {
+		this.formulario = new Formulario('', '', '', '', '', '', '', '');
+	}
 
-  ngOnInit(): void {
+	ngOnInit(): void {
 
-  }
+	}
 
-  funcionDireccion(){
-    this.banDire=true;
-  }
+	funcionDireccion() {
+		this.banDire = true;
+	}
 
-  funcionDireccion2(){
-    this.banDire=false;
+	funcionDireccion2() {
+		this.banDire = false;
 
-  }
+	}
 
-  onSubmit(form){
-    console.log("aqui!");
-    console.log(this.formulario);
-    form.reset();
-    
+	onSubmit(form) {
+		console.log("aqui!");
+		console.log(this.formulario);
+		form.reset();
 
-  }
 
-  asignarDireccion() {
+	}
+
+
+
+	asignarDireccion() {
 		let direccion = $("#div_direccion").html();
 		this.forma.controls['direccion'].setValue(direccion);
 		$('#div_direccion').html("");
@@ -186,7 +191,7 @@ export class FormularioComponent implements OnInit {
 		element.focus();
 		/* $(('#modal_direccion') as any).modal('close'); */
 	}
-  addDireccion() {
+	addDireccion() {
 		let part1 = " # ";
 		let part2 = " - ";
 		if (this.dirpart1 == '') {
@@ -195,10 +200,21 @@ export class FormularioComponent implements OnInit {
 		}
 		let html = this.dirpart1 + " " + this.dirpart2 + this.dirpart3 + " " + this.dirpart4 + " " + this.dirpart5 + part1 + this.dirpart6 + this.dirpart7 + " " + this.dirpart8 + " " + this.dirpart9 + part2 + this.dirpart10 + " " + this.dirpart11 + " " + this.dirpart12 + " " + this.dirpart13 + " " + this.dirpart14 + " " + this.dirpart15 + " " + this.dirpart16;
 		$('#div_direccion').html(html);
-    this.formulario.dirtra=html;
-    this.direccion=html;
-    
+		this.formulario.dirtra = html;
+		this.direccion = html;
 
+
+	}
+	getGener02(pclave: any) {
+		const keyword = pclave.target.value;
+		const search = this._formulario.searchGener02(keyword).then(response => {
+			this.data = response;
+			console.log(this.data);
+		})
+
+	}
+	getDatos(result: any){
+		console.log(result);
 	}
 
 }
