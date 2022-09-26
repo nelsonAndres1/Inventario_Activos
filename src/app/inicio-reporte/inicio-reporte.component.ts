@@ -29,7 +29,7 @@ export class InicioReporteComponent implements OnInit {
     getDatos02(result : any) {
         console.log(result);
         this.datoSe = result.nombre;
-        this.datoCe = result.cedtra;
+        this.datoCe = result.docemp;
     }
     capturar() {
         this.verSeleccion = this.opcionSeleccionado;

@@ -20,6 +20,7 @@ export class Conta19Component implements OnInit {
     public longi: any;
     public encargado: any;
     public usuario: any;
+    public usuario_inventario: any;
     public cedtra: any;
     public activos: any;
     public tactivos: any;
@@ -40,10 +41,11 @@ export class Conta19Component implements OnInit {
 
         this.token = JSON.parse(localStorage.getItem("tokenConsultado") + '');
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
+        this.usuario_inventario = JSON.parse(localStorage.getItem('identity') + '');
         console.log("dependencia!!!");
         console.log(this.cedtraConsultado);
         this.encargado = this.token['nombre'];
-        this.usuario = this.token['usuario'];
+        this.usuario = this.usuario_inventario['sub'];
         this.cedtra = this.token['cedtra'];
 
         this.getConta19(this.cedtra);
