@@ -23,7 +23,9 @@ export class Opcion2Component implements OnInit {
     }
     getDatos02(result : any) {
       console.log(result);
-      this.datoSe = result.nombre;
+      this.datoSe = result.nomemp+' '+result.segnom+' '+result.priape+' '+result.segape;
+      console.log("aquiiii!");
+      console.log(this.datoSe);
       this.datoCe = result.docemp;
       this.Consultar();
   }

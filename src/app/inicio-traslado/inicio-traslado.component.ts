@@ -29,7 +29,7 @@ export class InicioTrasladoComponent implements OnInit {
     }
     getDatos02(result : any) {
         console.log(result);
-        this.datoSe = result.nombre;
+        this.datoSe = result.nomemp+' '+result.segnom+' '+result.priape+' '+result.segape;
         this.datoCe = result.docemp;
         this.Consultar();
     }
