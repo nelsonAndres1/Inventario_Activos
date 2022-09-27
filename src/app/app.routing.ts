@@ -12,6 +12,8 @@ import { InicioTrasladoComponent } from "./inicio-traslado/inicio-traslado.compo
 import { TrasladoComponent } from "./traslado/traslado.component";
 import { FormularioComponent } from "./formulario/formulario.component";
 import { InicioFormularioComponent } from "./inicio-formulario/inicio-formulario.component";
+import { PeriodoComponent } from "./periodo/periodo.component";
+import { CerrarPeriodoComponent } from "./cerrar-periodo/cerrar-periodo.component";
 const appRoutes: Routes = [
     {path: '', component: LoginComponent},
     {path: 'login', component: LoginComponent},
@@ -26,6 +28,8 @@ const appRoutes: Routes = [
     {path: 'traslado', component: TrasladoComponent},
     {path: 'inicio-formulario', component:InicioFormularioComponent},
     {path: 'formulario', component: FormularioComponent},
+    {path: 'crear-periodo', component: PeriodoComponent},
+    {path: 'cerrar-periodo', component: CerrarPeriodoComponent},
     {path: '**', component: ErrorComponent}
 ];
 

@@ -191,7 +191,7 @@ export class TrasladoComponent implements OnInit {
                                                 if (response.status != 'error') {
                                                     this._conta19Service.consultConta65(new Conta65(this.array[index].codact, this.cedtra)).subscribe(
                                                         response => {
-                                                            this._trasladoService.saveConta65(new Conta65_copia('01', this.documento, this.identity.sub, this.array[index].codact, response.subcod, this.observacion_traslado, response.areori, response.depori, response.ubiori, response.cedori, aredes, coddeoV, this.ubi_traslado, this.datoCe, response.estado)).subscribe(
+                                                            this._trasladoService.saveConta65(new Conta65_copia('01', this.documento, this.identity.sub, this.array[index].codact, response.subcod, this.observacion_traslado, response.areori, response.depori, response.ubiori, response.cedori, aredes, coddeoV, this.ubi_traslado, this.datoCe, 'A')).subscribe(
                                                                 response => {
                                                                     if (response.status = "success") {
                                                                         Swal.fire('Traslado Realizado!', '', 'success');

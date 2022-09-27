@@ -27,6 +27,7 @@ export class SobranteConta19Component implements OnInit {
     public documento: any;
     public consultado: any;
     public ubicaciones: any;
+    public nombre: any;
     constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router, private _trasladoService: TrasladoService) {
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.consultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
@@ -54,8 +55,18 @@ export class SobranteConta19Component implements OnInit {
     }
 
     ngOnInit(): void { }
-    dependencia(){
+    dependencia() {
         console.log("Holaaaaaa!")
+    }
+
+
+    traernombre(cedtra: any) {
+        this._conta19Service.traer_nombre(new Gener02('', '', cedtra)).subscribe(
+            response => {
+                this.nombre = response
+            }
+        )
+        return this.nombre.nombre;
     }
 
     getConta19(pclave: any) {
@@ -65,6 +76,9 @@ export class SobranteConta19Component implements OnInit {
             console.log(this.data);
         });
     }
+
+
+
 
     conta65(codact: any, cedtra: any, usuario: any, detalle: any, FoS: any) {
         var coddep: any;
@@ -86,7 +100,7 @@ export class SobranteConta19Component implements OnInit {
             console.log(aredes);
             if (FoS == 'F') { } else if (FoS == 'I') { } else {
 
-                this._conta19Service.saveConta65(new Conta65_copia('01', this.documento, usuario, response.codact, response.subcod, detalle, response.areori, response.depori, response.ubiori, response.cedori, aredes, coddeoV, FoS, this.cedtraConsultado.cedtra, response.estado)).subscribe(response2 => {
+                this._conta19Service.saveConta65(new Conta65_copia('01', this.documento, usuario, response.codact, response.subcod, detalle, response.areori, response.depori, response.ubiori, response.cedori, aredes, coddeoV, FoS, this.cedtraConsultado.cedtra, 'A')).subscribe(response2 => {
                     if (response2.status == 'success') {
                         console.log("sipiiii sobrantes");
                         response2.aredes,
@@ -104,7 +118,7 @@ export class SobranteConta19Component implements OnInit {
     }
 
     confirmaciones(ao1: any = [], ap1: any = []) { // Detalle
-        let bandera=false;
+        let bandera = false;
         Swal.fire({
             title: '<strong>Estado <u>activo</u></strong>',
             icon: 'info',
@@ -125,7 +139,7 @@ export class SobranteConta19Component implements OnInit {
                     if (value == '') {
                         Swal.fire('Error!', 'No ha seleccionado el estado!', 'error');
                         delay(1000);
-                        value='B';
+                        value = 'B';
                         ao1.push(value);
                         var bdc = true;
                         ao1.push(value);
@@ -133,7 +147,7 @@ export class SobranteConta19Component implements OnInit {
                             this.confirmacionDetalle(ap1);
                         }
                         //this.confirmaciones(ao1, ap1);
-                        bandera=true;
+                        bandera = true;
                     } else {
                         console.log(value);
                         Swal.fire('Listo!', 'Ha seleccionado el estado: ' + value, 'success');
@@ -142,11 +156,11 @@ export class SobranteConta19Component implements OnInit {
                         if (bdc) {
                             this.confirmacionDetalle(ap1);
                         }
-                        bandera=true;
+                        bandera = true;
                     }
 
                 })
-           
+
             }
 
         });
@@ -166,10 +180,10 @@ export class SobranteConta19Component implements OnInit {
                 if (login.length > 199) {
                     Swal.fire('Error!', 'Observación Incorrecta.', 'error');
                     this.confirmacionDetalle(ap1);
-                }else if(login.length==0){
-                    login='SO';
+                } else if (login.length == 0) {
+                    login = 'SO';
                     ap1.push(login);
-                }else {
+                } else {
                     ap1.push(login);
                     Swal.fire('Listo!', 'Observación Correcta.', 'success');
                 }
@@ -179,27 +193,35 @@ export class SobranteConta19Component implements OnInit {
 
 
     getActivos(result: any) {
-        var bandera = false;
-        if (this.listaSobrantes.length > 0) {
-            for (let index = 0; index < this.listaSobrantes.length; index++) {
-                if (this.listaSobrantes[index]['codact'] == result.codact) {
-                    bandera = true;
+
+        if (result.estado == 'B') {
+
+            Swal.fire('Error!', 'Activo dado de baja!', 'error');
+
+        } else {
+            var bandera = false;
+            if (this.listaSobrantes.length > 0) {
+                for (let index = 0; index < this.listaSobrantes.length; index++) {
+                    if (this.listaSobrantes[index]['codact'] == result.codact) {
+                        bandera = true;
+                    }
                 }
             }
-        }
-        if (bandera) {
-            Swal.fire('Error!', 'Activo ya agregado', 'error');
-        } else {
-            this.confirmaciones(this.ao, this.ap);
+            if (bandera) {
+                Swal.fire('Error!', 'Activo ya agregado', 'error');
+            } else {
+                this.confirmaciones(this.ao, this.ap);
 
-            this.listaSobrantes.push(result);
-            console.log("sobrantes");
-            console.log(this.listaSobrantes);
-            console.log("permisos1");
-            console.log(this.ao);
-            console.log("permisos2");
-            console.log(this.ap);
+                this.listaSobrantes.push(result);
+                console.log("sobrantes");
+                console.log(this.listaSobrantes);
+                console.log("permisos1");
+                console.log(this.ao);
+                console.log("permisos2");
+                console.log(this.ap);
+            }
         }
+
     }
     deleteActivos(result: any) {
         this.listaSobrantes.splice(result, 1);
@@ -260,7 +282,7 @@ export class SobranteConta19Component implements OnInit {
     }
 
     guardarSobrantes(listaS: any) {
-        
+
         let ubi2: any = []
         for (let index = 0; index < this.ubicaciones.length; index++) {
             console.log("respuesta11111111111111111111111111!");
@@ -299,10 +321,10 @@ export class SobranteConta19Component implements OnInit {
                         showLoaderOnConfirm: true,
                         allowOutsideClick: false,
                         preConfirm: (detalle) => {
-                            if(detalle.length>0){
+                            if (detalle.length > 0) {
 
-                            }else{
-                                detalle='SIN DETALLE';
+                            } else {
+                                detalle = 'SIN DETALLE';
                             }
                             for (let index = 0; index < listaS.length; index++) {
                                 console.log("lista: " + index);
@@ -326,8 +348,8 @@ export class SobranteConta19Component implements OnInit {
 
                                         }).then((result) => {
                                             if (result.isConfirmed) {
-                                                
-                                                console.log("Faltantes.... ",this.faltantes);
+
+                                                console.log("Faltantes.... ", this.faltantes);
 
                                                 this.guardarFaltantes(this.faltantes);
                                             }
@@ -341,7 +363,7 @@ export class SobranteConta19Component implements OnInit {
                                             confirmButtonText: 'Ok'
                                         }).then((result) => {
                                             if (result.isConfirmed) {
-                                                console.log("Faltantes.... ",this.faltantes);
+                                                console.log("Faltantes.... ", this.faltantes);
                                                 this.guardarFaltantes(this.faltantes);
                                             }
                                         })

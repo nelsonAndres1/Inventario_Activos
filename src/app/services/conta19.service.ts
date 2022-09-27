@@ -74,6 +74,19 @@ export class Conta19Service {
         return this._http.post(this.url + 'conta19/updateConta19', params, { headers: headers });
     }
 
+
+
+
+    traer_nombre(user: any){
+        let json = JSON.stringify(user);
+        let params = 'json=' + json;
+        console.log("parametros a actualizar");
+        console.log(params);
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url + 'conta19/traer_nombre', params, { headers: headers });
+    }
+
+
     searchConta19(pclave: any) {
         const response = new Promise(
             resolve => {

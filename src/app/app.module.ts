@@ -32,6 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { FormularioComponent } from './formulario/formulario.component';
 import { InicioFormularioComponent } from './inicio-formulario/inicio-formulario.component';
+import { PeriodoComponent } from './periodo/periodo.component';
+import { CerrarPeriodoComponent } from './cerrar-periodo/cerrar-periodo.component';
 
 
 @NgModule({
@@ -49,7 +51,9 @@ import { InicioFormularioComponent } from './inicio-formulario/inicio-formulario
     TrasladoComponent,
     FilterPipe,
     FormularioComponent,
-    InicioFormularioComponent
+    InicioFormularioComponent,
+    PeriodoComponent,
+    CerrarPeriodoComponent
   ],
   imports: [
     BrowserModule,

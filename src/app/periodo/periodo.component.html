@@ -1,0 +1,68 @@
+<meta charset="utf-8">
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center mb-3">Crear Periodo</h2>
+            <hr class="mb-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10 offset-md-1">
+                    <span class="anchor" id="formComplex"></span>
+                    <div class="card card-outline-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0">Ingrese la información requerida</h3>
+                        </div>
+                        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+                            <div class="card-body">
+                                <div class="row mt-12">
+
+                                    <div class="col-sm-6 pb-3">
+                                        <br>
+                                        <br>
+                                        <label for="exampleAccount"><b>Ingrese Periodo</b></label>
+                                        <input class="form-control" id="exampleAccount" placeholder="Periodo"
+                                            maxlength="6" name="periodo" for="periodo" #periodo="ngModel"
+                                            [(ngModel)]="conta148.periodo" required pattern="[0-9]{6}">
+                                            <small *ngIf="!periodo.valid && periodo.touched" class="invalid-feedback d-block">
+                                                El campo no es valido!
+                                            </small>
+                                    </div>
+                                    <div class="col-sm-6 pb-3">
+                                        <div class="col-sm-6 pb-3">
+                                            <label for="exampleAccount"><b>Fecha Inicial</b></label>
+                                            <input type="date" class="form-control" id="exampleAccount" name="fecini"
+                                                for="fecini" #fecini="ngModel" [(ngModel)]="conta148.fecini" value=today
+                                                min="1920-01-01" max="2030-12-31" placeholder="Fecha Inicial" required>
+                                                <small *ngIf="!fecini.valid && fecini.touched" class="invalid-feedback d-block">
+                                                    El campo no es valido!
+                                                </small>
+                                        </div>
+                                        <br>
+                                        <div class="col-sm-6 pb-3">
+                                            <label for="exampleAccount"><b>Fecha Final</b></label>
+                                            <input type="date" class="form-control" id="exampleAccount" name="fecfin"
+                                                for="fecfin" #fecfin="ngModel" [(ngModel)]="conta148.fecfin" value=today
+                                                min="1920-01-01" max="2030-12-31" placeholder="Fecha Final" required>
+                                                <small *ngIf="!fecfin.valid && fecfin.touched" class="invalid-feedback d-block">
+                                                    El campo no es valido!
+                                                </small>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row mt-4">
+                                    <div class="float-right">
+                                        <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary mb-3">Agregar Periodo</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
