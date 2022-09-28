@@ -33,8 +33,10 @@ export class ReporteService{
     
 
     searchGener02(pclave : any){
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        
         const response = new Promise(resolve =>{
-            this._http.get(global.url+`reporte/searchGener02?search=${pclave}`).subscribe(data => {
+            this._http.get(global.url+`reporte/searchGener02?search=${pclave}`,{headers: headers}).subscribe(data => {
                 resolve(data);
 
             }, err => {
