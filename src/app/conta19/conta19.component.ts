@@ -49,13 +49,13 @@ export class Conta19Component implements OnInit {
         this.cedtra = this.token['cedtra'];
 
         this.getConta19(this.cedtra);
-        this.searchValue=null;
+        this.searchValue = null;
 
     }
 
     ngOnInit(): void { }
     clearSearch() {
-        this.searchValue= '';
+        this.searchValue = '';
     }
     onCambio(event, dato: any): void {
         let bandera = false;
@@ -125,19 +125,19 @@ export class Conta19Component implements OnInit {
                 console.log("aaaaaa :)")
                 ////////////////////////////////////////////////////////////////
                 //this.longi=this.activos.length;
-                
-                if(this.activos.length>1000){
-                    this.longi=1000
-                }else{
-                    this.longi=this.activos.length;
+
+                if (this.activos.length > 1000) {
+                    this.longi = 1000
+                } else {
+                    this.longi = this.activos.length;
                 }
                 console.log(this.longi);
-                if(this.activos.length>0){
+                if (this.activos.length > 0) {
                     for (let index = 0; index < this.activos.length; index++) {
                         this.tactivos = index + 1;
                     }
-                }else{
-                    this.tactivos=0;
+                } else {
+                    this.tactivos = 0;
                     Swal.fire('Error', 'No existen activos registrados!', 'info');
                 }
 
@@ -317,6 +317,16 @@ export class Conta19Component implements OnInit {
 
         } else {
 
+
+
+            console.log("Faltantes!")
+            console.log(this.activos);
+            const navigationExtras: NavigationExtras = {
+                queryParams: {
+                    result: JSON.stringify(this.lista_activos),
+                    faltantes: JSON.stringify(this.activos)
+                }
+            }
             let timerInterval
             Swal.fire({
                 title: 'No ha seleccionado ningun activo!',
@@ -324,7 +334,8 @@ export class Conta19Component implements OnInit {
                 didOpen: () => { },
                 willClose: () => {
                     clearInterval(timerInterval);
-                    this._router.navigate(['sobrante-conta19']);
+
+                    this._router.navigate(['sobrante-conta19'], navigationExtras);
                 }
             }).then((result) => { /* Read more about handling dismissals below */
                 if (result.dismiss === Swal.DismissReason.timer) { }
@@ -343,7 +354,7 @@ export class Conta19Component implements OnInit {
     onChange($event, result: any) {
         this.clearSearch()
         this.searchValue = '';
-        if(result.checked==true){
+        if (result.checked == true) {
             result.checked = false;
         }
         result.checked = true;

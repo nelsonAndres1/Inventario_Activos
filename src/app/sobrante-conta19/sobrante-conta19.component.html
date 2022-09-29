@@ -18,7 +18,7 @@
                                 <div class="col-sm-6 pb-3">
                                     <label for="exampleAccount">Busqueda Activo</label>
                                     <input class="form-control" id="exampleAccount"
-                                        placeholder="Codigo o Nombre del Activo" type="text"
+                                        placeholder="Codigo o Nombre del Activo" value={{vacio}} type="text"
                                         (input)="getConta19($event)" required>
 
                                     <div class="col-sm-12">
@@ -35,13 +35,19 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 pb-3">
+                                    <br>
+                                    <select class="form-select" (change)="onDestino($event)" aria-label="Default select example">
+                                        <option selected>Seleccione la Ubicación de Destino</option>
+                                        <option *ngFor="let act of ubicaciones" value="{{act.codubi}}">{{act.codubi}} - {{act.detalle}}</option>
+                                      </select>
+                                    <br>
                                     <label for="exampleAccount">Lista de Activos añadidos (sobrantes)</label>
                                     <table class="table">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Codigo</th>
                                                 <th scope="col">Nombre</th>
-                                                <th scope="col">Ubicación</th>
+                                                <th scope="col">Dependencia</th>
                                                 <th scope="col">Quitar</th>
                                             </tr>
                                         </thead>
