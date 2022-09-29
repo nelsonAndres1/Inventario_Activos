@@ -13,7 +13,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row mt-12">
-                                <div class="col-sm-6 pb-3">
+                                <div class="col-sm-4 pb-3">
                                     <label for="exampleAccount"><b>Busqueda de Usuario</b></label>
                                     <input class="form-control" id="exampleAccount"
                                         placeholder="Cedula o Nombre del Usuario" type="text"
@@ -21,19 +21,31 @@
                                     <div class="col-sm-12">
                                         <div class="card card-body mb-1" *ngFor="let result of data"
                                             (click)="getDatos02(result)" style="cursor: pointer;">
-                                            <h4> Nombre: {{result.nomemp}} {{result.segnom}} {{result.priape}} {{result.segape}}</h4>
+                                            <h4> Nombre: {{result.nomemp}} {{result.segnom}} {{result.priape}}
+                                                {{result.segape}}</h4>
                                             <small class="text-primary">
                                                 <h4> Cedula: {{result.docemp}}</h4>
                                             </small>
-<!--                                             <small class="text-primary">
+                                            <!--                                             <small class="text-primary">
                                                <h4> Usuario: {{result.usuario}}</h4>
                                             </small> -->
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-4 pb-3">
+                                    
+                                    <div class="row mt-4">
+                                        <div class="col-sm-10 pb-3">
+                                            <input class="btn btn-success" type="button" (click)="getGener02_()"
+                                                value="Buscar">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-4 pb-3">
                                     <label for="exampleAccount"><b>Tipo de Reporte</b></label>
-                                    <select class="form-select" [(ngModel)]="opcionSeleccionado" (change)="capturar()" aria-label="Default select example">
+                                    <select class="form-select" [(ngModel)]="opcionSeleccionado" (change)="capturar()"
+                                        aria-label="Default select example">
                                         <option value="1">Historico</option>
                                         <option value="2">Actual</option>
                                     </select>
@@ -41,29 +53,29 @@
                                         <label for="exampleAccount">Seleccione Fecha</label>
                                         <table class="table table-striped">
                                             <thead>
-                                              <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Fecha</th>
-                                              </tr>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Fecha</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                              <tr *ngFor="let dt of fechas">
-                                                <th scope="row">{{dt.numero}}</th>
-                                                <td ><a (click)="consultar(dt.numero)" style="cursor: pointer;">{{dt.fecha}}</a></td>
-                                              </tr>
+                                                <tr *ngFor="let dt of fechas">
+                                                    <th scope="row">{{dt.numero}}</th>
+                                                    <td><a (click)="consultar(dt.numero)"
+                                                            style="cursor: pointer;">{{dt.fecha}}</a></td>
+                                                </tr>
                                             </tbody>
-                                          </table>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
                             <div class="row mt-4">
-                                <div class="float-right">
-                                    <div class="row mt-4">
-                                        <div class="col-sm-10 pb-3">
-                                            <input class="btn btn-success" type="button" (click)="Consultar()" value="Continuar">
-                                        </div>
+                                <div class="row mt-4">
+                                    <div class="col-sm-10 pb-3">
+                                        <input class="btn btn-success" type="button" (click)="Consultar()"
+                                            value="Consultar">
                                     </div>
                                 </div>
                             </div>

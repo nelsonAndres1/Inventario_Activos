@@ -44,6 +44,7 @@ export class TrasladoComponent implements OnInit {
     public identity: any;
     public documento: any;
     public searchValue: any;
+    public palabraclave : any;
     constructor(private _conta19Service: Conta19Service, private _router: Router, private _reporteService: ReporteService, private _gener02Service: Gener02Service, private _trasladoService: TrasladoService) {
         this.token = JSON.parse(localStorage.getItem("tokenConsultado3") + '');
         this.identity = JSON.parse(localStorage.getItem("identity") + '');
@@ -298,12 +299,27 @@ export class TrasladoComponent implements OnInit {
             console.log(this.lista_observacion);
         }
     }
-    getGener02(pclave: any) {
+    getGener02(pclave : any) {
         const keyword = pclave.target.value;
-        const search = this._reporteService.searchGener02(keyword).then(response => {
-            this.data = response;
-        })
+
+        this.palabraclave = pclave.target.value;
+
     }
+
+    getGener02_(){
+        this._reporteService.searchGener02_sub(new Gener02('','',this.palabraclave)).subscribe(
+            response=>{
+
+                if(response.bandera==true){
+                    this.data = [response]; 
+                    console.log(response);
+                }else{
+                    Swal.fire('Usuario No Encontrado', '', 'error')
+                }
+            }
+        )
+    }
+
     getConta116(depdes: any){
         this._trasladoService.getConta116(new Conta19('','','','','','',depdes,'','','','','','')).subscribe(
             response =>{
@@ -330,8 +346,8 @@ export class TrasladoComponent implements OnInit {
         
         console.log("datos");
         console.log(result);
-        this.datoSe = result.nombre;
-        this.datoCe = result.cedtra;
+        this.datoSe = result.nomemp+' '+result.segnom+' '+result.priape+' '+result.segape;
+        this.datoCe = result.docemp;
         this._gener02Service.findGener02(new Gener02('', '', this.datoCe)).subscribe(response => {
             console.log("Reespuesta")
             this.depdesdes = response.coddep;
@@ -339,6 +355,7 @@ export class TrasladoComponent implements OnInit {
             
             console.log(response);
             this.banderaSe=true;
+            
         })
     }
 

@@ -16,15 +16,29 @@ export class InicioReporteComponent implements OnInit {
     verSeleccion : string = '';
     banderaH : any;
     public fechas : any;
+    public palabraclave : any;
 
     constructor(private _reporteService : ReporteService, private router : Router, private _gener02Service : Gener02Service) {}
 
     ngOnInit(): void {}
+    getGener02_(){
+        this._reporteService.searchGener02_sub(new Gener02('','',this.palabraclave)).subscribe(
+            response=>{
+
+                if(response.bandera==true){
+                    this.data = [response]; 
+                    console.log(response);
+                }else{
+                    Swal.fire('Usuario No Encontrado', '', 'error')
+                }
+            }
+        )
+    }
     getGener02(pclave : any) {
         const keyword = pclave.target.value;
-        const search = this._reporteService.searchGener02(keyword).then(response => {
-            this.data = response;
-        })
+
+        this.palabraclave = pclave.target.value;
+        
     }
     getDatos02(result : any) {
         console.log(result);

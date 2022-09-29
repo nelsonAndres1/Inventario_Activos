@@ -31,6 +31,7 @@
                     <tr>
                         <th scope="col">Codigo</th>
                         <th scope="col">Detalle</th>
+                        <th scope="col">Estado Fisico</th>
                         <th scope="col">Dependencia</th>
                         <th scope="col">Fecha/Comp</th>
                     </tr>
@@ -39,6 +40,7 @@
                     <tr *ngFor="let dt of activosI">
                         <td>{{dt.codact}}</td>
                         <td>{{dt.detalle}}</td>
+                        <td>{{estadofisico(dt.estado_fisico)}}</td>
                         <td>{{dt.dependencia}}</td>
                         <td>{{dt.fecha}}</td>
                     </tr>
@@ -55,6 +57,7 @@
                     <tr>
                         <th scope="col">Codigo</th>
                         <th scope="col">Detalle</th>
+                        <th scope="col">Estado Fisico</th>
                         <th scope="col">Dependencia</th>
                         <th scope="col">Fecha/Comp</th>
                     </tr>
@@ -63,6 +66,7 @@
                     <tr *ngFor="let dt of activosS">
                         <td>{{dt.codact}}</td>
                         <td>{{dt.detalle}}</td>
+                        <td>{{estadofisico(dt.estado_fisico)}}</td>
                         <td>{{dt.dependencia}}</td>
                         <td>{{dt.fecha}}</td>
                     </tr>
@@ -80,6 +84,7 @@
                     <tr>
                         <th scope="col">Codigo</th>
                         <th scope="col">Detalle</th>
+                        <th scope="col">Estado Fisico</th>
                         <th scope="col">Dependencia</th>
                         <th scope="col">Fecha/Comp</th>
                     </tr>
@@ -88,6 +93,7 @@
                     <tr *ngFor="let dt of activosF">
                         <td>{{dt.codact}}</td>
                         <td>{{dt.detalle}}</td>
+                        <td>{{estadofisico(dt.estado_fisico)}}</td>
                         <td>{{dt.dependencia}}</td>
                         <td>{{dt.fecha}}</td>
                     </tr>

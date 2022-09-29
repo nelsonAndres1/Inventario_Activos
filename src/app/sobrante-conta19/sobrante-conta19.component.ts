@@ -224,9 +224,20 @@ export class SobranteConta19Component implements OnInit {
 
     }
     deleteActivos(result: any) {
-        this.listaSobrantes.splice(result, 1);
-        this.ao.splice(result, 1);
-        this.ap.splice(result, 1);
+
+        for (let index = 0; index < this.listaSobrantes.length; index++) {
+            if (this.listaSobrantes[index] == result) {
+                console.log("index");
+                console.log(index);
+                this.listaSobrantes.splice(index,1);
+                this.ao.splice(index, 1);
+                this.ap.splice(index, 1);
+            }
+
+        }
+
+
+        
         console.log("sobrantes");
         console.log(this.listaSobrantes);
         console.log("permisos1");

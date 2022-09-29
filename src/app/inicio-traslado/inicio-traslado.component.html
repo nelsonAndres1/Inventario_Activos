@@ -13,7 +13,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row mt-12">
-                                <div class="col-sm-6 pb-3">
+                                <div class="col-sm-5 pb-3">
                                     <label for="exampleAccount"><b>Busqueda de Usuario</b></label>
                                     <input class="form-control" id="exampleAccount"
                                         placeholder="Cedula o Nombre del Usuario" type="text"
@@ -21,17 +21,22 @@
                                     <div class="col-sm-12">
                                         <div class="card card-body mb-1" *ngFor="let result of data"
                                             (click)="getDatos02(result)" style="cursor: pointer;">
-                                            <h4> Nombre: {{result.nomemp}} {{result.segnom}} {{result.priape}} {{result.segape}}</h4>
+                                            <h4> Nombre: {{result.nomemp}} {{result.segnom}} {{result.priape}}
+                                                {{result.segape}}</h4>
                                             <small class="text-primary">
                                                 <h4>Cedula: {{result.docemp}}</h4>
                                             </small>
-<!--                                             <small class="text-primary">
-                                            <h4>Usuario: {{result.usuario}}</h4>
-                                            </small> -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 pb-3">
+                                <div class="col-sm-2 pb-3">
+                                    <br>
+                                    <div class="col-sm-10 pb-3">
+                                        <input class="btn btn-success" type="button" (click)="getGener02_()"
+                                            value="Buscar">
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 pb-3">
                                     <p style="color:#FF0000">
                                         <em>
                                             Por favor hacer la busqueda del origen del traslado

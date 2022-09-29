@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ReporteService} from '../services/reporte.service';
-import {Gener02Service} from '../services/gener02.service';
-import {Gener02} from '../models/gener02';
+import { Component, OnInit } from '@angular/core';
+import { ReporteService } from '../services/reporte.service';
+import { Gener02Service } from '../services/gener02.service';
+import { Gener02 } from '../models/gener02';
 import Swal from 'sweetalert2';
-import {Router, ActivatedRoute, Params, NavigationExtras} from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationExtras } from '@angular/router';
 
 @Component({
     selector: 'app-inicio-traslado',
@@ -13,23 +13,40 @@ import {Router, ActivatedRoute, Params, NavigationExtras} from '@angular/router'
 })
 export class InicioTrasladoComponent implements OnInit {
 
-    public data : any;
-    public datoSe : any = '';
-    public datoCe : any = '';
-    public tokenConsultado : any;
-    public identityConsultado : any;
-    constructor(private _reporteService : ReporteService, private _gener02Service : Gener02Service, private _router : Router) {}
+    public data: any;
+    public datoSe: any = '';
+    public datoCe: any = '';
+    public tokenConsultado: any;
+    public identityConsultado: any;
+    public palabraclave: any;
 
-    ngOnInit(): void {}
-    getGener02(pclave : any) {
+    constructor(private _reporteService: ReporteService, private _gener02Service: Gener02Service, private _router: Router) { }
+
+    ngOnInit(): void { }
+    getGener02(pclave: any) {
         const keyword = pclave.target.value;
-        const search = this._reporteService.searchGener02(keyword).then(response => {
-            this.data = response;
-        })
+
+        this.palabraclave = pclave.target.value;
+
     }
-    getDatos02(result : any) {
+    getGener02_() {
+        this._reporteService.searchGener02_sub(new Gener02('', '', this.palabraclave)).subscribe(
+            response => {
+
+                if (response.bandera == true) {
+                    this.data = [response];
+                    console.log(response);
+                } else {
+                    Swal.fire('Usuario No Encontrado', '', 'error')
+                }
+            }
+        )
+    }
+
+
+    getDatos02(result: any) {
         console.log(result);
-        this.datoSe = result.nomemp+' '+result.segnom+' '+result.priape+' '+result.segape;
+        this.datoSe = result.nomemp + ' ' + result.segnom + ' ' + result.priape + ' ' + result.segape;
         this.datoCe = result.docemp;
         this.Consultar();
     }

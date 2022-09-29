@@ -12,14 +12,32 @@ export class Opcion2Component implements OnInit {
     public datoCe : any = '';
     public tokenConsultado : any;
     public identityConsultado : any;
+    public palabraclave : any;
+
     constructor(private _reporteService : ReporteService, private _gener02Service : Gener02Service, private _router : Router) {}
+
+
+
+    getGener02_(){
+        this._reporteService.searchGener02_sub(new Gener02('','',this.palabraclave)).subscribe(
+            response=>{
+
+                if(response.bandera==true){
+                    this.data = [response]; 
+                    console.log(response);
+                }else{
+                    Swal.fire('Usuario No Encontrado', '', 'error')
+                }
+            }
+        )
+    }
 
     ngOnInit(): void {}
     getGener02(pclave : any) {
         const keyword = pclave.target.value;
-        const search = this._reporteService.searchGener02(keyword).then(response => {
-            this.data = response;
-        })
+
+        this.palabraclave = pclave.target.value;
+
     }
     getDatos02(result : any) {
       console.log(result);

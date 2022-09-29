@@ -47,6 +47,8 @@ export class ReportesComponent implements OnInit {
                 for (let index = 0; index < this.activos.length; index++) {
                     if (this.activos[index]['estado'] == 'I') {
                         this.activosI.push(this.activos[index]);
+                        console.log("Inventariados!!!");
+                        console.log(this.activosI);
                     } else if (this.activos[index]['estado'] == 'F') {
                         this.activosF.push(this.activos[index]);
                     } else {
@@ -76,6 +78,24 @@ export class ReportesComponent implements OnInit {
     boton() {
         this.generar();
     }
+    
+    estadofisico(variable: any){
+        if(variable=='B'){
+            return "BUENO";
+        }if(variable=='R'){
+            return "REGULAR";
+        }if(variable=='D'){
+            return "DAÑADO";
+        }if(variable=='O'){
+            return "OBSOLETO";
+        }
+        if(variable=='F'){
+            return "FALTANTE";
+        }else{
+            return "";
+        }
+    }
+
 
     ngOnInit(): void {}
 
