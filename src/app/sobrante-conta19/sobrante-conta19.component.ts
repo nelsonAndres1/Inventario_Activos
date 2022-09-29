@@ -32,7 +32,7 @@ export class SobranteConta19Component implements OnInit {
     public conta65_copia: any;
     public ubicacion_destino: any;
     public ubicacion_des: any;
-    public vacio: any;
+    public vacio: any = null;
 
     public ubicaciones_lista: any;
     constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router, private _trasladoService: TrasladoService) {
@@ -216,7 +216,9 @@ export class SobranteConta19Component implements OnInit {
         if (result.estado == 'B') {
 
             Swal.fire('Error!', 'Activo dado de baja!', 'error');
+            this.vacio = '';
 
+            
         } else {
             var bandera = false;
             if (this.listaSobrantes.length > 0) {
@@ -228,6 +230,7 @@ export class SobranteConta19Component implements OnInit {
             }
             if (bandera) {
                 Swal.fire('Error!', 'Activo ya agregado', 'error');
+                this.vacio = '';
             } else {
                 this.confirmaciones(this.ao, this.ap);
 
@@ -238,9 +241,11 @@ export class SobranteConta19Component implements OnInit {
                 console.log(this.ao);
                 console.log("permisos2");
                 console.log(this.ap);
+                this.vacio = '';
             }
+
         }
-        this.vacio='';
+        
 
     }
     deleteActivos(result: any) {

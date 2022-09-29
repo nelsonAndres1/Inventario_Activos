@@ -18,7 +18,7 @@
                                 <div class="col-sm-6 pb-3">
                                     <label for="exampleAccount">Busqueda Activo</label>
                                     <input class="form-control" id="exampleAccount"
-                                        placeholder="Codigo o Nombre del Activo" value={{vacio}} type="text"
+                                        placeholder="Codigo o Nombre del Activo" [(ngModel)]="vacio" type="text"
                                         (input)="getConta19($event)" required>
 
                                     <div class="col-sm-12">
