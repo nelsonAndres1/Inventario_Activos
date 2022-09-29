@@ -4,6 +4,7 @@ import { Gener02Service } from '../services/gener02.service';
 import { Nomin02 } from '../models/nomin02';
 import { Router, ActivatedRoute, Params, NavigationExtras } from '@angular/router';
 import Swal from 'sweetalert2';
+import { iif } from 'rxjs';
 
 
 @Component({
@@ -53,7 +54,9 @@ export class LoginComponent implements OnInit {
           this._gener02Service.signup(this.gener02, this.v).subscribe(
             response => {
 
-              if (response.sub == '124' || response.sub == '619' || response.sub == '1163' || response.sub == '1113' || response.sub == '101'||response.sub == '1750'||response.sub == '603') {
+              
+
+              if (response.sub == '124'||response.cedtra == '1085264787'||response.sub == '1163'||response.sub == '1113'||response.sub == '101'||response.sub == '1750'||response.sub == '603') {
 
                 this._gener02Service.permisos(new Nomin02(response.cedtra)).subscribe(
                   response2 => {
