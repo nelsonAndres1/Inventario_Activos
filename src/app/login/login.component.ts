@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   }
 
   permisos($docemp) {
-   
+
 
   }
 
@@ -53,46 +53,56 @@ export class LoginComponent implements OnInit {
           this._gener02Service.signup(this.gener02, this.v).subscribe(
             response => {
 
+              if (response.sub == '124' || response.sub == '619' || response.sub == '1163' || response.sub == '1113' || response.sub == '101'||response.sub == '1750'||response.sub == '603') {
 
-              this._gener02Service.permisos(new Nomin02(response.cedtra)).subscribe(
-                response2 => {
-                  console.log("respuesta permisos");
-                  console.log(response2[0].coddep, ' - ', '050336');
-                  if (response2[0].coddep == '050306' || response2[0].coddep == '050336') {
-                    
-                    Swal.fire({
-                      title: 'Bienvenido ' + response.name + ' !',
-                      text: 'Inventario de Activos Comfamiliar de Nariño',
-                      imageUrl: './assets/logo2.jpg',
-                      imageAlt: 'Custom image',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
-                      confirmButtonText: 'Ok!'
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-    
-                        this.identity = response;
-    
-                        this.token
-                        this.identity;
-    
-                        localStorage.setItem('token', this.token);
-                        localStorage.setItem('identity', JSON.stringify(this.identity));
-    
-                        this._router.navigate(['principal']);
-                      }
-                    });
-                  } else {
-                    Swal.fire(
-                      '¡El usuario NO tiene permisos!',
-                      '',
-                      'error'
-                    )
+                this._gener02Service.permisos(new Nomin02(response.cedtra)).subscribe(
+                  response2 => {
+                    console.log("respuesta permisos");
+                    console.log(response2[0].coddep, ' - ', '050336');
+                    if (response2[0].coddep == '050306' || response2[0].coddep == '050336') {
+
+                      Swal.fire({
+                        title: 'Bienvenido ' + response.name + ' !',
+                        text: 'Inventario de Activos Comfamiliar de Nariño',
+                        imageUrl: './assets/logo2.jpg',
+                        imageAlt: 'Custom image',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ok!'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+
+                          this.identity = response;
+
+                          this.token
+                          this.identity;
+
+                          localStorage.setItem('token', this.token);
+                          localStorage.setItem('identity', JSON.stringify(this.identity));
+
+                          this._router.navigate(['principal']);
+                        }
+                      });
+                    } else {
+                      Swal.fire(
+                        '¡El usuario NO tiene permisos!',
+                        '',
+                        'error'
+                      )
+                    }
                   }
-                }
-          
-              );
+
+                );
+              }else{
+                
+                Swal.fire(
+                  '¡El usuario NO tiene permisos!',
+                  '',
+                  'error'
+                )
+
+              }
             },
             error => {
               this.status = 'error';
