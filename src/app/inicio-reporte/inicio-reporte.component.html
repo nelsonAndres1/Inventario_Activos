@@ -18,6 +18,9 @@
                                     <input class="form-control" id="exampleAccount"
                                         placeholder="Cedula o Nombre del Usuario" type="text"
                                         (input)="getGener02($event)" value={{datoSe}} required>
+                                       
+    
+
                                     <div class="col-sm-12">
                                         <div class="card card-body mb-1" *ngFor="let result of data"
                                             (click)="getDatos02(result)" style="cursor: pointer;">
@@ -31,19 +34,18 @@
                                             </small> -->
                                         </div>
                                     </div>
-                                    <div class="col-sm-4 pb-3">
-                                        <br>
-                                        <div class="row mt-4">
-                                            <div class="col-sm-10 pb-3">
-                                                <input class="btn btn-success" type="button" (click)="getGener02_()"
-                                                    value="Buscar">
-                                            </div>
-                                        </div>
-    
-                                    </div>
+
                                 </div>
-                               
+                                
+                                <div class="col-sm-2 pb-3">
+                                    <br>
+                                    <input class="btn btn-success" type="button" (click)="getGener02_()"
+                                        value="Buscar">
+                                </div>
+
                                 <div class="col-sm-4 pb-3">
+
+
                                     <label for="exampleAccount"><b>Tipo de Reporte</b></label>
                                     <select class="form-select" [(ngModel)]="opcionSeleccionado" (change)="capturar()"
                                         aria-label="Default select example">

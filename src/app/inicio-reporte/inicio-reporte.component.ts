@@ -27,7 +27,7 @@ export class InicioReporteComponent implements OnInit {
                 console.log("respuesta!");
                 console.log(response);
                 if(response.bandera==true){
-                    this.data =response; 
+                    this.data = [response]; 
                     console.log(response);
                 }else{
                     Swal.fire('Usuario No Encontrado', '', 'error')
