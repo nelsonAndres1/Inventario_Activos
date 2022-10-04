@@ -34,6 +34,8 @@ import { FormularioComponent } from './formulario/formulario.component';
 import { InicioFormularioComponent } from './inicio-formulario/inicio-formulario.component';
 import { PeriodoComponent } from './periodo/periodo.component';
 import { CerrarPeriodoComponent } from './cerrar-periodo/cerrar-periodo.component';
+import { ReporteGeneralComponent } from './reporte-general/reporte-general.component';
+import { ReporteGeneralPDFComponent } from './reporte-general-pdf/reporte-general-pdf.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { CerrarPeriodoComponent } from './cerrar-periodo/cerrar-periodo.componen
     FormularioComponent,
     InicioFormularioComponent,
     PeriodoComponent,
-    CerrarPeriodoComponent
+    CerrarPeriodoComponent,
+    ReporteGeneralComponent,
+    ReporteGeneralPDFComponent
   ],
   imports: [
     BrowserModule,

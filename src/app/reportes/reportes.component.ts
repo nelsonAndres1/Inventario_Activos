@@ -1,30 +1,54 @@
-import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {ReporteService} from '../services/reporte.service';
-import {Conta123} from '../models/conta123';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { ReporteService } from '../services/reporte.service';
+import { Conta123 } from '../models/conta123';
 import Swal from 'sweetalert2';
-import {ActivatedRoute} from '@angular/router';
-import {Model0} from '../models/model0';
+import { ActivatedRoute } from '@angular/router';
+import { Model0 } from '../models/model0';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-@Component({selector: 'app-reportes', templateUrl: './reportes.component.html', styleUrls: ['./reportes.component.css'], providers: [ReporteService]})
+@Component({ selector: 'app-reportes', templateUrl: './reportes.component.html', styleUrls: ['./reportes.component.css'], providers: [ReporteService] })
 export class ReportesComponent implements OnInit {
-    @ViewChild('myData')myData ! : ElementRef;
-    public serviceUrl : string;
-    public reportPath : string;
-    public activos : any = [];
-    public activosF : any = [];
-    public activosS : any = [];
-    public activosI : any = [];
-    public token : any;
-    public encargado : any;
-    public usuario : any;
-    public cedtra : any;
-    public mes : any;
-    public ano : any;
-    public data : any;
-    public itemDetail : any;
-    constructor(private _reporteService : ReporteService, private route : ActivatedRoute) {
+    @ViewChild('myData') myData !: ElementRef;
+    public serviceUrl: string;
+    public reportPath: string;
+    public activos: any = [];
+    public activosF: any = [];
+    public activosS: any = [];
+    public activosI: any = [];
+    public token: any;
+    public encargado: any;
+    public usuario: any;
+    public cedtra: any;
+    public mes: any;
+    public ano: any;
+    public ano1: any;
+    public data: any;
+    public itemDetail: any;
+    public bandera_reporte: any;
+    public fecha: any;
+    public hora: any;
+    constructor(private _reporteService: ReporteService, private route: ActivatedRoute) {
+
+
+        Swal.fire({
+            title: '¿Que tipo de reporte desea generar?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Entrega',
+            denyButtonText: `Recibir`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                this.bandera_reporte = false;
+
+            } else if (result.isDenied) {
+                this.bandera_reporte = true;
+
+            }
+        });
+
+
 
         this.token = JSON.parse(localStorage.getItem("tokenConsultado2") + '');
         this.encargado = this.token['nombre'];
@@ -33,7 +57,15 @@ export class ReportesComponent implements OnInit {
         let date: Date = new Date();
         this.ano = date.getFullYear();
 
-        this.mes = date.getMonth()+1;
+        this.ano = date.getFullYear();
+
+        this.hora = date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+
+        this.mes = date.getMonth();
+
+        this.ano1 =date.getMonth()+1;
+
+        this.fecha = date.getFullYear()+'/'+this.ano1+'/'+date.getDate();
         this.serviceUrl = '';
         this.reportPath = '~/Resources/docs/sales-order-detail.rdl';
 
@@ -78,26 +110,26 @@ export class ReportesComponent implements OnInit {
     boton() {
         this.generar();
     }
-    
-    estadofisico(variable: any){
-        if(variable=='B'){
+
+    estadofisico(variable: any) {
+        if (variable == 'B') {
             return "BUENO";
-        }if(variable=='R'){
+        } if (variable == 'R') {
             return "REGULAR";
-        }if(variable=='D'){
+        } if (variable == 'D') {
             return "DAÑADO";
-        }if(variable=='O'){
+        } if (variable == 'O') {
             return "OBSOLETO";
         }
-        if(variable=='F'){
+        if (variable == 'F') {
             return "FALTANTE";
-        }else{
+        } else {
             return "";
         }
     }
 
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 
     setPdf() {
         setTimeout(() => {
@@ -120,7 +152,7 @@ export class ReportesComponent implements OnInit {
 
             const data = this.myData.nativeElement;
             const doc = new jsPDF('p', 'pt', 'a4');
-           
+
             html2canvas(data).then(canvas => {
                 const data = this.myData.nativeElement;
 
@@ -149,7 +181,7 @@ export class ReportesComponent implements OnInit {
                     for (var i = 1; i <= totalPDFPages; i++) {
 
                         pdf.addPage();
-                        pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+                        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
                     }
 
                     pdf.save("reporte_inventario.pdf");
@@ -165,14 +197,14 @@ export class ReportesComponent implements OnInit {
             html: 'Espere!',
             timer: 2000,
             timerProgressBar: true,
-            didOpen: () => {},
+            didOpen: () => { },
             willClose: () => { // this.setPdf();
                 this.getPDF();
 
                 clearInterval(timerInterval)
             }
         }).then((result) => { /* Read more about handling dismissals below */
-            if (result.dismiss === Swal.DismissReason.timer) {}
+            if (result.dismiss === Swal.DismissReason.timer) { }
         })
     }
 

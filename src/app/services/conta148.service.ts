@@ -27,6 +27,13 @@ export class Conta148Service {
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'conta148/getConta148', params, { headers: headers });
     }
+    getConta148_C(user: any): Observable<any> {
+        let json = JSON.stringify(user);
+        let params = 'json=' + json;
+        console.log(params);
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url + 'conta148/getConta148_C', params, { headers: headers });
+    }
 
     Cerrar_Periodo(user: any): Observable<any> {
         let json = JSON.stringify(user);

@@ -47,7 +47,7 @@
                                             <tr>
                                                 <th scope="col">Codigo</th>
                                                 <th scope="col">Nombre</th>
-                                                <th scope="col">Dependencia</th>
+                                                <th scope="col">Encargado</th>
                                                 <th scope="col">Quitar</th>
                                             </tr>
                                         </thead>
@@ -55,7 +55,7 @@
                                             <tr *ngFor="let acs of listaSobrantes">
                                                 <th scope="row">{{acs.codact}}</th>
                                                 <td>{{acs.detalle}}</td>
-                                                <td><a (click)="dependencia()">{{acs.coddep}}</a> </td>
+                                                <td><a (click)="dependencia(acs.cedtra)" style="cursor: pointer;">{{acs.cedtra}}</a> </td>
                                                 <td><button type="button" class="btn btn-danger"
                                                         (click)="deleteActivos(acs)">Quitar</button></td>
                                             </tr>

@@ -24,9 +24,10 @@ export class InicioReporteComponent implements OnInit {
     getGener02_(){
         this._reporteService.searchGener02_sub(new Gener02('','',this.palabraclave)).subscribe(
             response=>{
-
+                console.log("respuesta!");
+                console.log(response);
                 if(response.bandera==true){
-                    this.data = [response]; 
+                    this.data =response; 
                     console.log(response);
                 }else{
                     Swal.fire('Usuario No Encontrado', '', 'error')

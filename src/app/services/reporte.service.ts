@@ -53,6 +53,14 @@ export class ReporteService{
         return this._http.post(this.url+'reporte/searchGener02_sub',params,{headers: headers});
     }
 
+    reporte_general(user:any):Observable<any>{
+        let json = JSON.stringify(user);
+        let params = 'json='+json;
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url+'reporte/reporte_general',params,{headers: headers});
+    }
+
+    
 
     
 }

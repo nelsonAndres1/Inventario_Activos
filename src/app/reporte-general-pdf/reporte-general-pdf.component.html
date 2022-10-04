@@ -1,0 +1,92 @@
+<!-- <script src="https://cdn.boldreports.com/4.1.78/scripts/common/ej2-base.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/common/ej2-data.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/common/ej2-pdf-export.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/common/ej2-svg-base.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/data-visualization/ej2-lineargauge.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/data-visualization/ej2-circulargauge.min.js"></script>
+<script src="https://cdn.boldreports.com/4.1.78/scripts/data-visualization/ej2-maps.min.js"></script>
+
+
+<bold-reportviewer id="reportViewer_Control" style="width: 100%;height: 950px">
+</bold-reportviewer> -->
+<meta charset="utf-8">
+
+<div #myData id="season-tble">
+    <!-- Fecha: {{fecha}} - {{hora}} -->
+    <div id="div1">
+        <h1>Caja de Compensación Familiar de Nariño</h1>
+        <h3>Reporte de Activos</h3>
+        <!-- <h4>Fecha de Corte: {{ano}} - {{mes}}.</h4> -->
+    </div>
+
+
+    <div id="div1" class="row">
+        <div class="col-md-12">
+            
+            <h4><b>Activos Inventariados</b></h4>
+            <table class="table table-striped" >
+                <thead>
+                    <tr>
+                        <th scope="col">NUMERO INVENTARIO</th>
+                        <th scope="col">FECHA INVENTARIO</th>
+                        <th scope="col">CODIGO ACTIVO</th>
+                        <th scope="col">DETALLE</th>
+                        <th scope="col">ESTADO DEL ACTIVO</th>
+                        <th scope="col">OBSERVACION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dt of sobrantes">
+                        <td>{{dt.numero}}</td>
+                        <td>{{dt.fecha}}</td>
+                        <td>{{dt.codact}}</td>
+                        <td>{{dt.detalle}}</td>
+                        <td>{{detalles(dt.estact)}}</td>
+                        <td>{{dt.observacion}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    <br>
+    <div id="div1" class="row">
+        <div class="col-md-12">
+            <br>
+            <br>
+            <h4><b>Activos Faltantes</b></h4>
+            <table class="table table-striped" id="season-tble">
+                <br>
+                <thead>
+                    
+                    <tr>
+                        <th scope="col">NUMERO INVENTARIO</th>
+                        <th scope="col">FECHA INVENTARIO</th>
+                        <th scope="col">CODIGO ACTIVO</th>
+                        <th scope="col">DETALLE</th>
+                        <th scope="col">ESTADO DEL ACTIVO</th>
+                        <th scope="col">OBSERVACION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dt of faltantes">
+                        <td>{{dt.numero}}</td>
+                        <td>{{dt.fecha}}</td>
+                        <td>{{dt.codact}}</td>
+                        <td>{{dt.detalle}}</td>
+                        <td>{{detalles(dt.estact)}}</td>
+                        <td>{{dt.observacion}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<div id="au">
+    <button class="btn btn-success" (click)="exportToExcel()" >EXCEL</button>
+    <br>
+</div>

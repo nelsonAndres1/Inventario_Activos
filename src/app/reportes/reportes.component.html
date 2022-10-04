@@ -12,10 +12,12 @@
 <meta charset="utf-8">
 
 <div #myData>
+Fecha: {{fecha}} - {{hora}}
     <div id="div1">
         <h1>Caja de Compensación Familiar de Nariño</h1>
         <h3>Reporte de Activos por Responsable.</h3>
         <h3>Inventario Individual de Activos.</h3>
+        
         <h4>Fecha de Corte: {{ano}} - {{mes}}.</h4>
         <h4>Responsable: {{encargado}} - {{cedtra}}.</h4>
     </div>
@@ -101,26 +103,61 @@
 
             </table>
 
-            <p class="texto-justificado" align="left">
-                El suscrito trabajador de la corporación declara que recibe los activos fijos relacionados en esta acta
-                y se
-                compromete a cumplir el manual de procedimientos establecidos para el manejo, traslado y novedades de
-                los
-                activos fijos. Lo anterior son obligaciones del trabajador establecidas en el artículo 59 numeral 3 y
-                parágrafo
-                único numeral 3 reglamento interno de trabajo y su incumplimiento constituirá falta disciplinaria. En
-                caso
-                de
-                pérdida autorizo a la Caja de Compensación Familiar de Nariño a descontar mi salario y/o mis
-                prestaciones
-                sociales el valor de los activos fijos perdidos y recibidos mediante la presente acta.
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-            </p>
+            <div *ngIf="bandera_reporte">
+                <p class="texto-justificado" align="left">
+                    El suscrito trabajador de la corporación declara que recibe los activos fijos relacionados en esta
+                    acta
+                    y se
+                    compromete a cumplir el manual de procedimientos establecidos para el manejo, traslado y novedades
+                    de
+                    los
+                    activos fijos. Lo anterior son obligaciones del trabajador establecidas en el artículo 59 numeral 3
+                    y
+                    parágrafo
+                    único numeral 3 reglamento interno de trabajo y su incumplimiento constituirá falta disciplinaria.
+                    En
+                    caso
+                    de
+                    pérdida autorizo a la Caja de Compensación Familiar de Nariño a descontar mi salario y/o mis
+                    prestaciones
+                    sociales el valor de los activos fijos perdidos y recibidos mediante la presente acta.
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </p>
+            </div>
+
+
+            <div *ngIf="!bandera_reporte">
+                <p class="texto-justificado" align="left">
+                    El suscrito trabajador de la corporación declara que entrega los activos fijos relacionados en esta
+                    acta
+                    y se
+                    compromete a cumplir el manual de procedimientos establecidos para el manejo, traslado y novedades
+                    de
+                    los
+                    activos fijos. Lo anterior son obligaciones del trabajador establecidas en el artículo 59 numeral 3
+                    y
+                    parágrafo
+                    único numeral 3 reglamento interno de trabajo y su incumplimiento constituirá falta disciplinaria.
+                    En
+                    caso
+                    de
+                    pérdida autorizo a la Caja de Compensación Familiar de Nariño a descontar mi salario y/o mis
+                    prestaciones
+                    sociales el valor de los activos fijos perdidos y recibidos mediante la presente acta.
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </p>
+            </div>
+
             <table class="tg" class="texto-justificado">
                 <thead>
                     <tr>

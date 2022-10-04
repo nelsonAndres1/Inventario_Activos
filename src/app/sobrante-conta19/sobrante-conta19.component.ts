@@ -11,8 +11,9 @@ import { Conta65 } from '../models/conta65';
 import { Conta65_copia } from '../models/conta65_copia';
 import { Conta19 } from '../models/conta19';
 import { TrasladoService } from '../services/traslado.service';
+import { ReporteService } from '../services/reporte.service';
 
-@Component({ selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service, TrasladoService] })
+@Component({ selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service, TrasladoService, ReporteService] })
 export class SobranteConta19Component implements OnInit {
     data: any;
     listaSobrantes: any = [];
@@ -33,9 +34,10 @@ export class SobranteConta19Component implements OnInit {
     public ubicacion_destino: any;
     public ubicacion_des: any;
     public vacio: any = null;
+    public data_nombre: any;
 
     public ubicaciones_lista: any;
-    constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router, private _trasladoService: TrasladoService) {
+    constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router, private _trasladoService: TrasladoService, private _reporteService: ReporteService) {
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.consultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.usuario = JSON.parse(localStorage.getItem('identity') + '');
@@ -69,8 +71,22 @@ export class SobranteConta19Component implements OnInit {
     }
 
     ngOnInit(): void { }
-    dependencia() {
-        console.log("Holaaaaaa!")
+    dependencia(cedtra) {
+        this._reporteService.searchGener02_sub(new Gener02('','',cedtra)).subscribe(
+            response=>{
+
+                if(response.bandera==true){
+                    this.data_nombre = [response]; 
+                    console.log(response);
+
+                    Swal.fire('Usuario Encontrado: '+response.nomemp+' '+response.segnom+' '+response.priape+' '+response.segape, '', 'info')
+
+
+                }else{
+                    Swal.fire('Usuario No Encontrado', '', 'error')
+                }
+            }
+        )
     }
 
 
@@ -213,12 +229,15 @@ export class SobranteConta19Component implements OnInit {
 
     getActivos(result: any) {
 
+        console.log("hahahahahhahahahhahahhahahhahahhahahhahaha");
+        console.log(result);
+
         if (result.estado == 'B') {
 
             Swal.fire('Error!', 'Activo dado de baja!', 'error');
             this.vacio = '';
 
-            
+
         } else {
             var bandera = false;
             if (this.listaSobrantes.length > 0) {
@@ -233,7 +252,6 @@ export class SobranteConta19Component implements OnInit {
                 this.vacio = '';
             } else {
                 this.confirmaciones(this.ao, this.ap);
-
                 this.listaSobrantes.push(result);
                 console.log("sobrantes");
                 console.log(this.listaSobrantes);
@@ -242,10 +260,13 @@ export class SobranteConta19Component implements OnInit {
                 console.log("permisos2");
                 console.log(this.ap);
                 this.vacio = '';
+
+
+
             }
 
         }
-        
+
 
     }
     deleteActivos(result: any) {
@@ -342,7 +363,7 @@ export class SobranteConta19Component implements OnInit {
         console.log("ubidos");
         console.log(ubi2);
 
-        let ubides= this.ubicacion_des;
+        let ubides = this.ubicacion_des;
         if (listaS.length > 0) {
 
             Swal.fire({
@@ -471,77 +492,77 @@ export class SobranteConta19Component implements OnInit {
         }
     }
     onSubmit() {
-        if(this.ubicacion_des==undefined){
+        if (this.ubicacion_des == undefined) {
             Swal.fire('Por favor seleccionar ubicación', '', 'info')
-        }else{
-            
-        Swal.fire({
-            title: '¿Estas seguro de guardar los cambios?',
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Guardar',
-            denyButtonText: `No Guardar`
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (this.inventariados.length > 0) {
+        } else {
 
-                    this._conta19Service.saveConta123(new Conta123(this.usuario.sub, this.cedtraConsultado.cedtra, 'A')).subscribe(response => {
-                        if (response.status == 'success') {
-                            for (let index = 0; index < this.inventariados.length; index++) {
+            Swal.fire({
+                title: '¿Estas seguro de guardar los cambios?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Guardar',
+                denyButtonText: `No Guardar`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (this.inventariados.length > 0) {
 
-                                console.log(this.inventariados[index]['est']['est']);
+                        this._conta19Service.saveConta123(new Conta123(this.usuario.sub, this.cedtraConsultado.cedtra, 'A')).subscribe(response => {
+                            if (response.status == 'success') {
+                                for (let index = 0; index < this.inventariados.length; index++) {
 
-                                this.conta65(this.inventariados[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, this.inventariados[index]['observacion'], 'I');
-                                console.log("esteeeeeeeeeeeeeeee!");
-                                console.log(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion']));
-                                this._conta19Service.saveConta124(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'])).subscribe(response => {
-                                    if (response.status == "success") {
+                                    console.log(this.inventariados[index]['est']['est']);
 
-                                        Swal.fire({
-                                            position: 'top-end',
-                                            icon: 'success',
-                                            title: 'Activos Inventariados guardados correctamente!',
-                                            showConfirmButton: true,
-                                            confirmButtonText: 'Ok'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                this.guardarSobrantes(this.listaSobrantes);
-                                              
-                                            }
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            position: 'top-end',
-                                            icon: 'error',
-                                            title: 'Activos Inventariados NO guardados!',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        });
-                                    }
-                                })
+                                    this.conta65(this.inventariados[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, this.inventariados[index]['observacion'], 'I');
+                                    console.log("esteeeeeeeeeeeeeeee!");
+                                    console.log(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion']));
+                                    this._conta19Service.saveConta124(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'])).subscribe(response => {
+                                        if (response.status == "success") {
+
+                                            Swal.fire({
+                                                position: 'top-end',
+                                                icon: 'success',
+                                                title: 'Activos Inventariados guardados correctamente!',
+                                                showConfirmButton: true,
+                                                confirmButtonText: 'Ok'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    this.guardarSobrantes(this.listaSobrantes);
+
+                                                }
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                position: 'top-end',
+                                                icon: 'error',
+                                                title: 'Activos Inventariados NO guardados!',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            });
+                                        }
+                                    })
+                                }
                             }
-                        }
-                    })
-                } else {
+                        })
+                    } else {
 
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Información',
-                        text: 'No existen Activos inventariados!',
-                        footer: 'Se procedera a guardar los Activos sobrantes y faltantes',
-                        showConfirmButton: true,
-                        confirmButtonText: 'Ok'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            this.guardarSobrantes(this.listaSobrantes);
-                        }
-                    })
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Información',
+                            text: 'No existen Activos inventariados!',
+                            footer: 'Se procedera a guardar los Activos sobrantes y faltantes',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.guardarSobrantes(this.listaSobrantes);
+                            }
+                        })
 
+                    }
+                } else if (result.isDenied) {
+                    Swal.fire('Activos no guardados', '', 'info')
                 }
-            } else if (result.isDenied) {
-                Swal.fire('Activos no guardados', '', 'info')
-            }
-        })
+            })
 
 
         }

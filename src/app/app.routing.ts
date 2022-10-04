@@ -14,6 +14,8 @@ import { FormularioComponent } from "./formulario/formulario.component";
 import { InicioFormularioComponent } from "./inicio-formulario/inicio-formulario.component";
 import { PeriodoComponent } from "./periodo/periodo.component";
 import { CerrarPeriodoComponent } from "./cerrar-periodo/cerrar-periodo.component";
+import { ReporteGeneralComponent } from "./reporte-general/reporte-general.component";
+import { ReporteGeneralPDFComponent } from "./reporte-general-pdf/reporte-general-pdf.component";
 const appRoutes: Routes = [
     {path: '', component: LoginComponent},
     {path: 'login', component: LoginComponent},
@@ -30,6 +32,8 @@ const appRoutes: Routes = [
     {path: 'formulario', component: FormularioComponent},
     {path: 'crear-periodo', component: PeriodoComponent},
     {path: 'cerrar-periodo', component: CerrarPeriodoComponent},
+    {path: 'reporte-general', component: ReporteGeneralComponent},
+    {path: 'reporte-general-pdf', component: ReporteGeneralPDFComponent},
     {path: '**', component: ErrorComponent}
 ];
 
