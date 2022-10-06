@@ -49,6 +49,8 @@ export class ReporteService{
     searchGener02_sub(user:any):Observable<any>{
         let json = JSON.stringify(user);
         let params = 'search='+json;
+        console.log("parametros!");
+        console.log(params);
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url+'reporte/searchGener02_sub',params,{headers: headers});
     }
