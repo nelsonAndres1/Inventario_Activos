@@ -36,6 +36,7 @@ import { PeriodoComponent } from './periodo/periodo.component';
 import { CerrarPeriodoComponent } from './cerrar-periodo/cerrar-periodo.component';
 import { ReporteGeneralComponent } from './reporte-general/reporte-general.component';
 import { ReporteGeneralPDFComponent } from './reporte-general-pdf/reporte-general-pdf.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { ReporteGeneralPDFComponent } from './reporte-general-pdf/reporte-genera
     PeriodoComponent,
     CerrarPeriodoComponent,
     ReporteGeneralComponent,
-    ReporteGeneralPDFComponent
+    ReporteGeneralPDFComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

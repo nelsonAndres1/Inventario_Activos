@@ -16,6 +16,7 @@ import { PeriodoComponent } from "./periodo/periodo.component";
 import { CerrarPeriodoComponent } from "./cerrar-periodo/cerrar-periodo.component";
 import { ReporteGeneralComponent } from "./reporte-general/reporte-general.component";
 import { ReporteGeneralPDFComponent } from "./reporte-general-pdf/reporte-general-pdf.component";
+import { HomeComponent } from "./home/home.component";
 const appRoutes: Routes = [
     {path: '', component: LoginComponent},
     {path: 'login', component: LoginComponent},
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
     {path: 'cerrar-periodo', component: CerrarPeriodoComponent},
     {path: 'reporte-general', component: ReporteGeneralComponent},
     {path: 'reporte-general-pdf', component: ReporteGeneralPDFComponent},
+    {path: 'home', component: HomeComponent},
     {path: '**', component: ErrorComponent}
 ];
 

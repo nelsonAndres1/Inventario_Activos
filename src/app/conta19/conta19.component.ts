@@ -144,7 +144,7 @@ export class Conta19Component implements OnInit {
             } else {
                 this.activos = '';
                 Swal.fire('Error', 'No se han encontrado activos', 'info');
-                this._router.navigate(['principal']);
+                this._router.navigate(['home']);
             }
 
         });
@@ -447,13 +447,13 @@ export class Conta19Component implements OnInit {
                 timer: 1500,
                 confirmButtonText: 'Look up'
             }).then((result) => {
-                this._router.navigate(['principal']);
+                this._router.navigate(['home']);
             });
 
 
         } else {
             Swal.fire('Info!', '¡No existen Activos Faltantes!.', 'info').then((result) => {
-                this._router.navigate(['principal']);
+                this._router.navigate(['home']);
             });
 
         }
