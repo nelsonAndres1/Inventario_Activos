@@ -49,7 +49,7 @@
                             placeholder="Ubicación de destino" aria-label="Username" aria-describedby="basic-addon1"
                             required>
                             <option selected>Seleccione</option>
-                            <option *ngFor="let a of ubicaciones">{{a.codubi}}</option>
+                            <option *ngFor="let a of ubicaciones" value={{a.codubi}}>{{a.codubi}} - {{a.detalle}}</option>
                         </select>
 
                     </div>

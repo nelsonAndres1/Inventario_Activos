@@ -542,8 +542,9 @@ export class TrasladoComponent implements OnInit {
 
     }
     onDestino(des: any) {
-        console.log("destino");
+
         this.ubi_traslado = des.target.value;
+
 
     }
     onObservacion(obs: any) {
