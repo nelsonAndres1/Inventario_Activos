@@ -18,10 +18,11 @@ import { ReporteGeneralComponent } from "./reporte-general/reporte-general.compo
 import { ReporteGeneralPDFComponent } from "./reporte-general-pdf/reporte-general-pdf.component";
 import { HomeComponent } from "./home/home.component";
 import { IdentityGuard } from "./services/identity.guard";
+import { LoginGuard } from "./services/login.guard";
 
 const appRoutes: Routes = [
-    {path: '', component: LoginComponent},
-    {path: 'login', component: LoginComponent},
+    {path: '', component: LoginComponent, canActivate:[LoginGuard]},
+    {path: 'login', component: LoginComponent, canActivate:[LoginGuard]},
     {path: 'logout/:sure', component:LoginComponent, canActivate: [IdentityGuard]},
     {path: 'principal', component: PrincipalComponent , canActivate: [IdentityGuard]},
     {path: 'conta19', component: Conta19Component, canActivate: [IdentityGuard]},

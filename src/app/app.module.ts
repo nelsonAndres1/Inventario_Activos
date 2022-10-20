@@ -18,6 +18,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 // Report viewer
 import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
 import { IdentityGuard } from "./services/identity.guard";
+import { LoginGuard } from './services/login.guard';
 
 
 // data-visualization
@@ -76,6 +77,7 @@ import { Gener02Service } from './services/gener02.service';
   providers: [
     IdentityGuard,
     Gener02Service,
+    LoginGuard,
     { provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
