@@ -17,6 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 // Report viewer
 import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
+import { IdentityGuard } from "./services/identity.guard";
 
 
 // data-visualization
@@ -37,6 +38,7 @@ import { CerrarPeriodoComponent } from './cerrar-periodo/cerrar-periodo.componen
 import { ReporteGeneralComponent } from './reporte-general/reporte-general.component';
 import { ReporteGeneralPDFComponent } from './reporte-general-pdf/reporte-general-pdf.component';
 import { HomeComponent } from './home/home.component';
+import { Gener02Service } from './services/gener02.service';
 
 
 @NgModule({
@@ -72,7 +74,9 @@ import { HomeComponent } from './home/home.component';
     MatCheckboxModule
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    IdentityGuard,
+    Gener02Service,
+    { provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

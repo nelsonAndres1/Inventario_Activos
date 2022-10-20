@@ -17,25 +17,27 @@ import { CerrarPeriodoComponent } from "./cerrar-periodo/cerrar-periodo.componen
 import { ReporteGeneralComponent } from "./reporte-general/reporte-general.component";
 import { ReporteGeneralPDFComponent } from "./reporte-general-pdf/reporte-general-pdf.component";
 import { HomeComponent } from "./home/home.component";
+import { IdentityGuard } from "./services/identity.guard";
+
 const appRoutes: Routes = [
     {path: '', component: LoginComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'logout/:sure', component:LoginComponent},
-    {path: 'principal', component: PrincipalComponent},
-    {path: 'conta19', component: Conta19Component},
-    {path: 'sobrante-conta19', component: SobranteConta19Component},
-    {path: 'reportes', component: ReportesComponent},
-    {path: 'inicio-reporte', component: InicioReporteComponent},
-    {path: 'opcion2', component: Opcion2Component},
-    {path: 'inicio-traslado', component: InicioTrasladoComponent},
-    {path: 'traslado', component: TrasladoComponent},
-    {path: 'inicio-formulario', component:InicioFormularioComponent},
-    {path: 'formulario', component: FormularioComponent},
-    {path: 'crear-periodo', component: PeriodoComponent},
-    {path: 'cerrar-periodo', component: CerrarPeriodoComponent},
-    {path: 'reporte-general', component: ReporteGeneralComponent},
-    {path: 'reporte-general-pdf', component: ReporteGeneralPDFComponent},
-    {path: 'home', component: HomeComponent},
+    {path: 'logout/:sure', component:LoginComponent, canActivate: [IdentityGuard]},
+    {path: 'principal', component: PrincipalComponent , canActivate: [IdentityGuard]},
+    {path: 'conta19', component: Conta19Component, canActivate: [IdentityGuard]},
+    {path: 'sobrante-conta19', component: SobranteConta19Component, canActivate: [IdentityGuard]},
+    {path: 'reportes', component: ReportesComponent, canActivate: [IdentityGuard]},
+    {path: 'inicio-reporte', component: InicioReporteComponent, canActivate: [IdentityGuard]},
+    {path: 'opcion2', component: Opcion2Component, canActivate: [IdentityGuard]},
+    {path: 'inicio-traslado', component: InicioTrasladoComponent, canActivate: [IdentityGuard]},
+    {path: 'traslado', component: TrasladoComponent, canActivate: [IdentityGuard]},
+    {path: 'inicio-formulario', component:InicioFormularioComponent, canActivate: [IdentityGuard]},
+    {path: 'formulario', component: FormularioComponent, canActivate: [IdentityGuard]},
+    {path: 'crear-periodo', component: PeriodoComponent, canActivate: [IdentityGuard]},
+    {path: 'cerrar-periodo', component: CerrarPeriodoComponent, canActivate: [IdentityGuard]},
+    {path: 'reporte-general', component: ReporteGeneralComponent, canActivate: [IdentityGuard]},
+    {path: 'reporte-general-pdf', component: ReporteGeneralPDFComponent, canActivate: [IdentityGuard]},
+    {path: 'home', component: HomeComponent, canActivate: [IdentityGuard]},
     {path: '**', component: ErrorComponent}
 ];
 
