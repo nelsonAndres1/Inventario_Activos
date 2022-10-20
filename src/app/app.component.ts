@@ -35,6 +35,9 @@ export class AppComponent implements OnInit,
     constructor(private route: ActivatedRoute, public _gener02Service: Gener02Service, private router: Router) {
         this.identity = this._gener02Service.getIdentity();
         this.token = this._gener02Service.getToken();
+
+        console.log("Datos!!");
+        console.log(this.identity);
     }
 
     ngOnInit(): void {

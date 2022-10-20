@@ -19,6 +19,13 @@
             </a>
             <!-- <a class="navbar-brand" routerLink=""><b></b></a> -->
             <a class="navbar-brand" routerLink="home">Principal</a>
+            <a>
+                <div class="card">
+                    <div class="card-body">
+                       <b>Usuario:</b>  {{identity.name}}
+                    </div>
+                </div>
+            </a>
         </div>
         <button class="btn btn-danger navbar-btn" (click)="salir()">Salir</button>
     </div>
@@ -45,10 +52,10 @@
                 </p>
             </div>
 
-         <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12">
                 <ul class="social-icons">
                     <li><img src="./assets/logo.png"></li>
-  <!--                   <li><a class="facebook" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <!--                   <li><a class="facebook" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                     <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
                     <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
                     <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li> -->
