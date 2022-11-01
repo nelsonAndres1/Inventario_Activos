@@ -490,10 +490,7 @@ export class Conta19Component implements OnInit {
                     } else {
                         this.array[index1].observacion = 'sin observacion';
                     }
-
-
                 }
-
                 for (let index1 = 0; index1 < this.array.length; index1++) {
                     if (this.lista_estado.length > 0) {
                         for (let index2 = 0; index2 < this.lista_estado.length; index2++) {
@@ -573,7 +570,12 @@ export class Conta19Component implements OnInit {
                         confirmButtonText: 'Ok'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            this.guardarFaltantes(this.activos);
+                            this._conta19Service.saveConta123(new Conta123(this.usuario, this.cedtraConsultado.cedtra, 'A')).subscribe(response => {
+                                if (response.status == 'success') {
+                                    this.guardarFaltantes(this.activos);
+                                }
+                            });
+                            
                         }
                     })
 
