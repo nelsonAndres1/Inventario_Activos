@@ -31,6 +31,7 @@ export class AppComponent implements OnInit,
     public permisos: any;
     itemDetail: any = [];
     arrayPermisos: any = [];
+    
 
     constructor(private route: ActivatedRoute, public _gener02Service: Gener02Service, private router: Router) {
         this.identity = this._gener02Service.getIdentity();
@@ -38,6 +39,21 @@ export class AppComponent implements OnInit,
 
         console.log("Datos!!");
         console.log(this.identity);
+
+        
+    }
+
+    cerrarSesion(){
+        var ratonParado;
+        var milisegundosLimite = 2000;
+        $(document).on('mousemove', function() {
+            clearTimeout(ratonParado);
+         
+            ratonParado = setTimeout(function() {
+               // aqui lanzarias la ventana
+               console.log("si se activo!");
+            }, milisegundosLimite);
+         });
     }
 
     ngOnInit(): void {
