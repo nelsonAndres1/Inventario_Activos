@@ -25,6 +25,9 @@ export class HomeComponent implements OnInit {
   opcion2() {
     this._router.navigate(['opcion2']);
   }
+  opcion3(){
+    this._router.navigate(['consulta']); 
+  }
 
   alerta() {
     Swal.fire({

@@ -19,6 +19,7 @@ import { ReporteGeneralPDFComponent } from "./reporte-general-pdf/reporte-genera
 import { HomeComponent } from "./home/home.component";
 import { IdentityGuard } from "./services/identity.guard";
 import { LoginGuard } from "./services/login.guard";
+import { ConsultaComponent } from "./consulta/consulta.component";
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, canActivate:[LoginGuard]},
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
     {path: 'reporte-general', component: ReporteGeneralComponent, canActivate: [IdentityGuard]},
     {path: 'reporte-general-pdf', component: ReporteGeneralPDFComponent, canActivate: [IdentityGuard]},
     {path: 'home', component: HomeComponent, canActivate: [IdentityGuard]},
+    {path: 'consulta', component: ConsultaComponent, canActivate: [IdentityGuard]},
     {path: '**', component: ErrorComponent}
 ];
 

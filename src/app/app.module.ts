@@ -40,6 +40,7 @@ import { ReporteGeneralComponent } from './reporte-general/reporte-general.compo
 import { ReporteGeneralPDFComponent } from './reporte-general-pdf/reporte-general-pdf.component';
 import { HomeComponent } from './home/home.component';
 import { Gener02Service } from './services/gener02.service';
+import { ConsultaComponent } from './consulta/consulta.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { Gener02Service } from './services/gener02.service';
     CerrarPeriodoComponent,
     ReporteGeneralComponent,
     ReporteGeneralPDFComponent,
-    HomeComponent
+    HomeComponent,
+    ConsultaComponent
   ],
   imports: [
     BrowserModule,
