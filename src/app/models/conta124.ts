@@ -7,7 +7,8 @@ export class Conta124{
         public estado: string,
         public estact: string,
         public estinv: string, 
-        public observacion: string 
+        public observacion: string,
+        public cedtra 
         ){
     }
 }

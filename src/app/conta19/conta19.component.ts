@@ -37,6 +37,8 @@ export class Conta19Component implements OnInit {
     public lista_estado: any = [];
     public lista_observacion: any = [];
     public searchValue: any;
+    public listaInventariados: any = [];
+
     constructor(private _conta19Service: Conta19Service, private _router: Router) {
 
         this.token = JSON.parse(localStorage.getItem("tokenConsultado") + '');
@@ -48,9 +50,21 @@ export class Conta19Component implements OnInit {
         this.usuario = this.usuario_inventario['sub'];
         this.cedtra = this.token['cedtra'];
 
+       
+
+
+        this._conta19Service.preguntarContinuarInventario_(new Gener02('','',this.cedtra)).subscribe(
+            response=>{
+                this.listaInventariados = response;
+                console.log("response");
+                console.log(response);
+            },error=>{
+                console.log("error");
+                console.log(error);
+            }
+        );
         this.getConta19(this.cedtra);
         this.searchValue = null;
-
     }
 
     ngOnInit(): void { }
@@ -111,20 +125,39 @@ export class Conta19Component implements OnInit {
         }
     }
 
-
-
-
-
-
     getConta19(cedtra: any) {
+        var posiciones: any = [];
         this._conta19Service.getConta19(new Conta19_Copia(cedtra)).subscribe(response => {
             console.log("respuesta");
             console.log(response);
             if (response.status != 'error') {
                 this.activos = response;
                 console.log("aaaaaa :)")
-                ////////////////////////////////////////////////////////////////
-                //this.longi=this.activos.length;
+
+                console.log("longitud!");
+                console.log(this.listaInventariados.length);
+
+                for (let index = 0; index < this.listaInventariados.length; index++) {
+                    for (let index2 = 0; index2 < this.activos.length; index2++) {
+                        if(this.activos[index2]['codact']==this.listaInventariados[index]['codact']){
+                            posiciones.push(index2);
+                            this.activos[index2]['checked'] = true;
+                            this.onChangeForInventariados(this.activos[index2]);
+                            console.log("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+                        }
+                    }
+                }
+
+
+                if(posiciones.length>0){
+                    for (let index = 0; index < posiciones.length; index++) {
+                        this.activos[posiciones[index]]['checked'] = true; 
+                    }
+                }
+
+                console.log("comparación");
+                console.log(this.activos);
+                console.log(posiciones);
 
                 if (this.activos.length > 1000) {
                     this.longi = 1000
@@ -349,6 +382,59 @@ export class Conta19Component implements OnInit {
         console.log(this.verSeleccion)
     }
 
+    onChangeForInventariados(result: any){
+
+        this.clearSearch()
+        this.searchValue = '';
+        if (result.checked == true) {
+            result.checked = false;
+        }
+        result.checked = true;
+        var select = document.getElementById("estado")
+
+        console.log("selected");
+        console.log(select);
+        var bandera = false;
+
+        const navigationExtras: NavigationExtras = {
+            queryParams: {
+
+                result: JSON.stringify(result)
+            }
+        }
+        this.searchValue = '';
+        const isChecked = true;
+
+        if (isChecked == true) {
+            this.searchValue = '';
+            if (this.array.length > 0) {
+                for (let index = 0; index <= this.array.length; index++) {
+                    if (this.array[index] == result) {
+                        console.log(this.array[index]);
+                        console.log(result);
+                        bandera = true;
+                    }
+                }
+                if (bandera != true) {
+
+                    this.array.push(result);
+                    console.log("seleeee");
+                    console.log(this.array);
+                    this.searchValue = '';
+                }
+            } else {
+                result.checked = false;
+                this.array.push(result);
+                console.log("seleeee");
+                this.searchValue = '';
+            }
+        }
+        console.log("seleccionados!");
+        console.log(this.array);
+
+
+    }
+
 
 
     onChange($event, result: any) {
@@ -428,7 +514,7 @@ export class Conta19Component implements OnInit {
 
             for (let index = 0; index < listaF.length; index++) {
 
-                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes')).subscribe(response => {
+                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes',this.cedtraConsultado.cedtra)).subscribe(response => {
 
                     if (response.status == "success") {
                         bandera = true;
@@ -532,7 +618,7 @@ export class Conta19Component implements OnInit {
                             for (let index = 0; index < this.lista_activos.length; index++) {
 
                                 console.log(this.lista_activos[index]['est']['est']);
-                                this._conta19Service.saveConta124(new Conta124('01', this.lista_activos[index]['codact'], this.lista_activos[index]['subcod'], this.cedtraConsultado.coddep, this.lista_activos[index]['est']['est'], this.lista_activos[index]['estado'], 'I', this.lista_activos[index]['observacion'])).subscribe(response => {
+                                this._conta19Service.saveConta124(new Conta124('01', this.lista_activos[index]['codact'], this.lista_activos[index]['subcod'], this.cedtraConsultado.coddep, this.lista_activos[index]['est']['est'], this.lista_activos[index]['estado'], 'I', this.lista_activos[index]['observacion'],this.cedtraConsultado.cedtra)).subscribe(response => {
                                     if (response.status == "success") {
 
                                         Swal.fire({

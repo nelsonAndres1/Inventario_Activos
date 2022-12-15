@@ -77,7 +77,7 @@ export class Conta19Service {
 
 
 
-    traer_nombre(user: any){
+    traer_nombre(user: any) {
         let json = JSON.stringify(user);
         let params = 'json=' + json;
         console.log("parametros a actualizar");
@@ -99,14 +99,21 @@ export class Conta19Service {
         return response;
     }
 
-    getConta19_(user: any){
+    getConta19_(user: any) {
         let json = JSON.stringify(user);
         let params = 'json=' + json;
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'conta19/getConta19A', params, { headers: headers });
     }
 
+    /*     conta19/preguntarContinuarInventario
+     */
+    preguntarContinuarInventario_(user: any) {
+        let json = JSON.stringify(user);
+        let params = 'json=' + json;
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url + 'conta19/preguntarContinuarInventario', params, { headers: headers });
+    }
 
-    
 
 }

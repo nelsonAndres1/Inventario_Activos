@@ -304,7 +304,7 @@ export class SobranteConta19Component implements OnInit {
 
             for (let index = 0; index < listaF.length; index++) {
 
-                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes')).subscribe(response => {
+                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes', this.cedtraConsultado.cedtra)).subscribe(response => {
 
                     if (response.status == "success") {
 
@@ -413,8 +413,8 @@ export class SobranteConta19Component implements OnInit {
                                     console.log("esteeeeeeeeeeeeeeeeeeee");
                                     //aquiiiiiiiiiiii!
 
-                                    console.log(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index]));
-                                    this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index])).subscribe(response => {
+                                    console.log(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra));
+                                    this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra)).subscribe(response => {
                                         if (response.status == "success") {
                                             this.conta65(listaS[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, detalle, ubides);
 
@@ -464,8 +464,8 @@ export class SobranteConta19Component implements OnInit {
                                                 console.log("esteeeeeeeeeeeeeeeeeeee");
                                                 //aquiiiiiiiiiiii!
 
-                                                console.log(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index]));
-                                                this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index])).subscribe(response => {
+                                                console.log(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra));
+                                                this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra)).subscribe(response => {
                                                     if (response.status == "success") {
                                                         this.conta65(listaS[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, detalle, ubides);
 
@@ -554,8 +554,8 @@ export class SobranteConta19Component implements OnInit {
 
                                     this.conta65(this.inventariados[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, this.inventariados[index]['observacion'], 'I');
                                     console.log("esteeeeeeeeeeeeeeee!");
-                                    console.log(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion']));
-                                    this._conta19Service.saveConta124(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'])).subscribe(response => {
+                                    console.log(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'],this.cedtraConsultado.cedtra));
+                                    this._conta19Service.saveConta124(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'], this.cedtraConsultado.cedtra)).subscribe(response => {
                                         if (response.status == "success") {
 
                                             Swal.fire({
