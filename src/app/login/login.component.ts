@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
                       Swal.fire({
                         title: 'Bienvenido ' + response.name + ' !',
                         text: 'Inventario de Activos Comfamiliar de Nariño',
-                        imageUrl: './assets/logo2.jpg',
+                        imageUrl: './assets/logo2.png',
                         imageAlt: 'Custom image',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -134,7 +134,7 @@ export class LoginComponent implements OnInit {
     Swal.fire({
       title: 'Salida',
       text: '¿Estas seguro de salir?',
-      imageUrl: './assets/logo2.jpg',
+      imageUrl: './assets/logo2.png',
       imageAlt: 'Custom image',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
