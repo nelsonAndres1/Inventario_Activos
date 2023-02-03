@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
                   response2 => {
                     console.log("respuesta permisos");
                     console.log(response2[0].coddep, ' - ', '050336');
-                    if (response2[0].coddep == '050306' || response2[0].coddep == '050336' || response2[0].coddep == '050325') {
+                    if (response2[0].coddep == '050306' || response2[0].coddep == '050336' || response2[0].coddep == '050325' || response2[0].coddep == '050316') {
 
                       Swal.fire({
                         title: 'Bienvenido ' + response.name + ' !',
