@@ -62,11 +62,19 @@ export class Opcion2Component implements OnInit {
                 denyButtonText: `No Continuar`
             }).then((result) => {
                 if (result.isConfirmed) {
-                    
-                    
-                    
-                    this._router.navigate(['conta19']);
-
+                    Swal.fire({
+                        title: '¿Inventario Normal o Grupal?',
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Normal',
+                        denyButtonText: `Grupal`
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this._router.navigate(['conta19']);
+                        } else if (result.isDenied) {
+                            this._router.navigate(['inventario-grupal']);
+                        }
+                    })
                 } else if (result.isDenied) {
                     Swal.fire('Cancelado', '', 'error')
                 }

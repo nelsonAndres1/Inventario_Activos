@@ -20,6 +20,7 @@ import { HomeComponent } from "./home/home.component";
 import { IdentityGuard } from "./services/identity.guard";
 import { LoginGuard } from "./services/login.guard";
 import { ConsultaComponent } from "./consulta/consulta.component";
+import { InventarioGrupalComponent } from "./inventario-grupal/inventario-grupal.component";
 
 const appRoutes: Routes = [
     {path: '', component: LoginComponent, canActivate:[LoginGuard]},
@@ -41,6 +42,7 @@ const appRoutes: Routes = [
     {path: 'reporte-general-pdf', component: ReporteGeneralPDFComponent, canActivate: [IdentityGuard]},
     {path: 'home', component: HomeComponent, canActivate: [IdentityGuard]},
     {path: 'consulta', component: ConsultaComponent, canActivate: [IdentityGuard]},
+    {path: 'inventario-grupal', component: InventarioGrupalComponent, canActivate: [IdentityGuard]},
     {path: '**', component: ErrorComponent}
 ];
 

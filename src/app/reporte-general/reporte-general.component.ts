@@ -22,7 +22,7 @@ export class ReporteGeneralComponent implements OnInit {
   public name='REPORTE GENERAL';
 
   constructor(private conta148Service: Conta148Service, private reporteService: ReporteService, private _route: Router) {
-    this.conta148Service.getConta148_C(new Conta148('', '', '', '')).subscribe(
+    this.conta148Service.getConta148_C(new Conta148('', '', '', '','')).subscribe(
       response => {
         this.periodos = response;
         console.log("periodos");
@@ -58,8 +58,8 @@ export class ReporteGeneralComponent implements OnInit {
       for (let index = 0; index < this.periodos.length; index++) {
         if (this.periodos[index].periodo == this.verSeleccion) {
           console.log("periodos");
-          console.log(new Periodos('', this.periodos[index].fecini, this.periodos[index].fecfin));
-          this.reporteService.reporte_general(new Periodos('', this.periodos[index].fecini, this.periodos[index].fecfin)).subscribe(
+          console.log(new Periodos('', this.periodos[index].fecini, this.periodos[index].fecfin, this.periodos[index].coddep));
+          this.reporteService.reporte_general(new Periodos('', this.periodos[index].fecini, this.periodos[index].fecfin, this.periodos[index].coddep)).subscribe(
             response => {
 
               console.log("respuesta!");

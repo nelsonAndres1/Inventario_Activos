@@ -14,47 +14,58 @@
                         <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
                             <div class="card-body">
                                 <div class="row mt-12">
-
                                     <div class="col-sm-6 pb-3">
-                                        <br>
-                                        <br>
                                         <label for="exampleAccount"><b>Ingrese Periodo</b></label>
                                         <input class="form-control" id="exampleAccount" placeholder="Periodo"
                                             maxlength="6" name="periodo" for="periodo" #periodo="ngModel"
                                             [(ngModel)]="conta148.periodo" required pattern="[0-9]{6}">
-                                            <small *ngIf="!periodo.valid && periodo.touched" class="invalid-feedback d-block">
-                                                El campo no es valido!
-                                            </small>
-                                    </div>
-                                    <div class="col-sm-6 pb-3">
-                                        <div class="col-sm-6 pb-3">
-                                            <label for="exampleAccount"><b>Fecha Inicial</b></label>
-                                            <input type="date" class="form-control" id="exampleAccount" name="fecini"
-                                                for="fecini" #fecini="ngModel" [(ngModel)]="conta148.fecini" value=today
-                                                min="1920-01-01" max="2030-12-31" placeholder="Fecha Inicial" required>
-                                                <small *ngIf="!fecini.valid && fecini.touched" class="invalid-feedback d-block">
-                                                    El campo no es valido!
-                                                </small>
-                                        </div>
-                                        <br>
-                                        <div class="col-sm-6 pb-3">
-                                            <label for="exampleAccount"><b>Fecha Final</b></label>
-                                            <input type="date" class="form-control" id="exampleAccount" name="fecfin"
-                                                for="fecfin" #fecfin="ngModel" [(ngModel)]="conta148.fecfin" value=today
-                                                min="1920-01-01" max="2030-12-31" placeholder="Fecha Final" required>
-                                                <small *ngIf="!fecfin.valid && fecfin.touched" class="invalid-feedback d-block">
-                                                    El campo no es valido!
-                                                </small>
-                                        </div>
+                                        <small *ngIf="!periodo.valid && periodo.touched"
+                                            class="invalid-feedback d-block">
+                                            El campo no es valido!
+                                        </small>
                                     </div>
 
+                                    <div class="col-sm-6 pb-3">
+                                        <label for="exampleAccount"><b>Fecha Inicial</b></label>
+                                        <input type="date" class="form-control" id="exampleAccount" name="fecini"
+                                            for="fecini" #fecini="ngModel" [(ngModel)]="conta148.fecini" value=today
+                                            min="1920-01-01" max="2030-12-31" placeholder="Fecha Inicial" required>
+                                        <small *ngIf="!fecini.valid && fecini.touched" class="invalid-feedback d-block">
+                                            El campo no es valido!
+                                        </small>
+                                    </div>
+                                    <br>
+                                    <div class="col-sm-6 pb-3">
+                                        <label for="exampleAccount"><b>Fecha Final</b></label>
+                                        <input type="date" class="form-control" id="exampleAccount" name="fecfin"
+                                            for="fecfin" #fecfin="ngModel" [(ngModel)]="conta148.fecfin" value=today
+                                            min="1920-01-01" max="2030-12-31" placeholder="Fecha Final" required>
+                                        <small *ngIf="!fecfin.valid && fecfin.touched" class="invalid-feedback d-block">
+                                            El campo no es valido!
+                                        </small>
+                                    </div>
+                                    <div class="col-sm-6 pb-3">
+                                        <label for="exampleAccount"><b>Dependencia O General*</b></label>
+                                        <select class="form-control" aria-label="Default select example"
+                                            aria-describedby="basic-addon1" name="coddep" for="coddep" #coddep="ngModel"
+                                            [(ngModel)]="conta148.coddep" required>
+                                            <option value="" selected>Seleccione!</option>
+                                            <option value="1">General</option>
+                                            <option *ngFor="let cen of dependencias" value={{cen.coddep}}>{{cen.coddep}}
+                                                - {{cen.detalle}}</option>
+                                        </select>
+                                        <small *ngIf="!coddep.valid && coddep.touched" class="invalid-feedback d-block">
+                                            El campo no es valido!
+                                        </small>
+                                    </div>
 
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <div class="row mt-4">
                                     <div class="float-right">
-                                        <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary mb-3">Agregar Periodo</button>
+                                        <button [disabled]="registerForm.invalid" type="submit"
+                                            class="btn btn-primary mb-3">Agregar Periodo</button>
                                     </div>
                                 </div>
                             </div>
@@ -65,4 +76,38 @@
             </div>
         </div>
     </div>
+</div>
+
+
+
+<div class="container py-3">
+    <div class="card-header">
+        <h3 class="mb-0">Periodos</h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Periodo</th>
+                <th scope="col">Fecha Inicial</th>
+                <th scope="col">Fecha Final</th>
+                <th scope="col">Dependencia</th>
+                <th scope="col">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let dt of periodos">
+                <th scope="row">{{dt.id}}</th>
+                <td>{{dt.periodo}}</td>
+                <td>{{dt.fecini}}</td>
+                <td>{{dt.fecfin}}</td>
+                <td>{{dt.coddep}} - {{dt.coddep_detalle}}</td>
+                <td>
+                    {{dt.estado}}
+                    {{estado(dt.estado)}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>

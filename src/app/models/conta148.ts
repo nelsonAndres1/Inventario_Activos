@@ -3,7 +3,8 @@ export class Conta148{
         public periodo: string,
         public fecini: string,
         public fecfin: string,
-        public estado: string
+        public estado: string,
+        public coddep: string,
         ){
     }
 }

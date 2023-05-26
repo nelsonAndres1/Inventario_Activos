@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
+import { ReporteService } from '../services/reporte.service';
 @Component({
   selector: 'app-reporte-general-pdf',
   templateUrl: './reporte-general-pdf.component.html',
   styleUrls: ['./reporte-general-pdf.component.css'],
+  providers: [ReporteService]
 
 })
 export class ReporteGeneralPDFComponent implements OnInit {
@@ -14,7 +16,7 @@ export class ReporteGeneralPDFComponent implements OnInit {
   public faltantes: any = [];
   public sobrantes: any = [];
   public output:any = [];
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private _reporteService: ReporteService) {
     this.reportados = JSON.parse(localStorage.getItem("reportados") + '');
     this.asignacion_detalle(this.reportados);
     
@@ -23,35 +25,19 @@ export class ReporteGeneralPDFComponent implements OnInit {
   ngOnInit(): void {
   }
   exportToExcel(): void {
-    let element = document.getElementById('season-tble');
-    let elemet2 = XLSX.utils.table_to_sheet(element);
-    const worksheet: XLSX.WorkSheet = elemet2;
-    /* const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element); */
-
-
-
-    const book: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(book, worksheet, 'Sheet1');
-    
-
-    XLSX.writeFile(book, this.name);
+    this._reporteService.dowloadExcel(this.sobrantes,'inventario');
+    this._reporteService.dowloadExcel(this.sobrantes,'faltantes');
   }
 
   asignacion_detalle(activos: any) {
 
     for (let index = 0; index < activos.length; index++) {
       if (activos[index].estinv == 'I' || activos[index].estinv == 'Z') {
-
         this.sobrantes.push(activos[index]);
-
       } if (activos[index].estinv == 'F') {
-
         this.faltantes.push(activos[index]);
-
       }
-
     }
-
   }
 
   detalles(detalle: any) {

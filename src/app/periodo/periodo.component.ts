@@ -10,16 +10,16 @@ import Swal from 'sweetalert2';
 })
 export class PeriodoComponent implements OnInit {
   public conta148: Conta148;
+  public periodos: any = [];
+  public dependencias: any = [];
   constructor(private conta148Service: Conta148Service) {
-    this.conta148 = new Conta148('', '', '','A');
+    this.conta148 = new Conta148('', '', '', 'A','');
+    this.dependencias_periodos();
   }
 
   ngOnInit(): void {
   }
   onSubmit(form) {
-    console.log("formulario");
-    console.log(this.conta148);
-
     this.conta148Service.saveConta148(this.conta148).subscribe(
       response => {
         console.log(response);
@@ -28,17 +28,42 @@ export class PeriodoComponent implements OnInit {
           response.message,
           response.bandera
         );
-        this.conta148 = new Conta148('', '', '','');
+        this.conta148 = new Conta148('', '', '', '', '');
       },
       error => {
         Swal.fire(
           'Error!',
-          'Perido ya existe!',
+          error.error.message,
           'error'
         );
-        this.conta148 = new Conta148('', '', '','');
+        this.conta148 = new Conta148('', '', '', '','');
       }
     );
+  }
+
+
+  dependencias_periodos(){
+    this.conta148Service.getAllPeriodos({}).subscribe(
+      response => {
+        this.periodos = response;
+      }
+    )
+    this.conta148Service.getConta28({}).subscribe(
+      response => {
+        this.dependencias = response;
+      }
+    )
+  }
+
+
+  estado(lyrics){
+    if(lyrics=='A'){
+      return 'ABIERTO';
+    }else if(lyrics=='C'){
+      return 'CERRADO';
+    }else{
+      return 'UNDEFINED'
+    }
   }
 
 }

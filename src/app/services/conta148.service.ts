@@ -42,5 +42,27 @@ export class Conta148Service {
         let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.url + 'conta148/Cerrar_Periodo', params, { headers: headers });
     }
-    
+
+
+    getAllPeriodos(user: any): Observable<any> {
+        let json = JSON.stringify(user);
+        let params = 'json=' + json;
+        console.log(params);
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url + 'conta148/getAllPeriodos', params, { headers: headers });
+    }
+
+    getConta28(user: any): Observable<any> {
+        let json = JSON.stringify(user);
+        let params = 'json=' + json;
+        console.log(params);
+        let headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.url + 'conta148/getConta28', params, { headers: headers });
+    }
+
+
+
+
+
+
 }

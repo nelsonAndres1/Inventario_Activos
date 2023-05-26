@@ -41,6 +41,7 @@ import { ReporteGeneralPDFComponent } from './reporte-general-pdf/reporte-genera
 import { HomeComponent } from './home/home.component';
 import { Gener02Service } from './services/gener02.service';
 import { ConsultaComponent } from './consulta/consulta.component';
+import { InventarioGrupalComponent } from './inventario-grupal/inventario-grupal.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { ConsultaComponent } from './consulta/consulta.component';
     ReporteGeneralComponent,
     ReporteGeneralPDFComponent,
     HomeComponent,
-    ConsultaComponent
+    ConsultaComponent,
+    InventarioGrupalComponent
   ],
   imports: [
     BrowserModule,
