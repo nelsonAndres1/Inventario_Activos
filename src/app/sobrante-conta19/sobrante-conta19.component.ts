@@ -12,8 +12,9 @@ import { Conta65_copia } from '../models/conta65_copia';
 import { Conta19 } from '../models/conta19';
 import { TrasladoService } from '../services/traslado.service';
 import { ReporteService } from '../services/reporte.service';
+import { Conta148Service } from '../services/conta148.service';
 
-@Component({ selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service, TrasladoService, ReporteService] })
+@Component({ selector: 'app-sobrante-conta19', templateUrl: './sobrante-conta19.component.html', styleUrls: ['./sobrante-conta19.component.css'], providers: [Conta19Service, TrasladoService, ReporteService, Conta148Service] })
 export class SobranteConta19Component implements OnInit {
     data: any;
     listaSobrantes: any = [];
@@ -36,20 +37,26 @@ export class SobranteConta19Component implements OnInit {
     public vacio: any = null;
     public data_nombre: any;
     public banderasaveConta123 = false;
-
+    public dependencias: any = [];
     public ubicaciones_lista: any;
-    constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router, private _trasladoService: TrasladoService, private _reporteService: ReporteService) {
+    public coddepdes: any = '';
+    constructor(private _conta19Service: Conta19Service, private route: ActivatedRoute, private _router: Router, private _trasladoService: TrasladoService, private _reporteService: ReporteService, private _conta148Service: Conta148Service) {
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.consultado = JSON.parse(localStorage.getItem('tokenConsultado') + '');
         this.usuario = JSON.parse(localStorage.getItem('identity') + '');
         this._conta19Service.getCedTra(new Gener02('', '', this.cedtraConsultado.cedtra)).subscribe(response => { })
-        this.getConta116(this.cedtraConsultado.coddep);
+
         this._conta19Service.getDocumentoConta65({}).subscribe(response => {
             this.documento = response;
             console.log("respuesta documento");
             console.log(response);
         })
-        console.log(this.cedtraConsultado.coddep)
+        this._conta148Service.getConta28({}).subscribe(
+            response => {
+                this.dependencias = response;
+            }
+        )
+        console.log(this.coddepdes)
         this.route.queryParams.subscribe(response => {
             console.log("respuesssssssssssssssssssssssssssta!")
             console.log(response)
@@ -58,16 +65,9 @@ export class SobranteConta19Component implements OnInit {
                 const paramsData = JSON.parse(response['result']);
                 const faltantes = JSON.parse(response['faltantes']);
                 this.faltantes = faltantes;
-
-                console.log("faltantes");
-                console.log(this.faltantes);
-
                 this.inventariados = paramsData;
 
             }
-            /*             console.log("inventariados");
-                        console.log(this.inventariados[0]['detalleGeneral']); */
-
         })
     }
 
@@ -78,11 +78,7 @@ export class SobranteConta19Component implements OnInit {
 
                 if (response.bandera == true) {
                     this.data_nombre = [response];
-                    console.log(response);
-
-                    Swal.fire('Usuario Encontrado: ' + response.nomemp + ' ' + response.segnom + ' ' + response.priape + ' ' + response.segape, '', 'info')
-
-
+                    Swal.fire('Usuario Encontrado: ' + response.nomemp + ' ' + response.segnom + ' ' + response.priape + ' ' + response.segape, '', 'info');
                 } else {
                     Swal.fire('Usuario No Encontrado', '', 'error')
                 }
@@ -117,25 +113,13 @@ export class SobranteConta19Component implements OnInit {
         var aredes = '';
         this._conta19Service.consultConta65(new Conta65(codact, cedtra)).subscribe(response => {
             console.log(response);
-            /*             if (response.aredes != "") { */
-            coddep = this.consultado.coddep;
-            coddeoV = this.consultado.coddep;
-            console.log("codep");
-            console.log(coddep);
-            console.log("coddep*2");
+            coddep = this.coddepdes;
+            coddeoV = this.coddepdes;
             coddep = coddep.split('');
-            console.log(coddep);
-            console.log("aredes");
-
             aredes = coddep[0].concat(coddep[1]);
-            console.log(aredes);
             if (FoS == 'F') { } else if (FoS == 'I') { } else {
 
                 this.conta65_copia = new Conta65_copia('01', this.documento, usuario, response.codact, response.subcod, detalle, response.areori, response.depori, response.ubiori, response.cedori, aredes, coddeoV, this.ubicacion_des, this.cedtraConsultado.cedtra, 'A');
-
-                console.log("Datos Conta65***********************************");
-                console.log(this.conta65_copia);
-
                 this._conta19Service.saveConta65(this.conta65_copia).subscribe(response2 => {
                     if (response2.status == 'success') {
                         console.log("sipiiii sobrantes");
@@ -146,10 +130,8 @@ export class SobranteConta19Component implements OnInit {
                                 console.log(response);
                             })
                     }
-
                 })
             }
-            /* } */
         });
     }
 
@@ -194,11 +176,8 @@ export class SobranteConta19Component implements OnInit {
                         }
                         bandera = true;
                     }
-
                 })
-
             }
-
         });
     }
     confirmacionDetalle(ap1: any = []) {
@@ -229,9 +208,6 @@ export class SobranteConta19Component implements OnInit {
 
 
     getActivos(result: any) {
-
-        console.log("hahahahahhahahahhahahhahahhahahhahahhahaha");
-        console.log(result);
 
         if (result.estado == 'B') {
 
@@ -282,15 +258,6 @@ export class SobranteConta19Component implements OnInit {
             }
 
         }
-
-
-
-        console.log("sobrantes");
-        console.log(this.listaSobrantes);
-        console.log("permisos1");
-        console.log(this.ao);
-        console.log("permisos2");
-        console.log(this.ap);
     }
     guardarFaltantes(listaF: any) {
         var lista_success: any = [];
@@ -304,7 +271,7 @@ export class SobranteConta19Component implements OnInit {
 
             for (let index = 0; index < listaF.length; index++) {
 
-                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes', this.cedtraConsultado.cedtra)).subscribe(response => {
+                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.coddepdes, listaF[index]['est'], 'F', 'F', 'Faltantes', this.cedtraConsultado.cedtra)).subscribe(response => {
 
                     if (response.status == "success") {
 
@@ -355,14 +322,8 @@ export class SobranteConta19Component implements OnInit {
         let ubi2: any = [];
         let obj: any = {};
         for (let index = 0; index < this.ubicaciones.length; index++) {
-            console.log("respuesta11111111111111111111111111!");
-            console.log(this.ubicaciones[index].codubi);
             ubi2.push(this.ubicaciones[index].codubi);
-
         }
-
-        console.log("ubidos");
-        console.log(ubi2);
 
         let ubides = this.ubicacion_des;
         if (listaS.length > 0) {
@@ -375,7 +336,6 @@ export class SobranteConta19Component implements OnInit {
                 denyButtonText: `Incorrecto`,
                 allowOutsideClick: false,
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
 
                     ubides = this.ubicacion_des;
@@ -400,21 +360,12 @@ export class SobranteConta19Component implements OnInit {
                             }
 
                             this.conta123 = new Conta123(this.usuario.sub, this.cedtraConsultado.cedtra, 'A');
-                            console.log("contaaaaaaaaaaaaaaaaaaaaaaaaaa 123********************");
-                            console.log(this.conta123);
 
                             if (this.banderasaveConta123) {
 
                                 for (let index = 0; index < listaS.length; index++) {
-                                    console.log("lista: " + index);
-                                    console.log(listaS[index]);
-                                    console.log(this.ao[index]);
-                                    console.log(this.ap[index]);
-                                    console.log("esteeeeeeeeeeeeeeeeeeee");
-                                    //aquiiiiiiiiiiii!
 
-                                    console.log(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra));
-                                    this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra)).subscribe(response => {
+                                    this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.coddepdes, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra)).subscribe(response => {
                                         if (response.status == "success") {
                                             this.conta65(listaS[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, detalle, ubides);
 
@@ -464,8 +415,8 @@ export class SobranteConta19Component implements OnInit {
                                                 console.log("esteeeeeeeeeeeeeeeeeeee");
                                                 //aquiiiiiiiiiiii!
 
-                                                console.log(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra));
-                                                this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.cedtraConsultado.coddep, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra)).subscribe(response => {
+                                                console.log(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.coddepdes, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra));
+                                                this._conta19Service.saveConta124(new Conta124('01', listaS[index]['codact'], listaS[index]['subcod'], this.coddepdes, listaS[index]['estado'], this.ao[index], 'S', this.ap[index], this.cedtraConsultado.cedtra)).subscribe(response => {
                                                     if (response.status == "success") {
                                                         this.conta65(listaS[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, detalle, ubides);
 
@@ -512,19 +463,6 @@ export class SobranteConta19Component implements OnInit {
 
                 }
             })
-            /*  Swal.fire({
-                 title: 'Por favor ingrese la ubicación de destino de los Activos Sobrantes',
-                 input: 'select',
-                 inputOptions: ubi2,
-                 inputAttributes: {
-                     autocapitalize: 'off'
-                 },
-                 showCancelButton: false,
-                 confirmButtonText: 'Enviar',
-                 showLoaderOnConfirm: true,
-                 allowOutsideClick: false,
-             }).then((inputValue) =>{
-             }) */
         } else {
             Swal.fire('Info!', '¡No existen Activos Sobrantes!.', 'info');
             this.guardarFaltantes(this.faltantes);
@@ -554,8 +492,8 @@ export class SobranteConta19Component implements OnInit {
 
                                     this.conta65(this.inventariados[index]['codact'], this.cedtraConsultado.cedtra, this.usuario.sub, this.inventariados[index]['observacion'], 'I');
                                     console.log("esteeeeeeeeeeeeeeee!");
-                                    console.log(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'],this.cedtraConsultado.cedtra));
-                                    this._conta19Service.saveConta124(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.cedtraConsultado.coddep, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'], this.cedtraConsultado.cedtra)).subscribe(response => {
+                                    console.log(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.coddepdes, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'], this.cedtraConsultado.cedtra));
+                                    this._conta19Service.saveConta124(new Conta124('01', this.inventariados[index]['codact'], this.inventariados[index]['subcod'], this.coddepdes, this.inventariados[index]['est']['est'], this.inventariados[index]['estado'], 'I', this.inventariados[index]['observacion'], this.cedtraConsultado.cedtra)).subscribe(response => {
                                         if (response.status == "success") {
 
                                             Swal.fire({
@@ -606,5 +544,10 @@ export class SobranteConta19Component implements OnInit {
 
 
         }
+    }
+
+    onDependencia(event) {
+        this.coddepdes = event.target.value;
+        this.getConta116(this.coddepdes);
     }
 }

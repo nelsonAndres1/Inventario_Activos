@@ -21,12 +21,13 @@
                                         placeholder="Codigo o Nombre del Activo" [(ngModel)]="vacio" type="text"
                                         (input)="getConta19($event)" required>
 
+
                                     <div class="col-sm-12">
                                         <div class="card card-body mb-1" *ngFor="let result of data"
                                             (click)="getActivos(result)" style="cursor: pointer;">
                                             <h4> Activo: {{result.detalle}} </h4>
                                             <small class="text-primary">
-                                               <h4>Codigo: {{result.codact}}</h4>
+                                                <h4>Codigo: {{result.codact}}</h4>
                                             </small>
                                             <div class="col-sm-12">
                                                 <button type="button" class="btn btn-success">Agregar</button>
@@ -36,10 +37,20 @@
                                 </div>
                                 <div class="col-sm-6 pb-3">
                                     <br>
-                                    <select class="form-select" (change)="onDestino($event)" aria-label="Default select example">
+                                    <select class="form-control" aria-label="Default select example"
+                                        (change)="onDependencia($event)" required>
+                                        <option value="" selected>Seleccione dependencia de destino!</option>
+                                        <option *ngFor="let cen of dependencias" value={{cen.coddep}}>{{cen.coddep}} -
+                                            {{cen.detalle}}</option>
+                                    </select>
+                                    <br>
+                                    <select class="form-select" (change)="onDestino($event)"
+                                        aria-label="Default select example">
                                         <option selected>Seleccione la Ubicación de Destino</option>
-                                        <option *ngFor="let act of ubicaciones" value="{{act.codubi}}">{{act.codubi}} - {{act.detalle}}</option>
-                                      </select>
+                                        <option *ngFor="let act of ubicaciones" value="{{act.codubi}}">{{act.codubi}} -
+                                            {{act.detalle}}</option>
+                                    </select>
+
                                     <br>
                                     <label for="exampleAccount">Lista de Activos añadidos (sobrantes)</label>
                                     <table class="table">
@@ -55,7 +66,8 @@
                                             <tr *ngFor="let acs of listaSobrantes">
                                                 <th scope="row">{{acs.codact}}</th>
                                                 <td>{{acs.detalle}}</td>
-                                                <td><a (click)="dependencia(acs.cedtra)" style="cursor: pointer;">{{acs.cedtra}}</a> </td>
+                                                <td><a (click)="dependencia(acs.cedtra)"
+                                                        style="cursor: pointer;">{{acs.cedtra}}</a> </td>
                                                 <td><button type="button" class="btn btn-danger"
                                                         (click)="deleteActivos(acs)">Quitar</button></td>
                                             </tr>

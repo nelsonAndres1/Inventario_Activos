@@ -50,9 +50,6 @@ export class Conta19Component implements OnInit {
         this.usuario = this.usuario_inventario['sub'];
         this.cedtra = this.token['cedtra'];
 
-       
-
-
         this._conta19Service.preguntarContinuarInventario_(new Gener02('','',this.cedtra)).subscribe(
             response=>{
                 this.listaInventariados = response;

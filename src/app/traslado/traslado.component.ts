@@ -7,14 +7,14 @@ import { Router, ActivatedRoute, Params, NavigationExtras } from '@angular/route
 import { Conta19 } from '../models/conta19';
 import { delay, identity } from 'rxjs';
 import { Conta124 } from '../models/conta124';
-import { Conta123 } from '../models/conta123';
 import { ReporteService } from '../services/reporte.service';
 import { Gener02Service } from '../services/gener02.service';
 import { TrasladoService } from '../services/traslado.service';
 import { Conta65_copia } from '../models/conta65_copia';
 import { Conta65 } from '../models/conta65';
+import { Conta148Service } from '../services/conta148.service';
 
-@Component({ selector: 'app-traslado', templateUrl: './traslado.component.html', styleUrls: ['./traslado.component.css'], providers: [Conta19Service, ReporteService, Gener02Service, TrasladoService] })
+@Component({ selector: 'app-traslado', templateUrl: './traslado.component.html', styleUrls: ['./traslado.component.css'], providers: [Conta19Service, ReporteService, Gener02Service, TrasladoService, Conta148Service] })
 export class TrasladoComponent implements OnInit {
     filterPost='';
     public token: any;
@@ -45,7 +45,9 @@ export class TrasladoComponent implements OnInit {
     public documento: any;
     public searchValue: any;
     public palabraclave : any;
-    constructor(private _conta19Service: Conta19Service, private _router: Router, private _reporteService: ReporteService, private _gener02Service: Gener02Service, private _trasladoService: TrasladoService) {
+    public coddepdes: any = '';
+    public dependencias: any = [];
+    constructor(private _conta19Service: Conta19Service, private _router: Router, private _reporteService: ReporteService, private _gener02Service: Gener02Service, private _trasladoService: TrasladoService, private _conta148Service: Conta148Service) {
         this.token = JSON.parse(localStorage.getItem("tokenConsultado3") + '');
         this.identity = JSON.parse(localStorage.getItem("identity") + '');
         this.cedtraConsultado = JSON.parse(localStorage.getItem('tokenConsultado3') + '');
@@ -61,6 +63,11 @@ export class TrasladoComponent implements OnInit {
             console.log("respuesta documento");
             console.log(response);
         })
+        this._conta148Service.getConta28({}).subscribe(
+            response => {
+                this.dependencias = response;
+            }
+        )
     }
     onCambio(event, dato: any): void {
         let bandera = false;
@@ -93,6 +100,12 @@ export class TrasladoComponent implements OnInit {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    onDependencia(event) {
+        this.coddepdes = event.target.value;
+        this.depdesdes = this.coddepdes;
+        this.getConta116(this.coddepdes);
+    }
+
 
     onSubmit() {
         let bandera: any;
@@ -100,8 +113,8 @@ export class TrasladoComponent implements OnInit {
         var coddep: any;
         var coddeoV: any;
         var aredes = '';
-        coddep = this.token.coddep;
-        coddeoV = this.token.coddep;
+        coddep = this.coddepdes;
+        coddeoV = this.coddepdes;
         console.log("codep");
         console.log(coddep);
         console.log("coddep*2");
@@ -226,43 +239,6 @@ export class TrasladoComponent implements OnInit {
                     } else {
                         Swal.fire('No ha seleccionado Usuario a trasladar!', '', 'error');
                     }
-
-
-
-                    console.log("lista!")
-                    console.log(this.lista_activos)
-                    /*    this._conta19Service.saveConta123(new Conta123(this.usuario, this.cedtraConsultado.cedtra, 'A')).subscribe(response => {
-                           if (response.status == 'success') {
-                               for (let index = 0; index < this.lista_activos.length; index++) {
-   
-                                   console.log(this.lista_activos[index]['est']['est']);
-                                   this._conta19Service.saveConta124(new Conta124('01', this.lista_activos[index]['codact'], this.lista_activos[index]['subcod'], this.cedtraConsultado.coddep, this.lista_activos[index]['est']['est'], this.lista_activos[index]['estado'], 'I', this.lista_activos[index]['observacion'])).subscribe(response => {
-                                       if (response.status == "success") {
-   
-                                           Swal.fire({
-                                               position: 'top-end',
-                                               icon: 'success',
-                                               title: 'Activos Inventariados guardados correctamente!',
-                                               showConfirmButton: true,
-                                               confirmButtonText: 'Ok'
-                                           }).then((result) => {
-                                               if (result.isConfirmed) {
-                                                   this.guardarFaltantes(this.activos);
-                                               }
-                                           });
-                                       } else {
-                                           Swal.fire({
-                                               position: 'top-end',
-                                               icon: 'error',
-                                               title: 'Activos Inventariados NO guardados!',
-                                               showConfirmButton: false,
-                                               timer: 1500
-                                           });
-                                       }
-                                   })
-                               }
-                           }
-                       }) */
                 } else {
 
                     Swal.fire('No ha seleccionado activos!', '', 'info')
@@ -351,7 +327,7 @@ export class TrasladoComponent implements OnInit {
         this._gener02Service.findGener02(new Gener02('', '', this.datoCe)).subscribe(response => {
             console.log("Reespuesta")
             this.depdesdes = response.coddep;
-            this.getConta116(this.depdesdes);
+
             
             console.log(response);
             this.banderaSe=true;
@@ -636,7 +612,7 @@ export class TrasladoComponent implements OnInit {
 
             for (let index = 0; index < listaF.length; index++) {
 
-                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.cedtraConsultado.coddep, listaF[index]['est'], 'F', 'F', 'Faltantes',this.cedtraConsultado.cedtra)).subscribe(response => {
+                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.coddepdes, listaF[index]['est'], 'F', 'F', 'Faltantes',this.cedtraConsultado.cedtra)).subscribe(response => {
 
                     if (response.status == "success") {
                         bandera = true;
