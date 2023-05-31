@@ -161,13 +161,11 @@ export class TrasladoComponent implements OnInit {
         randomParagraphCell.value = randomParagraph;
         randomParagraphCell.font = { bold: false, size: 8 }
 
-
         const mes = worksheet.getCell('F5');
         mes.value = date;
         mes.font = { bold: false };
         mes.alignment = { horizontal: 'center' };
         worksheet.addRow([]);
-
 
         const paragraphCell = worksheet.getCell('A6');
         const paragraph = this.getparagraph();
@@ -180,17 +178,17 @@ export class TrasladoComponent implements OnInit {
         worksheet.addRow([]); // Add an empty row for spacing
 
         const instructions = worksheet.getCell('A8');
-        instructions.value = 'Nombres y Apellidos: '+this.encargado;
+        instructions.value = 'Nombres y Apellidos: ' + this.encargado;
         instructions.font = { bold: false };
         worksheet.addRow([]); // Add an empty row for spacing
 
         const documento = worksheet.getCell('A9');
-        documento.value = 'Documento: '+this.cedtra;
+        documento.value = 'Documento: ' + this.cedtra;
         documento.font = { bold: false };
         worksheet.addRow([]); // Add an empty row for spacing
 
         const personalInfoCell = worksheet.getCell('A10');
-        personalInfoCell.value = 'Dependencia: '+this.dependenciaReport;
+        personalInfoCell.value = 'Dependencia: ' + this.dependenciaReport;
         personalInfoCell.font = { bold: false };
         worksheet.addRow([]); // Add an empty row for spacing
 
@@ -232,9 +230,8 @@ export class TrasladoComponent implements OnInit {
         docempdes.font = { bold: false };
         worksheet.addRow([]); // Add an empty row for spacing
 
-
         const dependencia = worksheet.getCell('A17');
-        dependencia.value = 'Dependencia destino: '+this.depdesdes;
+        dependencia.value = 'Dependencia destino: ' + this.depdesdes;
         dependencia.font = { bold: false };
         worksheet.addRow([]); // Add an empty row for spacing
 
@@ -287,7 +284,6 @@ export class TrasladoComponent implements OnInit {
         worksheet.mergeCells('A21:F21');
         worksheet.mergeCells('A22:F22');
 
-
         worksheet.getColumn(1).width = 20;
         worksheet.getColumn(2).width = 20;
         worksheet.getColumn(3).width = 20;
@@ -330,17 +326,17 @@ export class TrasladoComponent implements OnInit {
         worksheet.mergeCells(celda_3);
         worksheet.mergeCells(celda_4);
 
-        const autorizado = worksheet.getCell('A'+numero_total);
+        const autorizado = worksheet.getCell('A' + numero_total);
         autorizado.value = 'Autorizado por :';
         autorizado.font = { bold: false };
-        worksheet.addRow([]); // Add an empty row for spacing
+        worksheet.addRow([]);
 
-        const responsable = worksheet.getCell('C'+numero_total);
+        const responsable = worksheet.getCell('C' + numero_total);
         responsable.value = 'Responsable (entrega) :';
         responsable.font = { bold: false };
-        worksheet.addRow([]); // Add an empty row for spacing
+        worksheet.addRow([]);
 
-        const responsable_recibe = worksheet.getCell('E'+numero_total);
+        const responsable_recibe = worksheet.getCell('E' + numero_total);
         responsable_recibe.value = 'Responsable (recibe) :';
         responsable_recibe.font = { bold: false };
         worksheet.addRow([]); // Add an empty row for spacing
