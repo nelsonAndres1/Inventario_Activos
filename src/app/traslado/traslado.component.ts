@@ -13,10 +13,15 @@ import { TrasladoService } from '../services/traslado.service';
 import { Conta65_copia } from '../models/conta65_copia';
 import { Conta65 } from '../models/conta65';
 import { Conta148Service } from '../services/conta148.service';
+import * as ExcelJS from 'exceljs';
+import saveAs from 'file-saver';
+import { LOGO } from '../services/logo';
+import { position } from 'html2canvas/dist/types/css/property-descriptors/position';
+import { ImagePosition } from 'exceljs';
 
 @Component({ selector: 'app-traslado', templateUrl: './traslado.component.html', styleUrls: ['./traslado.component.css'], providers: [Conta19Service, ReporteService, Gener02Service, TrasladoService, Conta148Service] })
 export class TrasladoComponent implements OnInit {
-    filterPost='';
+    filterPost = '';
     public token: any;
     public encargado: any;
     public usuario: any;
@@ -44,9 +49,10 @@ export class TrasladoComponent implements OnInit {
     public identity: any;
     public documento: any;
     public searchValue: any;
-    public palabraclave : any;
+    public palabraclave: any;
     public coddepdes: any = '';
     public dependencias: any = [];
+    public dependenciaReport: any = '';
     constructor(private _conta19Service: Conta19Service, private _router: Router, private _reporteService: ReporteService, private _gener02Service: Gener02Service, private _trasladoService: TrasladoService, private _conta148Service: Conta148Service) {
         this.token = JSON.parse(localStorage.getItem("tokenConsultado3") + '');
         this.identity = JSON.parse(localStorage.getItem("identity") + '');
@@ -56,7 +62,8 @@ export class TrasladoComponent implements OnInit {
         this.encargado = this.token['nombre'];
         this.usuario = this.token['usuario'];
         this.cedtra = this.token['cedtra'];
-        this.searchValue=null;
+        this.dependenciaReport = this.token['coddep'];
+        this.searchValue = null;
         this.getConta19(this.cedtra);
         this._conta19Service.getDocumentoConta65({}).subscribe(response => {
             this.documento = response;
@@ -100,6 +107,229 @@ export class TrasladoComponent implements OnInit {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    getRandomParagraph() {
+        return "INSTRUCCIONES: Diligencie este formato en forma clara y el letra imprenta. En caso de perdida o robo del activo anexar denuncio ante la Entidad Competente."
+    }
+
+    getparagraph() {
+        return "AUTORIZO EL TRATAMIENTO DE DATOS PERSONALES. Autorizó en los términos de la Ley 1581 de 2012 y Decreto 1377 de 2013, de manera libre, previa y voluntaria a la Caja de Compensación Familiar de Nariño para el tratamiento de mis datos personales suministrados a través de este formulario como la recolección, almacenamiento, uso, circulación o supresión para las finalidades mencionadas en las 'POLITICAS Y PROCEDIMIENTOS PARA LA PROTECCIÓN DE DATOS PERSONALES EN LA CAJA DE COMPENSACIÓN FAMILIAR DE NARIÑO', que permitan recibir información sobre los servicios sociales programas de la Caja de Compensación Familiar."
+    }
+
+    generateInvoice(array) {
+        const date = new Date().toLocaleDateString()
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Invoice');
+
+        const header = worksheet.getCell('A1');
+        header.value = 'Caja de Compensación Familiar de Nariño ';
+        header.font = { bold: true };
+        header.alignment = { horizontal: 'center' };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const codigo = worksheet.getCell('F1');
+        codigo.value = 'Código: PGA-SAA-F-1';
+        codigo.font = { bold: true, size: 8 };
+        codigo.alignment = { horizontal: 'center' };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const version = worksheet.getCell('F2');
+        version.value = 'Versión: 2';
+        version.font = { bold: true, size: 8 };
+        version.alignment = { horizontal: 'center' };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const fecha = worksheet.getCell('F3');
+        fecha.value = 'Aprobación: 17/11/2022';
+        fecha.font = { bold: true, size: 8 };
+        fecha.alignment = { horizontal: 'center' };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const sistema = worksheet.getCell('A2');
+        sistema.value = 'Sistema de Gestión';
+        sistema.font = { bold: true };
+        sistema.alignment = { horizontal: 'center' };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const formato = worksheet.getCell('A3');
+        formato.value = 'Formato para nota de novedades Activos Fijos';
+        formato.font = { bold: true };
+        formato.alignment = { horizontal: 'center' };
+        worksheet.addRow([]);
+
+        const randomParagraphCell = worksheet.getCell('A5');
+        const randomParagraph = this.getRandomParagraph();
+        randomParagraphCell.value = randomParagraph;
+        randomParagraphCell.font = { bold: false, size: 8 }
+
+
+        const mes = worksheet.getCell('F5');
+        mes.value = date;
+        mes.font = { bold: false };
+        mes.alignment = { horizontal: 'center' };
+        worksheet.addRow([]);
+
+
+        const paragraphCell = worksheet.getCell('A6');
+        const paragraph = this.getparagraph();
+        paragraphCell.font = { bold: false, size: 8 }
+        paragraphCell.value = paragraph;
+
+        const basic = worksheet.getCell('A7');
+        basic.value = 'Datos Basicos (Origen).';
+        basic.font = { bold: true };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const instructions = worksheet.getCell('A8');
+        instructions.value = 'Nombres y Apellidos: '+this.encargado;
+        instructions.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const documento = worksheet.getCell('A9');
+        documento.value = 'Documento: '+this.cedtra;
+        documento.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const personalInfoCell = worksheet.getCell('A10');
+        personalInfoCell.value = 'Dependencia: '+this.dependenciaReport;
+        personalInfoCell.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const unidad = worksheet.getCell('A11');
+        unidad.value = 'Unidad de Negocio:';
+        unidad.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const novedad = worksheet.getCell('A12');
+        novedad.value = 'Clase de Novedad';
+        novedad.font = { bold: true };
+
+        const optionsCell = worksheet.getCell('A13');
+        optionsCell.value = 'Seleccione una opción:';
+        optionsCell.font = { bold: false };
+
+        const dataValidation: any = {
+            type: 'list',
+            formulae: ['"Traslado en la dependencia,Dependencia a dependencia,Prestamo,No necesario"'],
+            showDropDown: true,
+            allowBlank: true,
+        };
+
+        optionsCell.dataValidation = dataValidation;
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const datosTraslados = worksheet.getCell('A14');
+        datosTraslados.value = 'Datos Destino:';
+        datosTraslados.font = { bold: true };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const nombreApelllidos = worksheet.getCell('A15');
+        nombreApelllidos.value = 'Nombres y Apellidos: ' + this.datoSe;
+        nombreApelllidos.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const docempdes = worksheet.getCell('A16');
+        docempdes.value = 'documento: ' + this.datoCe;
+        docempdes.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+
+        const dependencia = worksheet.getCell('A17');
+        dependencia.value = 'Dependencia destino: '+this.depdesdes;
+        dependencia.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const cargod = worksheet.getCell('A18');
+        cargod.value = 'Cargo:';
+        cargod.font = { bold: false };
+
+        const unidaddes = worksheet.getCell('A19');
+        unidaddes.value = 'Unidad de Negocio:';
+        unidaddes.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const baja = worksheet.getCell('A20');
+        baja.value = 'Tipo de baja';
+        baja.font = { bold: true };
+
+        const optionsBaja = worksheet.getCell('A21');
+        optionsBaja.value = 'Seleccione una opción:';
+        optionsBaja.font = { bold: false };
+
+        const dataBaja: any = {
+            type: 'list',
+            formulae: ['"Obsoleto,Inservible,Perdida o robo,No necesario"'],
+            showDropDown: true,
+            allowBlank: true,
+        };
+        optionsBaja.dataValidation = dataBaja;
+        worksheet.addRow([]);
+
+        worksheet.mergeCells('A1:E1');
+        worksheet.mergeCells('A2:E2');
+        worksheet.mergeCells('A3:E3');
+        worksheet.mergeCells('A4:F4');
+        worksheet.mergeCells('A5:E5');
+        worksheet.mergeCells('A6:F6');
+        worksheet.mergeCells('A7:F7');
+        worksheet.mergeCells('A8:F8');
+        worksheet.mergeCells('A9:F9');
+        worksheet.mergeCells('A10:F10');
+        worksheet.mergeCells('A11:F11');
+        worksheet.mergeCells('A12:F12');
+        worksheet.mergeCells('A13:F13');
+        worksheet.mergeCells('A14:F14');
+        worksheet.mergeCells('A15:F15');
+        worksheet.mergeCells('A16:F16');
+        worksheet.mergeCells('A17:F17');
+        worksheet.mergeCells('A18:F18');
+        worksheet.mergeCells('A19:F19');
+        worksheet.mergeCells('A20:F20');
+        worksheet.mergeCells('A21:F21');
+        worksheet.mergeCells('A22:F22');
+
+
+        worksheet.getColumn(1).width = 20;
+        worksheet.getColumn(2).width = 20;
+        worksheet.getColumn(3).width = 20;
+        worksheet.getColumn(4).width = 20;
+        worksheet.getColumn(5).width = 20;
+        worksheet.getColumn(6).width = 20;
+        worksheet.getColumn(7).width = 20;
+
+        const position: ImagePosition = {
+            tl: { col: 0.1, row: 0.1 },
+            ext: { width: 75, height: 75 }
+        }
+        const Logo = workbook.addImage({
+            base64: LOGO,
+            extension: 'png'
+        });
+        worksheet.addImage(Logo, position);
+        const tableHeaders = ['No. Plaqueta', 'Cantidad', 'Detalle', '', '', 'Marca y/o Serie'];
+        worksheet.addRow(tableHeaders);
+        worksheet.mergeCells('C23:E23');
+        for (let index = 0; index < array.length; index++) {
+            const rowData = [array[index].codact, 1, array[index].detalle, '', '', array[index].observacion];
+            worksheet.addRow(rowData);
+        }
+
+        let numero = 24
+
+        for (let index = 0; index < array.length; index++) {
+            let numero2 = numero + index;
+            let celda = 'C' + numero2 + ':' + 'E' + numero2;
+            worksheet.mergeCells(celda);
+        }
+
+        /*         worksheet.mergeCells('C24:E24');
+                worksheet.mergeCells('C25:E25'); */
+
+        workbook.xlsx.writeBuffer().then((buffer: ArrayBuffer) => {
+            const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            saveAs(blob, 'invoice.xlsx');
+        });
+    }
+
     onDependencia(event) {
         this.coddepdes = event.target.value;
         this.depdesdes = this.coddepdes;
@@ -121,6 +351,7 @@ export class TrasladoComponent implements OnInit {
         coddep = coddep.split('');
         console.log(coddep);
         console.log("aredes");
+        let banderu_reporte = false;
 
         aredes = coddep[0].concat(coddep[1]);
         console.log(aredes);
@@ -207,9 +438,14 @@ export class TrasladoComponent implements OnInit {
                                                         response => {
                                                             this._trasladoService.saveConta65(new Conta65_copia('01', this.documento, this.identity.sub, this.array[index].codact, response.subcod, this.observacion_traslado, response.areori, response.depori, response.ubiori, response.cedori, aredes, coddeoV, this.ubi_traslado, this.datoCe, 'A')).subscribe(
                                                                 response => {
+                                                                    console.log(this.array);
                                                                     if (response.status = "success") {
                                                                         Swal.fire('Traslado Realizado!', '', 'success');
-                                                                        delay(1000);
+                                                                        if (!banderu_reporte) {
+                                                                            this.generateInvoice(this.array);
+                                                                        }
+                                                                        banderu_reporte = true;
+                                                                        delay(1500);
                                                                         this._router.navigate(['inicio-traslado']);
                                                                     } else {
                                                                         Swal.fire('Traslado No Realizado!', '', 'error');
@@ -225,7 +461,6 @@ export class TrasladoComponent implements OnInit {
                                         )
 
                                     }
-
                                 } else {
                                     Swal.fire('Ubicación Incorrecta!', '', 'error');
                                 }
@@ -275,63 +510,61 @@ export class TrasladoComponent implements OnInit {
             console.log(this.lista_observacion);
         }
     }
-    getGener02(pclave : any) {
+    getGener02(pclave: any) {
         const keyword = pclave.target.value;
 
         this.palabraclave = pclave.target.value;
 
     }
 
-    getGener02_(){
-        this._reporteService.searchGener02_sub(new Gener02('','',this.palabraclave)).subscribe(
-            response=>{
+    getGener02_() {
+        this._reporteService.searchGener02_sub(new Gener02('', '', this.palabraclave)).subscribe(
+            response => {
 
-                if(response.bandera==true){
-                    this.data = [response]; 
+                if (response.bandera == true) {
+                    this.data = [response];
                     console.log(response);
-                }else{
+                } else {
                     Swal.fire('Usuario No Encontrado', '', 'error')
                 }
             }
         )
     }
 
-    getConta116(depdes: any){
-        this._trasladoService.getConta116(new Conta19('','','','','','',depdes,'','','','','','')).subscribe(
-            response =>{
+    getConta116(depdes: any) {
+        this._trasladoService.getConta116(new Conta19('', '', '', '', '', '', depdes, '', '', '', '', '', '')).subscribe(
+            response => {
                 console.log("respuesta de ubides");
                 console.log(response);
-                this.ubicaciones=response;
+                this.ubicaciones = response;
                 console.log(this.ubicaciones);
-                if(this.ubicaciones.length>0){
+                if (this.ubicaciones.length > 0) {
 
-                }else{
-                   this.ubicaciones=[{codubi: '1'}]; 
+                } else {
+                    this.ubicaciones = [{ codubi: '1' }];
                 }
             },
-            error=>{
-                this.ubicaciones=[{codubi: '1'}];
+            error => {
+                this.ubicaciones = [{ codubi: '1' }];
             }
         )
 
     }
 
-    
+
 
     getDatos02(result: any) {
-        
-        console.log("datos");
-        console.log(result);
-        this.datoSe = result.nomemp+' '+result.segnom+' '+result.priape+' '+result.segape;
+
+        this.datoSe = result.nomemp + ' ' + result.segnom + ' ' + result.priape + ' ' + result.segape;
         this.datoCe = result.docemp;
         this._gener02Service.findGener02(new Gener02('', '', this.datoCe)).subscribe(response => {
             console.log("Reespuesta")
             this.depdesdes = response.coddep;
 
-            
+
             console.log(response);
-            this.banderaSe=true;
-            
+            this.banderaSe = true;
+
         })
     }
 
@@ -530,12 +763,12 @@ export class TrasladoComponent implements OnInit {
 
 
     onChange($event, result: any) {
-        
+
         /* this.clearSearch() */
         console.log(result);
         this.searchValue = '';
-        
-        if(result.checked==true){
+
+        if (result.checked == true) {
             result.checked = false;
         }
         result.checked = true;
@@ -612,7 +845,7 @@ export class TrasladoComponent implements OnInit {
 
             for (let index = 0; index < listaF.length; index++) {
 
-                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.coddepdes, listaF[index]['est'], 'F', 'F', 'Faltantes',this.cedtraConsultado.cedtra)).subscribe(response => {
+                this._conta19Service.saveConta124(new Conta124('01', listaF[index]['codact'], listaF[index]['subcod'], this.coddepdes, listaF[index]['est'], 'F', 'F', 'Faltantes', this.cedtraConsultado.cedtra)).subscribe(response => {
 
                     if (response.status == "success") {
                         bandera = true;
