@@ -312,17 +312,38 @@ export class TrasladoComponent implements OnInit {
             const rowData = [array[index].codact, 1, array[index].detalle, '', '', array[index].observacion];
             worksheet.addRow(rowData);
         }
-
-        let numero = 24
-
+        let numero = 24;
+        let numero_total;
+        let celda_2;
+        let celda_3;
+        let celda_4;
         for (let index = 0; index < array.length; index++) {
             let numero2 = numero + index;
             let celda = 'C' + numero2 + ':' + 'E' + numero2;
             worksheet.mergeCells(celda);
         }
+        numero_total = numero + array.length;
+        celda_2 = 'A' + numero_total + ':' + 'B' + numero_total;
+        celda_3 = 'C' + numero_total + ':' + 'D' + numero_total;
+        celda_4 = 'E' + numero_total + ':' + 'F' + numero_total;
+        worksheet.mergeCells(celda_2);
+        worksheet.mergeCells(celda_3);
+        worksheet.mergeCells(celda_4);
 
-        /*         worksheet.mergeCells('C24:E24');
-                worksheet.mergeCells('C25:E25'); */
+        const autorizado = worksheet.getCell('A'+numero_total);
+        autorizado.value = 'Autorizado por :';
+        autorizado.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const responsable = worksheet.getCell('C'+numero_total);
+        responsable.value = 'Responsable (entrega) :';
+        responsable.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
+
+        const responsable_recibe = worksheet.getCell('E'+numero_total);
+        responsable_recibe.value = 'Responsable (recibe) :';
+        responsable_recibe.font = { bold: false };
+        worksheet.addRow([]); // Add an empty row for spacing
 
         workbook.xlsx.writeBuffer().then((buffer: ArrayBuffer) => {
             const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
