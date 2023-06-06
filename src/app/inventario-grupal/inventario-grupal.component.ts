@@ -78,62 +78,65 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
   }
 
   input(event) {
-    let id =parseInt(event.target.value)+'';
-    if (id.length > 0) {
-      let bandera = false;
-      let banderaCS = false;
-      if (this.activos_I.length > 0) {
-        console.log("entro!");
-        console.log(this.activos_I);
-        for (let index = 0; index < this.activos_I.length; index++) {
-          console.log("entro2!");
-          console.log(this.activos[index].codact.trim() + ' - ' + id.trim());
-          if (this.activos_I[index].codact.trim() == id.trim()) {
-            this.activos.push(this.activos_I[index]);
-            this.activos_I.splice(index, 1);
-            banderaCS = true;
-            break;
-          }
-        }
-      }
-      if (!banderaCS) {
-        if (this.activos.length > 0) {
-          for (let index = 0; index < this.activos.length; index++) {
-            console.log("entro3!");
+    if (event.target.value.length > 0) {
+      let id = parseInt(event.target.value) + '';
+      if (id.length > 0) {
+        let bandera = false;
+        let banderaCS = false;
+        if (this.activos_I.length > 0) {
+          console.log("entro!");
+          console.log(this.activos_I);
+          for (let index = 0; index < this.activos_I.length; index++) {
+            console.log("entro2!");
             console.log(this.activos[index].codact.trim() + ' - ' + id.trim());
-            if (this.activos[index].codact.trim() == id.trim()) {
-              console.log("entro4!");
-              this.activos_I.push(this.activos[index]);
-              this.activos.splice(index, 1);
-              bandera = true;
+            if (this.activos_I[index].codact.trim() == id.trim()) {
+              this.activos.push(this.activos_I[index]);
+              this.activos_I.splice(index, 1);
+              banderaCS = true;
               break;
             }
           }
         }
-      }
-      console.log("inventariadios!");
-      console.log(this.activos_I)
-      console.log("activos sin");
-      console.log(this.activos);
+        if (!banderaCS) {
+          if (this.activos.length > 0) {
+            for (let index = 0; index < this.activos.length; index++) {
+              console.log("entro3!");
+              console.log(this.activos[index].codact.trim() + ' - ' + id.trim());
+              if (this.activos[index].codact.trim() == id.trim()) {
+                console.log("entro4!");
+                this.activos_I.push(this.activos[index]);
+                this.activos.splice(index, 1);
+                bandera = true;
+                break;
+              }
+            }
+          }
+        }
+        console.log("inventariadios!");
+        console.log(this.activos_I)
+        console.log("activos sin");
+        console.log(this.activos);
 
-      if (bandera) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Activo Agregado',
-          showConfirmButton: false,
-          timer: 500
-        })
-      } else {
-        Swal.fire({
-          icon: 'info',
-          title: 'Activo No Agregado',
-          showConfirmButton: false,
-          timer: 500
-        })
+        if (bandera) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Activo Agregado',
+            showConfirmButton: false,
+            timer: 500
+          })
+        } else {
+          Swal.fire({
+            icon: 'info',
+            title: 'Activo No Agregado',
+            showConfirmButton: false,
+            timer: 500
+          })
+        }
+        this.inputEl.nativeElement.value = '';
+        this.inputEl.nativeElement.focus();
       }
-      this.inputEl.nativeElement.value = '';
-      this.inputEl.nativeElement.focus();
     }
+
   }
 
   onCambio(event, dato: any): void {
