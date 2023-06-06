@@ -83,7 +83,11 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
       let bandera = false;
       let banderaCS = false;
       if (this.activos_I.length > 0) {
+        console.log("entro!");
+        console.log(this.activos_I);
         for (let index = 0; index < this.activos_I.length; index++) {
+          console.log("entro2!");
+          console.log(this.activos[index].codact + ' - ' + id);
           if (this.activos_I[index].codact == id) {
             this.activos.push(this.activos_I[index]);
             this.activos_I.splice(index, 1);
@@ -95,6 +99,8 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
       if (!banderaCS) {
         if (this.activos.length > 0) {
           for (let index = 0; index < this.activos.length; index++) {
+            console.log("entro3!");
+            console.log(this.activos[index].codact + ' - ' + id);
             if (this.activos[index].codact == id) {
               this.activos_I.push(this.activos[index]);
               this.activos.splice(index, 1);
@@ -108,8 +114,6 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
       console.log(this.activos_I)
       console.log("activos sin");
       console.log(this.activos);
-
-
 
       if (bandera) {
         Swal.fire({
