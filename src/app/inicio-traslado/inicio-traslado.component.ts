@@ -65,7 +65,19 @@ export class InicioTrasladoComponent implements OnInit {
                     denyButtonText: `No Continuar`
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        this._router.navigate(['traslado']);
+                        Swal.fire({
+                            title: '¿Traslado normal o grupal?',
+                            showDenyButton: true,
+                            showCancelButton: true,
+                            confirmButtonText: 'Normal',
+                            denyButtonText: `Grupal`
+                        }).then((res) => {
+                            if (res.isConfirmed) {
+                                this._router.navigate(['traslado']);
+                            } else if (res.isDenied) {
+                                this._router.navigate(['app-traslado-grupal']);
+                            }
+                        })
                     } else if (result.isDenied) {
                         Swal.fire('Cancelado', '', 'error')
                     }

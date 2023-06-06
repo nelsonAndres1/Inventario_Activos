@@ -42,7 +42,7 @@ import { HomeComponent } from './home/home.component';
 import { Gener02Service } from './services/gener02.service';
 import { ConsultaComponent } from './consulta/consulta.component';
 import { InventarioGrupalComponent } from './inventario-grupal/inventario-grupal.component';
-
+import { TrasladoGrupalComponent } from './traslado-grupal/traslado-grupal.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +66,8 @@ import { InventarioGrupalComponent } from './inventario-grupal/inventario-grupal
     ReporteGeneralPDFComponent,
     HomeComponent,
     ConsultaComponent,
-    InventarioGrupalComponent
+    InventarioGrupalComponent,
+    TrasladoGrupalComponent
   ],
   imports: [
     BrowserModule,

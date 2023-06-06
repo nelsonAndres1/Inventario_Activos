@@ -1,0 +1,160 @@
+<meta charset="utf-8">
+<h2 id="div1">Activos</h2>
+<div class="container py-1">
+    <div class="card-body">
+        <br>
+        <div class="card-text"></div>
+        <h4>Encargado: {{encargado}}</h4>
+        <h4>Codigo: {{usuario}}</h4>
+        <h4>Numero de Activos: {{tactivos}}</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="mb-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10 offset-md-1">
+                    <span class="anchor" id="formComplex"></span>
+                    <div class="card card-outline-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0">Ingrese la información requerida</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mt-12">
+                                <h3 class="mb-0">Usuario a Trasladar</h3>
+
+                                <div class="col-sm-10">
+                                    <input class="form-control" id="exampleAccount" placeholder="Cedula del Usuario"
+                                        type="text" (input)="getGener02($event)" value={{datoSe}} required>
+                                    <div class="card card-body mb-1" *ngFor="let result of data"
+                                        (click)="getDatos02(result)" style="cursor: pointer;">
+                                        <h4> Nombre: {{result.nomemp}} {{result.segnom}} {{result.priape}}
+                                            {{result.segape}}</h4>
+                                        <small class="text-primary">
+                                            <h4> Cedula: {{result.docemp}}</h4>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input class="btn btn-success" type="button" (click)="getGener02_()" value="Buscar">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row mt-12" *ngIf="banderaSe">
+                                <div class="col-sm-6">
+                                    <select class="form-control" aria-label="Default select example"
+                                        (change)="onDependencia($event)" required>
+                                        <option value="" selected>Seleccione dependencia de destino!</option>
+                                        <option *ngFor="let cen of dependencias" value={{cen.coddep}}>{{cen.coddep}} -
+                                            {{cen.detalle}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="form-select" aria-label="Default select example"
+                                        (change)="onDestino($event)" placeholder="Ubicación de destino"
+                                        aria-label="Username" aria-describedby="basic-addon1" required>
+                                        <option selected>Seleccione ubicación de destino</option>
+                                        <option *ngFor="let a of ubicaciones" value={{a.codubi}}>{{a.codubi}} -
+                                            {{a.detalle}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row mt-12" *ngIf="banderaSe">
+                                <div class="col-sm-12">
+                                    <span class="input-group-text">Observación del traslado</span>
+                                    <textarea class="form-control" aria-label="With textarea" maxlength="65"
+                                        (input)="onObservacion($event)" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container py-2">
+        <div class="row" style="align-items: center;">
+            <div class="col-md-12">
+                <h2 class="text-center mb-3">Iniciar Traslado</h2>
+                <hr class="mb-4">
+                <div class="row justify-content-center">
+                    <div class="col-md-5 offset-md-1">
+                        <span class="anchor" id="formComplex"></span>
+                        <div class="card card-outline-secondary">
+                            <div class="card-header">
+                                <h3 class="mb-0">Codigo de Activo</h3>
+                            </div>
+                            <div  class="card-body">
+                                <input #myinput class="form-control" id="exampleAccount" placeholder="Codigo de Activo"
+                                    type="text" (blur)="input($event)" autofocus="true" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <p style="color:#FF0000"><strong>Seleccione los activos a trasladar</strong></p>
+</div>
+
+<div class="row mt-12">
+    <div class="col-sm-6 pb-3">
+        <h2>Sin Trasladar</h2>
+        <cdk-virtual-scroll-viewport style="height: 600px" itemSize=10>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Activo</th>
+                        <th scope="col">Ubicación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dt of activos | filter:filterPost">
+                        <th scope="row">{{dt.numero}}</th>
+                        <td>{{dt.codact}}</td>
+                        <td>{{dt.detalle}}</td>
+                        <td>
+                            {{dt.dependencia}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </cdk-virtual-scroll-viewport>
+    </div>
+
+
+    <div class="col-sm-6 pb-3">
+        <h2>A Trasladar</h2>
+        <cdk-virtual-scroll-viewport style="height: 600px" itemSize=10>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Activo</th>
+                        <th scope="col">Ubicación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dt of activos_I | filter:filterPost">
+                        <th scope="row">{{dt.numero}}</th>
+                        <td>{{dt.codact}}</td>
+                        <td>{{dt.detalle}}</td>
+                        <td>
+                            {{dt.dependencia}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </cdk-virtual-scroll-viewport>
+    </div>
+</div>
+<div id="div1">
+    <button (click)="onSubmit()" type="button" class="btn btn-success">Traslado</button>
+</div>
