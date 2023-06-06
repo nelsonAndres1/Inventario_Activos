@@ -87,29 +87,27 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
         console.log(this.activos_I);
         for (let index = 0; index < this.activos_I.length; index++) {
           console.log("entro2!");
-          console.log(this.activos[index].codact + ' - ' + id);
-          if (this.activos_I[index].codact == id) {
+          console.log(this.activos[index].codact.trim() + ' - ' + id.trim());
+          if (this.activos_I[index].codact.trim() == id.trim()) {
             this.activos.push(this.activos_I[index]);
             this.activos_I.splice(index, 1);
             banderaCS = true;
             break;
           }
-          if (this.activos_I[index].codact == id) break;
         }
       }
       if (!banderaCS) {
         if (this.activos.length > 0) {
           for (let index = 0; index < this.activos.length; index++) {
             console.log("entro3!");
-            console.log(this.activos[index].codact + ' - ' + id);
-            if (this.activos[index].codact == id) {
+            console.log(this.activos[index].codact.trim() + ' - ' + id.trim());
+            if (this.activos[index].codact.trim() == id.trim()) {
               console.log("entro4!");
               this.activos_I.push(this.activos[index]);
               this.activos.splice(index, 1);
               bandera = true;
               break;
             }
-            if (this.activos[index].codact == id) break;
           }
         }
       }
