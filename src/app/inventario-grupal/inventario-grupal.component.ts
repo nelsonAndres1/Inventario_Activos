@@ -69,7 +69,7 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
     this.searchValue = null;
   }
   ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
+
   }
 
   ngOnInit(): void { }
