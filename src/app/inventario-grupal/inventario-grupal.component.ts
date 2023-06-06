@@ -102,6 +102,7 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
             console.log("entro3!");
             console.log(this.activos[index].codact + ' - ' + id);
             if (this.activos[index].codact == id) {
+              console.log("entro4!");
               this.activos_I.push(this.activos[index]);
               this.activos.splice(index, 1);
               bandera = true;
