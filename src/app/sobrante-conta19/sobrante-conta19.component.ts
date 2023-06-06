@@ -61,12 +61,10 @@ export class SobranteConta19Component implements OnInit {
             console.log("respuesssssssssssssssssssssssssssta!")
             console.log(response)
             if (response['result'] == undefined) { } else {
-                console.log("entreeee")
                 const paramsData = JSON.parse(response['result']);
                 const faltantes = JSON.parse(response['faltantes']);
                 this.faltantes = faltantes;
-                this.inventariados = paramsData;
-
+                this.inventariados = paramsData; 
             }
         })
     }

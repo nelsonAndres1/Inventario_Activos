@@ -1,13 +1,14 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnChanges, OnInit, ViewChild, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Conta19Service } from '../services/conta19.service';
 import { Gener02 } from '../models/gener02';
 import { Conta19_Copia } from '../models/conta19_copia';
 import { Router, ActivatedRoute, Params, NavigationExtras } from '@angular/router';
 import { Conta19 } from '../models/conta19';
-import { delay, identity } from 'rxjs';
+import { concatAll, delay, identity } from 'rxjs';
 import { Conta124 } from '../models/conta124';
 import { Conta123 } from '../models/conta123';
+
 
 @Component({
   selector: 'app-inventario-grupal',
@@ -16,7 +17,8 @@ import { Conta123 } from '../models/conta123';
   providers: [Conta19Service]
 })
 
-export class InventarioGrupalComponent implements OnInit {
+export class InventarioGrupalComponent implements OnInit, AfterViewInit {
+  @ViewChild("myinput") inputEl!: ElementRef;
   filterPost = '';
   public token: any;
   public longi: any;
@@ -25,7 +27,7 @@ export class InventarioGrupalComponent implements OnInit {
   public usuario_inventario: any;
   public cedtra: any;
   public activos: any;
-  public activos_I: any;
+  public activos_I: any = [];
   public tactivos: any;
   public array: any = [];
   public conta19: any;
@@ -41,6 +43,7 @@ export class InventarioGrupalComponent implements OnInit {
   public lista_observacion: any = [];
   public searchValue: any;
   public listaInventariados: any = [];
+  public activosFaltantes: any = [];
 
   constructor(private _conta19Service: Conta19Service, private _router: Router) {
 
@@ -52,10 +55,6 @@ export class InventarioGrupalComponent implements OnInit {
     this.encargado = this.token['nombre'];
     this.usuario = this.usuario_inventario['sub'];
     this.cedtra = this.token['cedtra'];
-
-
-
-
     this._conta19Service.preguntarContinuarInventario_(new Gener02('', '', this.cedtra)).subscribe(
       response => {
         this.listaInventariados = response;
@@ -69,6 +68,9 @@ export class InventarioGrupalComponent implements OnInit {
     this.getConta19(this.cedtra);
     this.searchValue = null;
   }
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void { }
   clearSearch() {
@@ -76,7 +78,57 @@ export class InventarioGrupalComponent implements OnInit {
   }
 
   input(event) {
+    let id = event.target.value;
+    if (id.length > 0) {
+      let bandera = false;
+      let banderaCS = false;
+      if (this.activos_I.length > 0) {
+        for (let index = 0; index < this.activos_I.length; index++) {
+          if (this.activos_I[index].codact == id) {
+            this.activos.push(this.activos_I[index]);
+            this.activos_I.splice(index, 1);
+            banderaCS = true;
+            break;
+          }
+        }
+      }
+      if (!banderaCS) {
+        if (this.activos.length > 0) {
+          for (let index = 0; index < this.activos.length; index++) {
+            if (this.activos[index].codact == id) {
+              this.activos_I.push(this.activos[index]);
+              this.activos.splice(index, 1);
+              bandera = true;
+              break;
+            }
+          }
+        }
+      }
+      console.log("inventariadios!");
+      console.log(this.activos_I)
+      console.log("activos sin");
+      console.log(this.activos);
 
+
+
+      if (bandera) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Activo Agregado',
+          showConfirmButton: false,
+          timer: 500
+        })
+      } else {
+        Swal.fire({
+          icon: 'info',
+          title: 'Activo No Agregado',
+          showConfirmButton: false,
+          timer: 500
+        })
+      }
+      this.inputEl.nativeElement.value = '';
+      this.inputEl.nativeElement.focus();
+    }
   }
 
   onCambio(event, dato: any): void {
@@ -263,127 +315,47 @@ export class InventarioGrupalComponent implements OnInit {
     })
   }
   submit() {
-    if (this.array.length > 0) {
-      Swal.fire({
-
-        title: "¿Estas Seguro?",
-        text: "Se modificaran los activos",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#4BB543',
-        cancelButtonColor: '#EA1737',
-        confirmButtonText: 'Iniciar'
-
-      }).then(result => {
-        let bandera: any;
-        let bandera2: any;
-        if (result.value) {
-
-          for (let index1 = 0; index1 < this.array.length; index1++) {
-            if (this.lista_observacion.length > 0) {
-              for (let index2 = 0; index2 < this.lista_observacion.length; index2++) {
-
-                if (this.array[index1].codact == this.lista_observacion[index2][1]) {
-                  this.array[index1].observacion = this.lista_observacion[index2][0];
-
-                  bandera = true;
-                } else {
-                  bandera = false;
-                }
-
-
-              }
-              if (bandera == false) {
-                this.array[index1].observacion = 'sin observacion';
-              }
-            } else {
-              this.array[index1].observacion = 'sin observacion';
-            }
-
-
-          }
-
-          for (let index1 = 0; index1 < this.array.length; index1++) {
-            if (this.lista_estado.length > 0) {
-              for (let index2 = 0; index2 < this.lista_estado.length; index2++) {
-                if (this.array[index1].codact == this.lista_estado[index2][1]) {
-                  this.array[index1].estado = this.lista_estado[index2][0];
-                  bandera2 = true;
-                } else {
-                  bandera2 = false;
-                }
-
-              }
-              if (bandera2 == false) {
-                this.array[index1].estado = 'B';
-              }
-            } else {
-              this.array[index1].estado = 'B';
-            }
-
-
-          }
-          for (let index = 0; index < this.array.length; index++) {
-            this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.array[index].estado, this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index], this.array[index].observacion);
-            this.lista_activos.push(this.conta19);
-          }
-
-          for (let index = 0; index < this.lista_activos.length; index++) {
-            for (let index2 = 0; index2 < this.activos.length; index2++) {
-              if (this.lista_activos[index]['codact'] == this.activos[index2]['codact']) {
-                this.activos.splice(index2, 1);
-              }
-            }
-
-          }
-          console.log("Inventariados");
-          console.log(this.lista_activos);
-          console.log("Faltantes!")
-          console.log(this.activos);
-          const navigationExtras: NavigationExtras = {
-            queryParams: {
-              result: JSON.stringify(this.lista_activos),
-              faltantes: JSON.stringify(this.activos)
+    this.activosFaltantes = [];
+    let bandera = false;
+    let banderaInventariados = false;
+    let banderaFaltantes = false;
+    if (this.activos.length > 0) {
+      if (this.activos_I.length > 0) {
+        for (let index = 0; index < this.activos.length; index++) {
+          for (let ind = 0; ind < this.activos_I.length; ind++) {
+            if (this.activos[index] == this.activos_I[ind]) {
+              bandera = true;
+              break;
             }
           }
-          Swal.fire('Listo!', 'Activos(s) guardados', 'success');
-          this._router.navigate(['sobrante-conta19'], navigationExtras);
-        } else {
-
-
-          console.log('yes');
-          Swal.fire('Cancelado!', 'Activos(s) No guardados', 'error');
-        }
-      })
-
-    } else {
-
-
-
-      console.log("Faltantes!")
-      console.log(this.activos);
-      const navigationExtras: NavigationExtras = {
-        queryParams: {
-          result: JSON.stringify(this.lista_activos),
-          faltantes: JSON.stringify(this.activos)
+          if (bandera == false) {
+            this.activosFaltantes.push(this.activos[index]);
+          }
         }
       }
-      let timerInterval
-      Swal.fire({
-        title: 'No ha seleccionado ningun activo!',
-        timer: 3000,
-        didOpen: () => { },
-        willClose: () => {
-          clearInterval(timerInterval);
-
-          this._router.navigate(['sobrante-conta19'], navigationExtras);
-        }
-      }).then((result) => { /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) { }
-      })
     }
+    console.log("inventariados!");
+    console.log(this.activos_I);
 
+    console.log("faltantes!");
+    console.log(this.activosFaltantes);
+
+
+
+    for (let index = 0; index < this.activos_I.length; index++) {
+      this.conta19 = new Conta19(this.activos_I[index].codact, this.activos_I[index].subcod, this.activos_I[index].codbar, 'B', this.activos_I[index].detalle, this.activos_I[index].codare, this.activos_I[index].coddep, this.activos_I[index].codubi, this.activos_I[index].cedtra, this.activos_I[index].codcen, this.usuario, this.activos_I[index], 'SIN OBSERVACION');
+      this.lista_activos.push(this.conta19);
+    }
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        result: JSON.stringify(this.lista_activos),
+        faltantes: JSON.stringify(this.activosFaltantes)
+      }
+    }
+    Swal.fire('Listo!', 'Activos(s) guardados', 'success');
+    this._router.navigate(['sobrante-conta19'], navigationExtras);
   }
+
   capturar(dt: any) {
     // Pasamos el valor seleccionado a la variable verSeleccion
     this.verSeleccion = this.opcionSeleccionado;
@@ -445,70 +417,6 @@ export class InventarioGrupalComponent implements OnInit {
 
 
 
-  onChange($event, result: any) {
-    this.clearSearch()
-    this.searchValue = '';
-    if (result.checked == true) {
-      result.checked = false;
-    }
-    result.checked = true;
-    var select = document.getElementById("estado")
-    var bandera = false;
-
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-
-        result: JSON.stringify(result)
-      }
-    }
-    this.searchValue = '';
-    const isChecked = $event.target.checked;
-
-    if (isChecked == true) {
-      this.searchValue = '';
-      if (this.array.length > 0) {
-        for (let index = 0; index <= this.array.length; index++) {
-          if (this.array[index] == result) {
-            console.log(this.array[index]);
-            console.log(result);
-            bandera = true;
-          }
-        }
-        if (bandera != true) {
-
-          this.array.push(result);
-          console.log("seleeee");
-          console.log(this.array);
-          this.searchValue = '';
-
-        }
-      } else {
-        result.checked = false;
-        this.array.push(result);
-        console.log("seleeee");
-        this.searchValue = '';
-
-      }
-    }
-    /*  
-     //sirve para
-     for (let index = 0; index <= this.array.length; index++) {
-       if (this.array[index] == result) {   
-         result.checked = false;
-         this.array.splice(index, 1);
-         this.ao.splice(index, 1);
-         this.ap.splice(index, 1);
-         this.searchValue = '';
-       }
-     } */
-
-    for (let index = 0; index < this.array.length; index++) { }
-    console.log(this.ao); // estado
-    console.log(this.ap); // detalle
-    console.log(this.array); // activos
-    delay(3000);
-    this.searchValue = '';
-  }
 
   guardarFaltantes(listaF: any) {
     var lista_success: any = [];
@@ -550,130 +458,105 @@ export class InventarioGrupalComponent implements OnInit {
   }
 
   onSubmit() {
-    let bandera: any;
-    let bandera2: any;
-    Swal.fire({
-      title: '¿Estas seguro de guardar los cambios?',
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      denyButtonText: `No Guardar`
-    }).then((result) => {
-      if (result.isConfirmed) {
-
-        for (let index1 = 0; index1 < this.array.length; index1++) {
-          if (this.lista_observacion.length > 0) {
-            for (let index2 = 0; index2 < this.lista_observacion.length; index2++) {
-
-              if (this.array[index1].codact == this.lista_observacion[index2][1]) {
-                this.array[index1].observacion = this.lista_observacion[index2][0];
-                bandera = true;
-              } else {
-                bandera = false;
-              }
-
-
-            }
-            if (bandera == false) {
-              this.array[index1].observacion = 'sin observacion';
-            }
-          } else {
-            this.array[index1].observacion = 'sin observacion';
-          }
-        }
-        for (let index1 = 0; index1 < this.array.length; index1++) {
-          if (this.lista_estado.length > 0) {
-            for (let index2 = 0; index2 < this.lista_estado.length; index2++) {
-              if (this.array[index1].codact == this.lista_estado[index2][1]) {
-                this.array[index1].estado = this.lista_estado[index2][0];
-                bandera2 = true;
-              } else {
-                bandera2 = false;
-              }
-
-            }
-            if (bandera2 == false) {
-              this.array[index1].estado = 'B';
-            }
-          } else {
-            this.array[index1].estado = 'B';
-          }
-
-
-        }
-        for (let index = 0; index < this.array.length; index++) {
-          this.conta19 = new Conta19(this.array[index].codact, this.array[index].subcod, this.array[index].codbar, this.array[index].estado, this.array[index].detalle, this.array[index].codare, this.array[index].coddep, this.array[index].codubi, this.array[index].cedtra, this.array[index].codcen, this.usuario, this.array[index], this.array[index].observacion);
-          this.lista_activos.push(this.conta19);
-        }
-
-        for (let index = 0; index < this.lista_activos.length; index++) {
-          for (let index2 = 0; index2 < this.activos.length; index2++) {
-            if (this.lista_activos[index]['codact'] == this.activos[index2]['codact']) {
-              this.activos.splice(index2, 1);
+    this.activosFaltantes = [];
+    let bandera = false;
+    let banderaInventariados = false;
+    let banderaFaltantes = false;
+    if (this.activos.length > 0) {
+      if (this.activos_I.length > 0) {
+        for (let index = 0; index < this.activos.length; index++) {
+          for (let ind = 0; ind < this.activos_I.length; ind++) {
+            if (this.activos[index] == this.activos_I[ind]) {
+              bandera = true;
+              break;
             }
           }
-
+          if (bandera == false) {
+            this.activosFaltantes.push(this.activos[index]);
+          }
         }
-
-        if (this.lista_activos.length > 0) {
-
-          this._conta19Service.saveConta123(new Conta123(this.usuario, this.cedtraConsultado.cedtra, 'A')).subscribe(response => {
-            if (response.status == 'success') {
-              for (let index = 0; index < this.lista_activos.length; index++) {
-
-                console.log(this.lista_activos[index]['est']['est']);
-                this._conta19Service.saveConta124(new Conta124('01', this.lista_activos[index]['codact'], this.lista_activos[index]['subcod'], this.cedtraConsultado.coddep, this.lista_activos[index]['est']['est'], this.lista_activos[index]['estado'], 'I', this.lista_activos[index]['observacion'], this.cedtraConsultado.cedtra)).subscribe(response => {
-                  if (response.status == "success") {
-
+      }
+    }
+    let conta123 = new Conta123(this.usuario, this.cedtraConsultado.cedtra, 'A');
+    console.log("conta123!!");
+    console.log(conta123);
+    this._conta19Service.saveConta123(conta123).subscribe(
+      response => {
+        if (response.status == 'success') {
+          //inventariados!
+          if (this.activos_I.length > 0) {
+            for (let index = 0; index < this.activos_I.length; index++) {
+              let datos123 = new Conta124(
+                '01',
+                this.activos_I[index].codact,
+                this.activos_I[index].subcod,
+                this.cedtraConsultado.coddep,
+                this.activos_I[index].est,
+                'B',
+                'I',
+                'SIN OBSERVACION',
+                this.cedtraConsultado.cedtra
+              )
+              this._conta19Service.saveConta124(datos123).subscribe(
+                response => {
+                  if (response.status == 'success') {
                     Swal.fire({
-                      position: 'top-end',
                       icon: 'success',
-                      title: 'Activos Inventariados guardados correctamente!',
+                      title: 'Activo: ' + this.activos_I[index].codact + ' inventariado correctamente!',
                       showConfirmButton: true,
                       confirmButtonText: 'Ok'
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        this.guardarFaltantes(this.activos);
-                      }
-                    });
+
+                    }).then((result) => { });
                   } else {
                     Swal.fire({
-                      position: 'top-end',
                       icon: 'error',
-                      title: 'Activos Inventariados NO guardados!',
-                      showConfirmButton: false,
-                      timer: 1500
-                    });
+                      title: 'Activo: ' + this.activos_I[index].codact + ' no inventariado!',
+                      showConfirmButton: true,
+                      confirmButtonText: 'Ok'
+                    }).then((result) => { });
                   }
-                })
-              }
-            }
-          })
-        } else {
-
-          Swal.fire({
-            icon: 'info',
-            title: 'Información',
-            text: 'No existen Activos inventariados!',
-            footer: 'Se procedera a guardar los Activos faltantes',
-            showConfirmButton: true,
-            confirmButtonText: 'Ok'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              this._conta19Service.saveConta123(new Conta123(this.usuario, this.cedtraConsultado.cedtra, 'A')).subscribe(response => {
-                if (response.status == 'success') {
-                  this.guardarFaltantes(this.activos);
                 }
-              });
-
+              )
             }
-          })
-
+          }
+          //activos faltantes
+          if (this.activosFaltantes.length > 0) {
+            for (let index = 0; index < this.activosFaltantes.length; index++) {
+              let datos123 = new Conta124(
+                '01',
+                this.activosFaltantes[index].codact,
+                this.activosFaltantes[index].subcod,
+                this.cedtraConsultado.coddep,
+                this.activosFaltantes[index].est,
+                'F',
+                'F',
+                'SIN OBSERVACION',
+                this.cedtraConsultado.cedtra
+              )
+              this._conta19Service.saveConta124(datos123).subscribe(
+                response => {
+                  if (response.status == 'success') {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Activo Faltante : ' + this.activosFaltantes[index].codact + ' inventariado correctamente!',
+                      showConfirmButton: true,
+                      confirmButtonText: 'Ok'
+                    }).then((result) => { });
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Activo Faltante : ' + this.activosFaltantes[index].codact + ' no inventariado!',
+                      showConfirmButton: true,
+                      confirmButtonText: 'Ok'
+                    }).then((result) => { });
+                  }
+                }
+              )
+            }
+            this._router.navigate(['home']);
+          }
         }
-      } else if (result.isDenied) {
-        Swal.fire('Activos no guardados', '', 'info')
       }
-    })
+    )
   }
-
 }
