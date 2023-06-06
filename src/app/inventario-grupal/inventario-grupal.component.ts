@@ -94,6 +94,7 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
             banderaCS = true;
             break;
           }
+          if (this.activos_I[index].codact == id) break;
         }
       }
       if (!banderaCS) {
@@ -108,6 +109,7 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
               bandera = true;
               break;
             }
+            if (this.activos[index].codact == id) break;
           }
         }
       }
