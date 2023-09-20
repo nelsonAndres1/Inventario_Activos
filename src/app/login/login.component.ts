@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
 
               console.log("respuesta!");
               console.log(response);
-              if (response.sub == '124'|| response.sub == '619'||response.sub == '1163'||response.sub == '1113'||response.sub == '101'||response.sub == '1750'||response.sub == '603' || response.sub == '1132') {
+              if (response.sub == '124'|| response.sub == '619'||response.sub == '1163'||response.sub == '1113'||response.sub == '101'||response.sub == '1750'||response.sub == '603' || response.sub == '1132' || response.sub == '1315') {
 
                 this._gener02Service.permisos(new Nomin02(response.cedtra)).subscribe(
                   response2 => {
