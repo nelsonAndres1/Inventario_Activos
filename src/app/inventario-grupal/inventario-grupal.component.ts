@@ -79,7 +79,17 @@ export class InventarioGrupalComponent implements OnInit, AfterViewInit {
 
   input(event) {
     if (event.target.value.length > 0) {
-      let id = parseInt(event.target.value) + '';
+      console.log("unn");
+      console.log(event.target.value);
+      let id = event.target.value;
+      console.log("unnaaaaaaaaa");
+      console.log(id);
+
+      while (id.length > 5) {
+        id = id.slice(1);
+      }
+
+
       if (id.length > 0) {
         let bandera = false;
         let banderaCS = false;
